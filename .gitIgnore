@@ -115,7 +115,7 @@ Control.system-ca-bundle    # Kaique Silva Sousa - Ignorar sistema CA bundle Pac
 GitHub.sublime-settings     # Kaique Silva Sousa - Ignorar configuração GitHub Sublime
 
 # =================== VISUAL STUDIO CODE ===================
-.vscode/                    # Kaique Silva Sousa - Ignorar tudo dentro da pasta .vscode
+**/.vscode/                    # Kaique Silva Sousa - Ignorar tudo dentro da pasta .vscode
 .history                    # Kaique Silva Sousa - Ignorar pasta de histórico (algumas vezes aparece)
 
 # =================== PERSONAL ADDITIONS ===================
