@@ -1,135 +1,137 @@
 # =============================================================
 # .gitignore do projeto
 # Data: 2025-08-12
+# Kaique Silva Sousa - Ignorar arquivos desnecessários
 # Comentários explicativos com autor e motivo para cada item
 # =============================================================
 
-# =================== DJANGO ===================
-*.log                       # Kaique Silva Sousa - Ignorar logs do sistema Django
-*.pot                       # Kaique Silva Sousa - Ignorar arquivos de tradução
-*.pyc                       # Kaique Silva Sousa - Ignorar arquivos compilados Python
-__pycache__                 # Kaique Silva Sousa - Ignorar cache de bytecode Python
-media                       # Kaique Silva Sousa - Ignorar arquivos de mídia enviados
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
 
-# =================== BACKUP FILES ===================
-*.bak                       # Kaique Silva Sousa - Ignorar arquivos de backup
+# Backup files #
+*.bak
 
-# =================== PYCHARM ===================
-.idea/**/workspace.xml      # Kaique Silva Sousa - Ignorar configuração workspace PyCharm
-.idea/**/tasks.xml          # Kaique Silva Sousa - Ignorar tarefas PyCharm
-.idea/dictionaries          # Kaique Silva Sousa - Ignorar dicionários customizados PyCharm
-.idea/**/dataSources/       # Kaique Silva Sousa - Ignorar configurações fontes de dados PyCharm
-.idea/**/dataSources.ids    # Kaique Silva Sousa - Ignorar IDs fontes de dados PyCharm
-.idea/**/dataSources.xml    # Kaique Silva Sousa - Ignorar XML fontes de dados PyCharm
-.idea/**/dataSources.local.xml  # Kaique Silva Sousa - Ignorar configurações locais fontes de dados PyCharm
-.idea/**/sqlDataSources.xml # Kaique Silva Sousa - Ignorar configurações SQL fontes de dados PyCharm
-.idea/**/dynamic.xml        # Kaique Silva Sousa - Ignorar configurações dinâmicas PyCharm
-.idea/**/uiDesigner.xml     # Kaique Silva Sousa - Ignorar configurações UI Designer PyCharm
-.idea/**/gradle.xml         # Kaique Silva Sousa - Ignorar configurações Gradle PyCharm
-.idea/**/libraries          # Kaique Silva Sousa - Ignorar bibliotecas PyCharm
-*.iws                       # Kaique Silva Sousa - Ignorar arquivos workspace antigos PyCharm
-/out/                       # Kaique Silva Sousa - Ignorar pasta saída build
+# If you are using PyCharm #
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+*.iws /out/
 
-# =================== PYTHON ===================
-*.py[cod]                   # Kaique Silva Sousa - Ignorar arquivos compilados Python
-*$py.class                  # Kaique Silva Sousa - Ignorar bytecode temporário Python
+# Python #
+*.py[cod]
+*$py.class
 
-# =================== DISTRIBUTION / PACKAGING ===================
-.Python                     # Kaique Silva Sousa - Ignorar arquivo Python local
-build/                      # Kaique Silva Sousa - Ignorar arquivos de build
-develop-eggs/               # Kaique Silva Sousa - Ignorar dependências em desenvolvimento
-dist/                       # Kaique Silva Sousa - Ignorar distribuições
-downloads/                  # Kaique Silva Sousa - Ignorar downloads temporários
-eggs/                       # Kaique Silva Sousa - Ignorar pacotes eggs
-.eggs/                      # Kaique Silva Sousa - Ignorar cache de eggs
-lib/                        # Kaique Silva Sousa - Ignorar bibliotecas
-lib64/                      # Kaique Silva Sousa - Ignorar bibliotecas 64-bit
-parts/                      # Kaique Silva Sousa - Ignorar partes de build
-sdist/                      # Kaique Silva Sousa - Ignorar distribuições fonte
-var/                        # Kaique Silva Sousa - Ignorar arquivos variados
-wheels/                     # Kaique Silva Sousa - Ignorar pacotes wheel
-*.egg-info/                 # Kaique Silva Sousa - Ignorar metadados de pacotes
-.installed.cfg              # Kaique Silva Sousa - Ignorar arquivo de configuração instalado
-*.egg                       # Kaique Silva Sousa - Ignorar pacotes egg
-*.manifest                  # Kaique Silva Sousa - Ignorar arquivos manifest
-*.spec                      # Kaique Silva Sousa - Ignorar arquivos de especificação
+# Distribution / packaging
+.Python build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.manifest
+*.spec
 
-# =================== INSTALLER LOGS ===================
-pip-log.txt                 # Kaique Silva Sousa - Ignorar logs pip
-pip-delete-this-directory.txt # Kaique Silva Sousa - Ignorar arquivos temporários pip
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# =================== UNIT TEST / COVERAGE REPORTS ===================
-htmlcov/                    # Kaique Silva Sousa - Ignorar relatório HTML de cobertura
-.tox/                       # Kaique Silva Sousa - Ignorar ambiente tox
-.coverage                   # Kaique Silva Sousa - Ignorar arquivo de cobertura
-.coverage.*                 # Kaique Silva Sousa - Ignorar arquivos extras de cobertura
-.cache                      # Kaique Silva Sousa - Ignorar cache geral
-.pytest_cache/              # Kaique Silva Sousa - Ignorar cache pytest
-nosetests.xml               # Kaique Silva Sousa - Ignorar resultados Nose tests
-coverage.xml                # Kaique Silva Sousa - Ignorar relatório XML de cobertura
-*.cover                     # Kaique Silva Sousa - Ignorar arquivos de cobertura
-.hypothesis/                # Kaique Silva Sousa - Ignorar cache Hypothesis
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
 
-# =================== JUPYTER NOTEBOOK ===================
-.ipynb_checkpoints          # Kaique Silva Sousa - Ignorar checkpoints do Jupyter Notebook
+# Jupyter Notebook
+.ipynb_checkpoints
 
-# =================== PYENV ===================
-.python-version             # Kaique Silva Sousa - Ignorar arquivo de versão pyenv
+# pyenv
+.python-version
 
-# =================== CELERY ===================
-celerybeat-schedule.*       # Kaique Silva Sousa - Ignorar arquivos de schedule celery
+# celery
+celerybeat-schedule.*
 
-# =================== SAGEMATH PARSED FILES ===================
-*.sage.py                   # Kaique Silva Sousa - Ignorar arquivos gerados pelo SageMath
+# SageMath parsed files
+*.sage.py
 
-# =================== ENVIRONMENTS ===================
-.env                        # Kaique Silva Sousa - Ignorar arquivo de variáveis ambiente
-.venv                       # Kaique Silva Sousa - Ignorar ambiente virtual
-env/                        # Kaique Silva Sousa - Ignorar ambiente virtual
-venv/                       # Kaique Silva Sousa - Ignorar ambiente virtual
-ENV/                        # Kaique Silva Sousa - Ignorar ambiente virtual
-env.bak/                    # Kaique Silva Sousa - Ignorar backup ambiente virtual
-venv.bak/                   # Kaique Silva Sousa - Ignorar backup ambiente virtual
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-# =================== MKDOCS DOCUMENTATION ===================
-/site                       # Kaique Silva Sousa - Ignorar site gerado pelo mkdocs
+# mkdocs documentation
+/site
 
-# =================== MYPY ===================
-.mypy_cache/                # Kaique Silva Sousa - Ignorar cache do mypy
+# mypy
+.mypy_cache/
 
-# =================== SUBLIME TEXT ===================
-*.tmlanguage.cache          # Kaique Silva Sousa - Ignorar cache linguagem Sublime
-*.tmPreferences.cache       # Kaique Silva Sousa - Ignorar cache preferências Sublime
-*.stTheme.cache             # Kaique Silva Sousa - Ignorar cache tema Sublime
-*.sublime-workspace        # Kaique Silva Sousa - Ignorar arquivos workspace Sublime
-*.sublime-project          # Kaique Silva Sousa - Ignorar arquivos projeto Sublime
+# Sublime Text #
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
 
-# =================== SFTP CONFIGURATION FILE ===================
-sftp-config.json            # Kaique Silva Sousa - Ignorar arquivo configuração sftp
+# sftp configuration file
+sftp-config.json
 
-# =================== PACKAGE CONTROL SPECIFIC FILES ===================
-Control.last-run            # Kaique Silva Sousa - Ignorar log Package Control
-Control.ca-list             # Kaique Silva Sousa - Ignorar lista CA Package Control
-Control.ca-bundle           # Kaique Silva Sousa - Ignorar bundle CA Package Control
-Control.system-ca-bundle    # Kaique Silva Sousa - Ignorar sistema CA bundle Package Control
-GitHub.sublime-settings     # Kaique Silva Sousa - Ignorar configuração GitHub Sublime
+# Package control specific files Package
+Control.last-run
+Control.ca-list
+Control.ca-bundle
+Control.system-ca-bundle
+GitHub.sublime-settings
 
-# =================== VISUAL STUDIO CODE ===================
-**/.vscode/                    # Kaique Silva Sousa - Ignorar tudo dentro da pasta .vscode
-.history                    # Kaique Silva Sousa - Ignorar pasta de histórico (algumas vezes aparece)
+# Visual Studio Code #
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
 
-# =================== PERSONAL ADDITIONS ===================
-__pycache__/                # Kaique Silva Sousa - Ignorar cache bytecode Python (repetido, mas mantido para segurança)
-*.pyc                       # Kaique Silva Sousa - Ignorar arquivos compilados Python (repetido)
-__localcode                 # Kaique Silva Sousa - Ignorar código local temporário
-venv                        # Kaique Silva Sousa - Ignorar ambiente virtual
-env                         # Kaique Silva Sousa - Ignorar ambiente virtual
-.DS_Store                   # Kaique Silva Sousa - Ignorar arquivo sistema MacOS
-local_settings.py           # Kaique Silva Sousa - Ignorar configurações locais
-_local_settings.py          # Kaique Silva Sousa - Ignorar configurações locais alternativas
-gunicorn-error-log          # Kaique Silva Sousa - Ignorar log do Gunicorn
-db.sqlite3                  # Kaique Silva Sousa - Ignorar banco SQLite principal
-db copy.sqlite3             # Kaique Silva Sousa - Ignorar cópia de banco SQLite
-static/                     # Kaique Silva Sousa - Ignorar arquivos estáticos gerados
-my_market/__pycache__/      # Kaique Silva Sousa - Ignorar cache bytecode Python
-
+# Personal additions
+__pycache__/
+*.pyc
+__localcode
+venv
+env
+.DS_Store
+local_settings.py
+_local_settings.py
+gunicorn-error-log
+db.sqlite3
+db copy.sqlite3
+static/
