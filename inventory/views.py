@@ -4,4 +4,4 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the inventory index.")
+    return render(request, 'inventory/pages/index.html')
