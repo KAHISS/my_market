@@ -1,534 +1,244 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Gestão de Estoque</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .sidebar {
-            transition: all 0.3s;
-        }
-        .main-content {
-            transition: all 0.3s;
-        }
-        .product-img {
-            height: 80px;
-            width: 80px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-        .low-stock {
-            color: #ef4444;
-        }
-        .medium-stock {
-            color: #f59e0b;
-        }
-        .high-stock {
-            color: #10b981;
-        }
-        .sidebar-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-    </style>
-</head>
-<body class="bg-gray-100">
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <div class="sidebar bg-blue-800 text-white w-64 flex-shrink-0">
-            <div class="p-4 border-b border-blue-700">
-                <h1 class="text-2xl font-bold flex items-center">
-                    <i class="fas fa-store mr-2"></i> SyspaMarket
-                </h1>
-                <p class="text-blue-200 text-sm mt-1">Painel Administrativo</p>
+{% extends "global/pages/index.html" %}
+
+{% block main_content %}
+<div class="content-header">
+    <h2 class="content-title">
+        <i class="fas fa-boxes"></i> Gerenciamento de Estoque
+    </h2>
+    <div class="action-buttons">
+        <button class="btn btn-export">
+            <i class="fas fa-file-export"></i> Exportar
+        </button>
+        <button onclick="openAddProductModal()" class="btn btn-add">
+            <i class="fas fa-plus"></i> Adicionar Produto
+        </button>
+    </div>
+</div>
+
+<div class="stats-cards">
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <p class="card-label">Produtos no estoque</p>
+                <p class="card-value">1,254</p>
             </div>
-            <nav class="mt-4">
-                <a href="#" class="sidebar-link block py-2 px-4 text-blue-100 hover:text-white flex items-center">
-                    <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
-                </a>
-                <a href="#" class="sidebar-link block py-2 px-4 bg-blue-900 text-white flex items-center">
-                    <i class="fas fa-boxes mr-3"></i> Estoque
-                </a>
-                <a href="#" class="sidebar-link block py-2 px-4 text-blue-100 hover:text-white flex items-center">
-                    <i class="fas fa-users mr-3"></i> Funcionários
-                </a>
-                <a href="#" class="sidebar-link block py-2 px-4 text-blue-100 hover:text-white flex items-center">
-                    <i class="fas fa-user mr-3"></i> Clientes
-                </a>
-                <a href="#" class="sidebar-link block py-2 px-4 text-blue-100 hover:text-white flex items-center">
-                    <i class="fas fa-truck mr-3"></i> Fornecedores
-                </a>
-                <a href="#" class="sidebar-link block py-2 px-4 text-blue-100 hover:text-white flex items-center">
-                    <i class="fas fa-chart-line mr-3"></i> Relatórios
-                </a>
-                <a href="#" class="sidebar-link block py-2 px-4 text-blue-100 hover:text-white flex items-center">
-                    <i class="fas fa-cog mr-3"></i> Configurações
-                </a>
-            </nav>
+            <div class="card-icon card-icon-blue">
+                <i class="fas fa-box"></i>
+            </div>
         </div>
+        <p class="card-metric">
+            <span class="text-green">↑ 5.2%</span> em relação ao último mês
+        </p>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <p class="card-label">Baixo estoque</p>
+                <p class="card-value">48</p>
+            </div>
+            <div class="card-icon card-icon-red">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+        </div>
+        <p class="card-metric">
+            <span class="text-red">↑ 2.8%</span> em relação ao último mês
+        </p>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <p class="card-label">Fornecedores</p>
+                <p class="card-value">23</p>
+            </div>
+            <div class="card-icon card-icon-green">
+                <i class="fas fa-truck"></i>
+            </div>
+        </div>
+        <p class="card-metric">
+            <span class="text-green">↑ 1.4%</span> em relação ao último mês
+        </p>
+    </div>
+</div>
 
-        <!-- Main Content -->
-        <div class="main-content flex-1 flex flex-col overflow-hidden">
-            <!-- Top Bar -->
-            <header class="bg-white shadow-sm z-10">
-                <div class="flex justify-between items-center p-4">
-                    <button class="text-gray-600 focus:outline-none">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="flex items-center space-x-4">
-                        <div class="relative">
-                            <input type="text" placeholder="Buscar..." 
-                                   class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                        </div>
-                        <div class="relative">
-                            <button class="text-gray-600 focus:outline-none">
-                                <i class="fas fa-bell"></i>
-                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                                    3
-                                </span>
-                            </button>
-                        </div>
-                        <div class="flex items-center">
-                            <img src="https://placehold.co/40" alt="Foto de perfil do administrador" 
-                                 class="w-8 h-8 rounded-full mr-2">
-                            <span class="font-medium">Admin</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Content -->
-            <main class="flex-1 overflow-y-auto p-6">
-                <div class="mb-6 flex justify-between items-center">
-                    <h2 class="text-2xl font-bold text-gray-800">
-                        <i class="fas fa-boxes mr-2"></i> Gerenciamento de Estoque
-                    </h2>
-                    <div class="flex space-x-2">
-                        <button class="flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                            <i class="fas fa-file-export mr-2"></i> Exportar
-                        </button>
-                        <button onclick="openAddProductModal()" class="flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                            <i class="fas fa-plus mr-2"></i> Adicionar Produto
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-white p-4 rounded-lg shadow">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase">Produtos no estoque</p>
-                                <p class="text-2xl font-bold">1,254</p>
-                            </div>
-                            <div class="bg-blue-100 p-3 rounded-full">
-                                <i class="fas fa-box text-blue-600"></i>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2">
-                            <span class="text-green-500">↑ 5.2%</span> em relação ao último mês
-                        </p>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase">Baixo estoque</p>
-                                <p class="text-2xl font-bold">48</p>
-                            </div>
-                            <div class="bg-red-100 p-3 rounded-full">
-                                <i class="fas fa-exclamation-triangle text-red-600"></i>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2">
-                            <span class="text-red-500">↑ 2.8%</span> em relação ao último mês
-                        </p>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase">Fornecedores</p>
-                                <p class="text-2xl font-bold">23</p>
-                            </div>
-                            <div class="bg-green-100 p-3 rounded-full">
-                                <i class="fas fa-truck text-green-600"></i>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2">
-                            <span class="text-green-500">↑ 1.4%</span> em relação ao último mês
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Inventory Table -->
-                <div class="bg-white rounded-lg shadow overflow-hidden">
-                    <div class="p-4 border-b flex justify-between items-center">
-                        <div class="flex items-center">
-                            <select class="border rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mr-2">
-                                <option>Todos os produtos</option>
-                                <option>Baixo estoque</option>
-                                <option>Alimentos</option>
-                                <option>Bebidas</option>
-                                <option>Limpeza</option>
-                            </select>
-                            <span class="text-sm text-gray-500">Mostrando 50 de 1,254 produtos</span>
-                        </div>
-                        <div class="relative">
-                            <input type="text" placeholder="Filtrar produtos..." 
-                                   class="pl-8 pr-4 py-1 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <i class="fas fa-search absolute left-2 top-2 text-gray-400"></i>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Produto
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Categoria
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Código
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Preço
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Estoque
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Ações
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <!-- Product 1 -->
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap flex items-center">
-                                        <img src="https://placehold.co/80" alt="Pacote de arroz branco de 5kg, marca Camil" class="product-img mr-3">
-                                        <div>
-                                            <div class="font-medium text-gray-900">Arroz Branco 5kg</div>
-                                            <div class="text-gray-500 text-sm">Camil</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                            Alimentos
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        PRD001234
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        R$ 24,90
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex items-center">
-                                            <span>42</span>
-                                            <div class="ml-2 w-20 bg-gray-200 h-2 rounded-full overflow-hidden">
-                                                <div class="bg-green-500 h-full" style="width: 84%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="high-stock">
-                                            <i class="fas fa-check-circle mr-1"></i> Em estoque
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="text-red-600 hover:text-red-900">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Product 2 -->
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap flex items-center">
-                                        <img src="https://placehold.co/80" alt="Refrigerante Coca-Cola em lata 350ml" class="product-img mr-3">
-                                        <div>
-                                            <div class="font-medium text-gray-900">Coca-Cola Lata</div>
-                                            <div class="text-gray-500 text-sm">Coca-Cola</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                            Bebidas
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        PRD001235
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        R$ 5,50
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex items-center">
-                                            <span>15</span>
-                                            <div class="ml-2 w-20 bg-gray-200 h-2 rounded-full overflow-hidden">
-                                                <div class="bg-yellow-500 h-full" style="width: 30%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="medium-stock">
-                                            <i class="fas fa-exclamation-circle mr-1"></i> Estoque médio
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="text-red-600 hover:text-red-900">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Product 3 -->
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap flex items-center">
-                                        <img src="https://placehold.co/80" alt="Sabão em pó OMO 1kg, caixa azul" class="product-img mr-3">
-                                        <div>
-                                            <div class="font-medium text-gray-900">Sabão em Pó OMO</div>
-                                            <div class="text-gray-500 text-sm">OMO</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                            Limpeza
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        PRD001236
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        R$ 15,90
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex items-center">
-                                            <span>5</span>
-                                            <div class="ml-2 w-20 bg-gray-200 h-2 rounded-full overflow-hidden">
-                                                <div class="bg-red-500 h-full" style="width: 10%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="low-stock">
-                                            <i class="fas fa-minus-circle mr-1"></i> Baixo estoque
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="text-red-600 hover:text-red-900">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <!-- Product 4 -->
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap flex items-center">
-                                        <img src="https://placehold.co/80" alt="Leite integral UHT 1L, caixinha vermelha" class="product-img mr-3">
-                                        <div>
-                                            <div class="font-medium text-gray-900">Leite Integral 1L</div>
-                                            <div class="text-gray-500 text-sm">Parmalat</div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                                            Laticínios
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        PRD001237
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        R$ 4,75
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div class="flex items-center">
-                                            <span>25</span>
-                                            <div class="ml-2 w-20 bg-gray-200 h-2 rounded-full overflow-hidden">
-                                                <div class="bg-green-500 h-full" style="width: 50%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="high-stock">
-                                            <i class="fas fa-check-circle mr-1"></i> Em estoque
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="text-red-600 hover:text-red-900">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="border-t px-4 py-3 flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-700">
-                                Mostrando <span class="font-medium">1</span> a <span class="font-medium">4</span> de <span class="font-medium">1,254</span> produtos
-                            </p>
-                        </div>
-                        <div>
-                            <nav class="inline-flex space-x-2">
-                                <button class="px-3 py-1 border rounded-md text-sm font-medium bg-blue-50 text-blue-600">
-                                    Anterior
-                                </button>
-                                <button class="px-3 py-1 border rounded-md text-sm font-medium bg-blue-600 text-white">
-                                    1
-                                </button>
-                                <button class="px-3 py-1 border rounded-md text-sm font-medium hover:bg-blue-50 hover:text-blue-600">
-                                    2
-                                </button>
-                                <button class="px-3 py-1 border rounded-md text-sm font-medium hover:bg-blue-50 hover:text-blue-600">
-                                    3
-                                </button>
-                                <span class="px-3 py-1 text-sm text-gray-700">...</span>
-                                <button class="px-3 py-1 border rounded-md text-sm font-medium hover:bg-blue-50 hover:text-blue-600">
-                                    50
-                                </button>
-                                <button class="px-3 py-1 border rounded-md text-sm font-medium hover:bg-blue-50 hover:text-blue-600">
-                                    Próximo
-                                </button>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </main>
+<div class="inventory-table-container">
+    <div class="table-header">
+        <div class="table-controls">
+            <select class="filter-select">
+                <option>Todos os produtos</option>
+                <option>Baixo estoque</option>
+                <option>Alimentos</option>
+                <option>Bebidas</option>
+                <option>Limpeza</option>
+            </select>
+            <span class="table-info">Mostrando 50 de 1,254 produtos</span>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Filtrar produtos..." class="filter-input">
+            <i class="fas fa-search search-icon"></i>
         </div>
     </div>
-
-    <!-- Add Product Modal -->
-    <div id="addProductModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
-        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-screen overflow-y-auto">
-            <div class="p-4 border-b flex justify-between items-center">
-                <h3 class="text-lg font-semibold">Adicionar Novo Produto</h3>
-                <button onclick="closeAddProductModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="p-6">
-                <form>
-                    <div class="grid grid-cols-1 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome do Produto</label>
-                            <input type="text" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                            <textarea class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="2"></textarea>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
+    <div class="table-wrapper">
+        <table class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Categoria</th>
+                    <th>Código</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                    <th>Status</th>
+                    <th class="text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <img src="https://placehold.co/80" alt="Pacote de arroz branco de 5kg, marca Camil" class="product-img">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Preço (R$)</label>
-                                <input type="text" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="product-name">Arroz Branco 5kg</div>
+                                <div class="product-brand">Camil</div>
                             </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-yellow">Alimentos</span>
+                    </td>
+                    <td>PRD001234</td>
+                    <td>R$ 24,90</td>
+                    <td>
+                        <div class="stock-cell">
+                            <span>42</span>
+                            <div class="stock-bar">
+                                <div class="stock-bar-fill green-fill" style="width: 84%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status status-high">
+                            <i class="fas fa-check-circle"></i> Em estoque
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <img src="https://placehold.co/80" alt="Refrigerante Coca-Cola em lata 350ml" class="product-img">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Quantidade</label>
-                                <input type="number" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="product-name">Coca-Cola Lata</div>
+                                <div class="product-brand">Coca-Cola</div>
                             </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
-                            <select class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option>Alimentos</option>
-                                <option>Bebidas</option>
-                                <option>Limpeza</option>
-                                <option>Laticínios</option>
-                                <option>Frios</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Fornecedor</label>
-                            <select class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option>Fornecedor A</option>
-                                <option>Fornecedor B</option>
-                                <option>Fornecedor C</option>
-                                <option>Fornecedor D</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Imagem do Produto</label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
-                                <div class="mx-auto h-12 w-12 text-gray-400">
-                                    <i class="fas fa-cloud-upload-alt text-3xl"></i>
-                                </div>
-                                <p class="mt-1 text-sm text-gray-600">Solte a imagem aqui ou clique para selecionar</p>
-                                <input type="file" class="hidden">
+                    </td>
+                    <td>
+                        <span class="badge badge-blue">Bebidas</span>
+                    </td>
+                    <td>PRD001235</td>
+                    <td>R$ 5,50</td>
+                    <td>
+                        <div class="stock-cell">
+                            <span>15</span>
+                            <div class="stock-bar">
+                                <div class="stock-bar-fill yellow-fill" style="width: 30%"></div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-            <div class="p-4 border-t flex justify-end space-x-3">
-                <button onclick="closeAddProductModal()" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-                    Cancelar
-                </button>
-                <button class="px-4 py-2 bg-blue-600 rounded-md text-sm font-medium text-white hover:bg-blue-700">
-                    Salvar Produto
-                </button>
-            </div>
+                    </td>
+                    <td>
+                        <span class="status status-medium">
+                            <i class="fas fa-exclamation-circle"></i> Estoque médio
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <img src="https://placehold.co/80" alt="Sabão em pó OMO 1kg, caixa azul" class="product-img">
+                            <div>
+                                <div class="product-name">Sabão em Pó OMO</div>
+                                <div class="product-brand">OMO</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-green">Limpeza</span>
+                    </td>
+                    <td>PRD001236</td>
+                    <td>R$ 15,90</td>
+                    <td>
+                        <div class="stock-cell">
+                            <span>5</span>
+                            <div class="stock-bar">
+                                <div class="stock-bar-fill red-fill" style="width: 10%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status status-low">
+                            <i class="fas fa-minus-circle"></i> Baixo estoque
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <img src="https://placehold.co/80" alt="Leite integral UHT 1L, caixinha vermelha" class="product-img">
+                            <div>
+                                <div class="product-name">Leite Integral 1L</div>
+                                <div class="product-brand">Parmalat</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-purple">Laticínios</span>
+                    </td>
+                    <td>PRD001237</td>
+                    <td>R$ 4,75</td>
+                    <td>
+                        <div class="stock-cell">
+                            <span>25</span>
+                            <div class="stock-bar">
+                                <div class="stock-bar-fill green-fill" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status status-high">
+                            <i class="fas fa-check-circle"></i> Em estoque
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-footer">
+        <div class="footer-info">
+            <p>Mostrando <b>1</b> a <b>4</b> de <b>1,254</b> produtos</p>
+        </div>
+        <div class="pagination">
+            <button class="pagination-btn active">Anterior</button>
+            <button class="pagination-btn current">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <span class="pagination-dots">...</span>
+            <button class="pagination-btn">50</button>
+            <button class="pagination-btn">Próximo</button>
         </div>
     </div>
-
-    <script>
-        // Toggle sidebar
-        document.querySelector('.fa-bars').addEventListener('click', function() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('-ml-64');
-            
-            const mainContent = document.querySelector('.main-content');
-            mainContent.classList.toggle('ml-0');
-            mainContent.classList.toggle('ml-64');
-        });
-
-        // Modal functions
-        function openAddProductModal() {
-            document.getElementById('addProductModal').classList.remove('hidden');
-        }
-
-        function closeAddProductModal() {
-            document.getElementById('addProductModal').classList.add('hidden');
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('addProductModal');
-            if (event.target === modal) {
-                closeAddProductModal();
-            }
-        }
-
-        // Sample inventory data - would normally come from Django backend
-        const inventoryData = [
-            {
-                id: 1,
-                name: 'Arroz Branco 5kg',
-                brand: 'Camil',
-                category: 'Alimentos',
-                code: 'PRD001234',
-                price: 24.90,
-                stock: 42,
-                stockStatus: 'high'
-            },
-            // More products would be here...
-        ];
-    </script>
-</body>
-</html>
+</div>
+{% endblock main_content %}
