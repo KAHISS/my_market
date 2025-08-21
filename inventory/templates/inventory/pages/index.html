@@ -1,5 +1,6 @@
 {% extends "global/pages/index.html" %}
 
+<! Main Content >
 {% block main_content %}
 <div class="content-header">
     <h2 class="content-title">
@@ -91,138 +92,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <div class="product-cell">
-                            <img src="https://placehold.co/80" alt="Pacote de arroz branco de 5kg, marca Camil" class="product-img">
-                            <div>
-                                <div class="product-name">Arroz Branco 5kg</div>
-                                <div class="product-brand">Camil</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="badge badge-yellow">Alimentos</span>
-                    </td>
-                    <td>PRD001234</td>
-                    <td>R$ 24,90</td>
-                    <td>
-                        <div class="stock-cell">
-                            <span>42</span>
-                            <div class="stock-bar">
-                                <div class="stock-bar-fill green-fill" style="width: 84%"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="status status-high">
-                            <i class="fas fa-check-circle"></i> Em estoque
-                        </span>
-                    </td>
-                    <td class="text-right">
-                        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
-                        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="product-cell">
-                            <img src="https://placehold.co/80" alt="Refrigerante Coca-Cola em lata 350ml" class="product-img">
-                            <div>
-                                <div class="product-name">Coca-Cola Lata</div>
-                                <div class="product-brand">Coca-Cola</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="badge badge-blue">Bebidas</span>
-                    </td>
-                    <td>PRD001235</td>
-                    <td>R$ 5,50</td>
-                    <td>
-                        <div class="stock-cell">
-                            <span>15</span>
-                            <div class="stock-bar">
-                                <div class="stock-bar-fill yellow-fill" style="width: 30%"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="status status-medium">
-                            <i class="fas fa-exclamation-circle"></i> Estoque médio
-                        </span>
-                    </td>
-                    <td class="text-right">
-                        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
-                        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="product-cell">
-                            <img src="https://placehold.co/80" alt="Sabão em pó OMO 1kg, caixa azul" class="product-img">
-                            <div>
-                                <div class="product-name">Sabão em Pó OMO</div>
-                                <div class="product-brand">OMO</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="badge badge-green">Limpeza</span>
-                    </td>
-                    <td>PRD001236</td>
-                    <td>R$ 15,90</td>
-                    <td>
-                        <div class="stock-cell">
-                            <span>5</span>
-                            <div class="stock-bar">
-                                <div class="stock-bar-fill red-fill" style="width: 10%"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="status status-low">
-                            <i class="fas fa-minus-circle"></i> Baixo estoque
-                        </span>
-                    </td>
-                    <td class="text-right">
-                        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
-                        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="product-cell">
-                            <img src="https://placehold.co/80" alt="Leite integral UHT 1L, caixinha vermelha" class="product-img">
-                            <div>
-                                <div class="product-name">Leite Integral 1L</div>
-                                <div class="product-brand">Parmalat</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="badge badge-purple">Laticínios</span>
-                    </td>
-                    <td>PRD001237</td>
-                    <td>R$ 4,75</td>
-                    <td>
-                        <div class="stock-cell">
-                            <span>25</span>
-                            <div class="stock-bar">
-                                <div class="stock-bar-fill green-fill" style="width: 50%"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="status status-high">
-                            <i class="fas fa-check-circle"></i> Em estoque
-                        </span>
-                    </td>
-                    <td class="text-right">
-                        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
-                        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
+                {% include "inventory/partials/item.html" %}
             </tbody>
         </table>
     </div>
@@ -242,3 +112,8 @@
     </div>
 </div>
 {% endblock main_content %}
+
+<! Add New Register modal>
+{% block add_new_register %}
+{% include "inventory/partials/addNewProduct.html" %}
+{% endblock add_new_register %}
