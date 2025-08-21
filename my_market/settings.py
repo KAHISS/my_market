@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'dashboard',
     'client',
     'provider',
+    'relatories',
 ]
 
 MIDDLEWARE = [
