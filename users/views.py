@@ -12,7 +12,7 @@ def register_view(request):
     Exibe e processa o formulário de registro de novos usuários
     """
     if request.method == 'POST':
-        form = RegisterFrom(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)

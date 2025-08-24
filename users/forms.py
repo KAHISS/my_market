@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-class RegisterFrom(UserCreationForm):
+class RegisterForm(UserCreationForm):
     """
     Formulário para registrar um novo usuário.
     """
