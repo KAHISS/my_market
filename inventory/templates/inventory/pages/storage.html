@@ -21,7 +21,7 @@
         <div class="card-content">
             <div>
                 <p class="card-label">Produtos no estoque</p>
-                <p class="card-value">1,254</p>
+                <p class="card-value">{{ products|length }}</p>
             </div>
             <div class="card-icon card-icon-blue">
                 <i class="fas fa-box"></i>
@@ -92,7 +92,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% include "inventory/partials/item.html" %}
+                {% for product in products %}
+                    {% include "inventory/partials/item.html" %}
+                {% endfor %}
             </tbody>
         </table>
     </div>

@@ -20,13 +20,20 @@ class Product(models.Model):
     Represent a product in the inventory.
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    barcode = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
+    brand = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    unit_of_measure = models.CharField(max_length=255, blank=True, null=True)
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     sale_price = models.DecimalField(max_digits=10, decimal_places=2)
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
+    minimun_stock = models.IntegerField(default=0)
     stock_quantity = models.IntegerField(default=0)
+    in_catalog = models.BooleanField(default=False)
+    image = models.ImageField(
+        upload_to='inventory/covers/%Y/%m/%d/', blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
