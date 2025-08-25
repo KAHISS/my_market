@@ -1,0 +1,65 @@
+{% extends "global/pages/index.html" %}
+
+{% block title %}Gerenciador de Fornecedores{% endblock title %}
+
+{% block main_content %}
+<div class="content-header">
+    <h2 class="content-title">
+        <i class="fas fa-truck"></i> Gerenciador de Fornecedores
+    </h2>
+    <div class="action-buttons">
+        <button class="btn btn-export">
+            <i class="fas fa-file-export"></i> Exportar
+        </button>
+        <button class="btn btn-add">
+            <i class="fas fa-plus"></i> Adicionar Fornecedor
+        </button>
+    </div>
+</div>
+
+<div class="inventory-table-container">
+    <div class="table-header">
+        <div class="table-controls">
+            <select class="filter-select">
+                <option>Todos os status</option>
+                <option>Ativo</option>
+                <option>Inativo</option>
+            </select>
+            <span class="table-info">Mostrando 10 de 23 fornecedores</span>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Filtrar fornecedores..." class="filter-input">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Cargo</th>
+                    <th>Data de Admissão</th>
+                    <th>Status</th>
+                    <th class="text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="table-footer">
+        <div class="footer-info">
+            <p>Mostrando <b>1</b> a <b>10</b> de <b>23</b> fornecedores</p>
+        </div>
+        <div class="pagination">
+            <button class="pagination-btn active">Anterior</button>
+            <button class="pagination-btn current">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <button class="pagination-btn">Próximo</button>
+        </div>
+    </div>
+</div>
+{% endblock main_content %}
