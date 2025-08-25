@@ -194,7 +194,7 @@ body {
 .profile-img {
     width: 32px; /* w-8 */
     height: 32px; /* h-8 */
-    border-radius: 9999px;
+    border-radius: 100%;
     margin-right: 8px; /* mr-2 */
 }
 
@@ -745,4 +745,117 @@ body {
 
 .main-content.expanded {
     margin-left: -256px; /* Ajusta a margem para cobrir o espaço da sidebar */
+}
+
+/* Classes da tela de Perfil  */
+.cards {
+    display: flex;
+    gap: 20px;
+}
+
+.card-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    gap: 15px;
+
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-profile img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.card-infos {
+    /* Garante que o conteúdo interno seja organizado em coluna */
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.card-infos-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.info-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.info-list li strong {
+    color: var(--text-secondary);
+}
+
+.info-list li span {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.info-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 16px 0;
+}
+
+.action-buttons-footer {
+    margin-top: auto; /* Empurra os botões para o final do card */
+    padding-top: 16px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end; /* Alinha os botões à direita */
+}
+
+/* Estilos para os novos botões */
+.btn-edit {
+    background-color: var(--primary-color);
+}
+.btn-edit:hover {
+    background-color: var(--primary-dark-color);
+}
+
+.btn-delete {
+    background-color: var(--low-stock-color); /* Cor vermelha de alerta */
+}
+.btn-delete:hover {
+    background-color: #c13434; /* Um vermelho mais escuro */
+}
+/* Para os KPIs */
+.profile-kpis {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.kpi-item .kpi-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.kpi-item .kpi-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
 }

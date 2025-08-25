@@ -1,30 +1,36 @@
 <tr>
     <td>
         <div class="product-cell">
-            <img src="https://placehold.co/80" alt="Sabão em pó OMO 1kg, caixa azul" class="product-img">
+            <img src={{ product.image.url }} alt="Sabão em pó OMO 1kg, caixa azul" class="product-img">
             <div>
-                <div class="product-name">Sabão em Pó OMO</div>
-                <div class="product-brand">OMO</div>
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-brand">{{ product.brand }}</div>
             </div>
         </div>
     </td>
     <td>
-        <span class="badge badge-green">Limpeza</span>
+        <span class="badge badge-green">{{ product.category}} </span>
     </td>
-    <td>PRD001236</td>
-    <td>R$ 15,90</td>
+    <td>{{ product.barcode }}</td>
+    <td>R$ {{ product.sale_price }}</td>
     <td>
         <div class="stock-cell">
-            <span>5</span>
+            <span>{{ product.stock_quantity }} {{ product.unit_of_measure }}</span>
             <div class="stock-bar">
                 <div class="stock-bar-fill red-fill" style="width: 10%"></div>
             </div>
         </div>
     </td>
     <td>
-        <span class="status status-low">
-            <i class="fas fa-minus-circle"></i> Baixo estoque
-        </span>
+        {% if product.stock_quantity <= product.minimun_stock %}
+            <span class="status status-low">
+                <i class="fas fa-minus-circle"></i> Baixo estoque
+            </span>
+        {% else %}
+            <span class="status status-high">
+                <i class="fas fa-check-circle"></i> Estoque suficiente
+            </span>
+        {% endif %}
     </td>
     <td class="text-right">
         <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
