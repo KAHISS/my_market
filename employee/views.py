@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 # Create your views here.
-def pos(request):
-    return render(request, 'employee/pages/profile.html')
+def orders(request):
+    return render(request, 'employee/pages/orders.html')

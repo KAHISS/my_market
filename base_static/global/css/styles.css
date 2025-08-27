@@ -774,7 +774,6 @@ body {
 }
 
 .card-infos {
-    /* Garante que o conteúdo interno seja organizado em coluna */
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -818,11 +817,11 @@ body {
 }
 
 .action-buttons-footer {
-    margin-top: auto; /* Empurra os botões para o final do card */
+    margin-top: auto; 
     padding-top: 16px;
     display: flex;
     gap: 12px;
-    justify-content: flex-end; /* Alinha os botões à direita */
+    justify-content: flex-end;
 }
 
 /* Estilos para os novos botões */
@@ -834,10 +833,10 @@ body {
 }
 
 .btn-delete {
-    background-color: var(--low-stock-color); /* Cor vermelha de alerta */
+    background-color: var(--low-stock-color); 
 }
 .btn-delete:hover {
-    background-color: #c13434; /* Um vermelho mais escuro */
+    background-color: #c13434; 
 }
 /* Para os KPIs */
 .profile-kpis {
@@ -858,4 +857,90 @@ body {
 .kpi-item .kpi-label {
     font-size: 0.8rem;
     color: var(--text-secondary);
+}
+
+/* Tela gerenciamento de pedidos */
+.card-order {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.circle {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+}
+
+.status-color {
+    margin: auto auto;
+    background-color: var(--low-stock-color);
+}
+
+.status p {
+    padding-right: 10px;
+}
+
+.content-header .notification-container button {
+    font-size: 35px;
+}
+
+.content-header .notification-container .notification-badge { 
+    width: 25px;
+    height: 25px;
+}
+
+/* 1. Estilo para o cabeçalho da lista */
+.order-list-header {
+    display: flex;
+    align-items: center;
+    padding: 0 24px; /* O mesmo padding horizontal dos seus cards */
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary); /* Usa a cor de texto secundária */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* 2. Estilo para os cards de pedido (MODIFICADO) */
+.card-order {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    margin-bottom: 12px;
+}
+
+/* No Cabeçalho */
+.header-item.item-pedido { flex: 2; } /* Ocupa mais espaço */
+.header-item.item-data   { flex: 1; text-align: center; }
+.header-item.item-valor  { flex: 1; text-align: center; }
+.header-item.item-status { flex: 1.2; text-align: center; }
+.header-item.item-acao   { flex: 1; text-align: center; }
+
+/* Nos Cards (supondo que a estrutura interna seja similar) */
+.card-order .order-id-name  { flex: 2; }
+.card-order .order-date     { flex: 1; text-align: center; }
+.card-order .order-value    { flex: 1; text-align: center; }
+.card-order .order-status   { flex: 1; text-align: center; }
+.card-order .order-action   { flex: 1; text-align: center; }
+
+/* Alinha o texto do status e a bolinha */
+.status-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background-color: var(--bg-color); /* Um fundo sutil */
+}
+
+/* Agrupa os botões de ação */
+.order-action .action-buttons {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    gap: 8px;
 }
