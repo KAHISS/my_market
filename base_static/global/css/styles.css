@@ -79,6 +79,7 @@ body {
     transition: background-color 0.3s, color 0.3s;
     display: flex;
     align-items: center;
+    text-decoration: none;
 }
 
 .sidebar-link:hover {
@@ -943,4 +944,14 @@ body {
     display: flex;
     justify-content: flex-end; /* Alinha os botões à direita */
     gap: 8px;
+}
+
+/* Estilos para a linha do produto */
+.product-row {
+    cursor: pointer;
+    transition: .4s;
+}
+
+.product-row:hover {
+    background-color: #d5efff;
 }
