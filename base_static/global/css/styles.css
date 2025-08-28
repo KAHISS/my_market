@@ -79,6 +79,7 @@ body {
     transition: background-color 0.3s, color 0.3s;
     display: flex;
     align-items: center;
+    text-decoration: none;
 }
 
 .sidebar-link:hover {
@@ -858,4 +859,14 @@ body {
 .kpi-item .kpi-label {
     font-size: 0.8rem;
     color: var(--text-secondary);
+}
+
+/* Estilos para a linha do produto */
+.product-row {
+    cursor: pointer;
+    transition: .4s;
+}
+
+.product-row:hover {
+    background-color: #d5efff;
 }
