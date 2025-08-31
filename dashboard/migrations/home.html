@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard </title>
+    <style>
+        /* Estilos básicos para o corpo da página */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+
+        /* Container principal do dashboard */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr; /* Coluna única em telas pequenas */
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Estilo para os cards do dashboard */
+        .dashboard-card {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
+        }
+
+        /* Título do card */
+        .card-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* Estilos para os valores e descrições */
+        .card-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #007bff; /* Azul para destacar o valor */
+            margin: 0;
+        }
+
+        .card-description {
+            color: #777;
+            margin-top: 5px;
+        }
+
+        /* Estilos para o gráfico (simulado) */
+        .chart {
+            height: 200px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            color: #aaa;
+        }
+        
+        /* Estilos para as tabelas */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        /* Layout responsivo para telas maiores (como desktops) */
+        @media (min-width: 768px) {
+            .dashboard-container {
+                /* Layout de 3 colunas em telas maiores */
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .card-full-width {
+                grid-column: span 3; /* Ocupa a largura total da grade */
+            }
+
+            .card-two-thirds {
+                grid-column: span 2;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header style="background-color: #123456 ; color: #fff; padding: 20px; text-align: center;">
+        <h1> Dashboard </h1>
+    </header>
+
+    <main class="dashboard-container">
+        
+        <div class="dashboard-card">
+            <h2 class="card-title">Vendas Totais</h2>
+            <p class="card-value">R$ 15.450</p>
+            <p class="card-description">Mês de Agosto</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h2 class="card-title">Produtos Disponiveis</h2>
+            <p class="card-value">1,234</p>
+            <p class="card-description">Mercadoria no estoque</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h2 class="card-title">Produtos Vendidos</h2>
+            <p class="card-value">7,890</p>
+            <p class="card-description">Últimas 24 horas</p>
+        </div>
+
+        <div class="dashboard-card card-two-thirds">
+            <h2 class="card-title">Gráfico de Crescimento de Vendas</h2>
+            <div class="chart">
+                <p>Aqui você pode inserir um gráfico (ex: usando Chart.js)</p>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h2 class="card-title">Produtos Mais Vendidos</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Açúcar</td>
+                            <td>250</td>
+                            <td>R$ 99</td>
+                        </tr>
+                        <tr>
+                            <td>Feijão</td>
+                            <td>180</td>
+                            <td>R$ 150</td>
+                        </tr>
+                        <tr>
+                            <td>Arroz</td>
+                            <td>120</td>
+                            <td>R$ 250</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard-card card-full-width">
+            <h2 class="card-title">Atividade Recente</h2>
+            <ul>
+                <li><strong>26/08/2025:</strong> Novo usuário registrado - Maria Silva.</li>
+                <li><strong>26/08/2025:</strong> Pedido #123456 concluído.</li>
+                <li><strong>25/08/2025:</strong> Relatório de vendas do dia gerado.</li>
+            </ul>
+        </div>
+    
+    </main>
+
+</body>
+</html>
