@@ -115,6 +115,11 @@
 </div>
 {% endblock main_content %}
 
+<! Sidebar Links>
+{% block sidebar_links %}
+{% include 'inventory/partials/sidebarLinks.html' %}
+{% endblock sidebar_links %}
+
 <! Add New Register modal>
 {% block add_new_register %}
 {% include "inventory/partials/addNewProduct.html" %}

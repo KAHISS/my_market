@@ -1,0 +1,32 @@
+{% extends "global/pages/index.html" %}
+
+{% block title %}
+    Gerenciamento de pedidos
+{% endblock %}
+
+<! Main Content>
+    {% block main_content %}
+    <div class="content-area">
+        <div class="content-header">
+            <h2><i class="fas fa-boxes"></i> Gerenciamento de pedidos </h2>
+            <div class="notification-container">
+                <button class="notification-button">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">1</span>
+                </button>
+            </div>
+        </div>
+        <div class="order-list-header">
+            <span class="header-item item-pedido">Pedido</span>
+            <span class="header-item item-data">Data</span>
+            <span class="header-item item-valor">Valor</span>
+            <span class="header-item item-status">Status</span>
+            <span class="header-item item-acao">Ação</span>
+        </div>
+        <div class="order-list-container">
+            {% include "employee/partials/order.html" %}
+            {% include "employee/partials/order.html" %}
+            {% include "employee/partials/order.html" %} 
+        </div>
+    </div>
+    {% endblock main_content %}

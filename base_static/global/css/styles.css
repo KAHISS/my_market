@@ -79,6 +79,7 @@ body {
     transition: background-color 0.3s, color 0.3s;
     display: flex;
     align-items: center;
+    text-decoration: none;
 }
 
 .sidebar-link:hover {
@@ -774,7 +775,6 @@ body {
 }
 
 .card-infos {
-    /* Garante que o conteúdo interno seja organizado em coluna */
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -818,11 +818,11 @@ body {
 }
 
 .action-buttons-footer {
-    margin-top: auto; /* Empurra os botões para o final do card */
+    margin-top: auto; 
     padding-top: 16px;
     display: flex;
     gap: 12px;
-    justify-content: flex-end; /* Alinha os botões à direita */
+    justify-content: flex-end;
 }
 
 /* Estilos para os novos botões */
@@ -834,10 +834,10 @@ body {
 }
 
 .btn-delete {
-    background-color: var(--low-stock-color); /* Cor vermelha de alerta */
+    background-color: var(--low-stock-color); 
 }
 .btn-delete:hover {
-    background-color: #c13434; /* Um vermelho mais escuro */
+    background-color: #c13434; 
 }
 /* Para os KPIs */
 .profile-kpis {
@@ -858,4 +858,290 @@ body {
 .kpi-item .kpi-label {
     font-size: 0.8rem;
     color: var(--text-secondary);
+}
+
+/* Tela gerenciamento de pedidos */
+.card-order {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.circle {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+}
+
+.status-color {
+    margin: auto auto;
+    background-color: var(--low-stock-color);
+}
+
+.status p {
+    padding-right: 10px;
+}
+
+.content-header .notification-container button {
+    font-size: 35px;
+}
+
+.content-header .notification-container .notification-badge { 
+    width: 25px;
+    height: 25px;
+}
+
+/* 1. Estilo para o cabeçalho da lista */
+.order-list-header {
+    display: flex;
+    align-items: center;
+    padding: 0 24px; /* O mesmo padding horizontal dos seus cards */
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary); /* Usa a cor de texto secundária */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* 2. Estilo para os cards de pedido (MODIFICADO) */
+.card-order {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    margin-bottom: 12px;
+}
+
+/* No Cabeçalho */
+.header-item.item-pedido { flex: 2; } /* Ocupa mais espaço */
+.header-item.item-data   { flex: 1; text-align: center; }
+.header-item.item-valor  { flex: 1; text-align: center; }
+.header-item.item-status { flex: 1.2; text-align: center; }
+.header-item.item-acao   { flex: 1; text-align: center; }
+
+/* Nos Cards (supondo que a estrutura interna seja similar) */
+.card-order .order-id-name  { flex: 2; }
+.card-order .order-date     { flex: 1; text-align: center; }
+.card-order .order-value    { flex: 1; text-align: center; }
+.card-order .order-status   { flex: 1; text-align: center; }
+.card-order .order-action   { flex: 1; text-align: center; }
+
+/* Alinha o texto do status e a bolinha */
+.status-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background-color: var(--bg-color); /* Um fundo sutil */
+}
+
+/* Agrupa os botões de ação */
+.order-action .action-buttons {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    gap: 8px;
+}
+
+/* Estilos para a linha do produto */
+.product-row {
+    cursor: pointer;
+    transition: .4s;
+}
+
+.product-row:hover {
+    background-color: #d5efff;
+}
+
+/* Catalog */
+.header-green {
+    background-color: #15803D;
+    padding: 1rem;
+}
+
+.header-blue {
+    background-color: var(--primary-color);
+    padding: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.text-box {
+    display: flex;
+    flex-grow: 1;
+    max-width: 37.5rem;
+    /* 600px */
+    height: 2.8125rem;
+    /* 45px */
+    margin: 0 1.875rem;
+    /* 30px */
+}
+
+.text-box input {
+    flex-grow: 1;
+    padding: 0.625rem 0.9375rem;
+    border: none;
+    border-radius: 0.25rem 0 0 0.25rem;
+    font-size: 0.875rem;
+    outline: none;
+}
+
+.text-box button {
+    width: 4.375rem;
+    /* 70px */
+    background-color: #15803D;
+    border: none;
+    border-radius: 0 0.4375rem 0.4375rem 0;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16a6.471 6.471 0 0 0 4.23-1.78l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 1.25rem;
+}
+
+.user-text {
+    font-size: 0.75rem;
+    color: var(--primary-light-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-text p {
+    margin: 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.user_img {
+    border-radius: 1.5625rem;
+}
+
+.cart-svg {
+    margin-right: 0.9375rem;
+}
+
+.catalog-title {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: bold;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    margin: 1.25rem;
+    margin-left: clamp(1.25rem, 5vw, 3.125rem);
+}
+
+.catalog-subtitle {
+    font-size: clamp(0.875rem, 3vw, 1.25rem);
+    font-weight: normal;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    margin-top: 1.5625rem;
+    margin-left: clamp(1.25rem, 5vw, 3.125rem);
+}
+
+.main-nav {
+    background-color: #a0a0a0;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1.25rem;
+    padding: 0.625rem clamp(1rem, 5vw, 3.125rem);
+    margin: 0;
+}
+
+.main-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 0.3125rem 0;
+    position: relative;
+}
+
+.main-nav li:first-child a::after {
+    content: '▼';
+    font-size: 0.625rem;
+    margin-left: 0.3125rem;
+}
+
+.main-nav a:hover {
+    text-decoration: underline;
+}
+
+.main-nav .emphasis a {
+    color: #1d4ed8;
+}
+
+.galery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.875rem;
+    margin: 3.125rem clamp(1rem, 5vw, 3.125rem);
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 10rem;
+    /* 160px */
+}
+
+.product-name {
+    font-size: 1rem;
+    color: #374151;
+    font-weight: 500;
+    margin: 0;
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.product-price {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #111827;
+}
+
+.product-discount {
+    background-color: #15803d;
+    color: white;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.buy-button {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #1e40af;
+    text-decoration: none;
+    margin-top: 0.25rem;
+}
+
+.buy-button:hover {
+    text-decoration: underline;
 }
