@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações do Sistema</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef2f7;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 20px 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    .tab-menu {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .tab-button {
+      background: none;
+      border: none;
+      padding: 15px 25px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      color: #555;
+      transition: all 0.3s ease;
+    }
+
+    .tab-button:hover {
+      color: #2980b9;
+    }
+
+    .tab-button.active {
+      color: #3498db;
+      border-bottom: 3px solid #3498db;
+    }
+
+    .tab-content {
+      display: none;
+      padding-top: 20px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .category-list, .log-container {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+    }
+    
+    .category-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .category-item:last-child {
+      border-bottom: none;
+    }
+
+    .category-item span {
+      font-size: 16px;
+    }
+    
+    .log-entry {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+      font-size: 14px;
+    }
+
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .log-entry strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #2c3e50;
+    }
+
+    .success-msg {
+      margin-top: 10px;
+      color: green;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>⚙️ Configurações </h1>
+
+  <div class="tab-menu">
+    <button class="tab-button active" onclick="openTab(event, 'taxas')">💰 Taxas e Moedas</button>
+    <button class="tab-button" onclick="openTab(event, 'pagamentos')">💳 Integrações</button>
+    <button class="tab-button" onclick="openTab(event, 'categorias')">📂 Categorias</button>
+    <button class="tab-button" onclick="openTab(event, 'backup')">💾 Backup</button>
+    <button class="tab-button" onclick="openTab(event, 'logs')">📜 Logs</button>
+  </div>
+
+  <!-- Taxas -->
+  <div id="taxas" class="tab-content active">
+    <form onsubmit="saveTaxas(event)">
+      <h2>Ajustes de Impostos</h2>
+      <div class="form-group">
+        <label for="taxa-padrao">Taxa de Imposto Padrão Sobre Mercadoria(%):</label>
+        <input type="number" id="taxa-padrao" name="taxa-padrao" step="0.01" value="10.00" required>
+      </div>
+      <div class="form-group">
+        <label for="moeda-principal">Moeda Principal:</label>
+        <select id="moeda-principal" name="moeda-principal">
+          <option value="BRL">Real (BRL)</option>
+          <option value="USD">Dólar Americano (USD)</option>
+          <option value="EUR">Euro (EUR)</option>
+        </select>
+      </div>
+      <button type="submit">Salvar Ajustes</button>
+      <div id="msg-taxas" class="success-msg"></div>
+    </form>
+  </div>
+
+  <!-- Pagamentos -->
+  <div id="pagamentos" class="tab-content">
+    <h2>Integrações de Pagamento</h2>
+    <form onsubmit="savePagamentos(event)">
+      <div class="form-group">
+        <label for="pagamento-api">Chave de API:</label>
+        <input type="text" id="pagamento-api" name="pagamento-api" placeholder="Digite a chave da API">
+      </div>
+      <div class="form-group">
+        <label for="pagamento-metodo">Método de Pagamento:</label>
+        <select id="pagamento-metodo" name="pagamento-metodo">
+          <option value="stripe">Stripe</option>
+          <option value="paypal">PayPal</option>
+          <option value="mercadopago">Mercado Pago</option>
+        </select>
+      </div>
+      <button type="submit">Conectar</button>
+      <div id="msg-pagamentos" class="success-msg"></div>
+    </form>
+  </div>
+
+  <!-- Categorias -->
+  <div id="categorias" class="tab-content">
+    <h2>Gerenciamento de Categorias</h2>
+    <div class="form-group">
+      <label for="nova-categoria">Adicionar Nova Categoria:</label>
+      <input type="text" id="nova-categoria" name="nova-categoria" placeholder="Ex: Alimentos, Bebidas,Limpeza">
+      <button type="button" onclick="addCategory()">Adicionar</button>
+    </div>
+    <div class="category-list" id="category-list">
+      <div class="category-item"><span>Cereais</span> <button onclick="removeCategory(this)">Remover</button></div>
+      <div class="category-item"><span>Bebidas</span> <button onclick="removeCategory(this)">Remover</button></div>
+     <div class="category-item"><span>Limpeza</span> <button onclick="removeCategory(this)">Remover</button></div>
+    </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- Backup -->
+  <div id="backup" class="tab-content">
+    <h2>Backup de Dados</h2>
+    <p>Clique no botão abaixo para realizar um backup simulado.</p>
+    <button type="button" onclick="doBackup()">Fazer Backup Agora</button>
+    <p style="margin-top: 15px;"><i id="last-backup">Nenhum backup realizado ainda</i></p>
+  </div>
+
+  <!-- Logs -->
+  <div id="logs" class="tab-content">
+    <h2>Logs do Sistema</h2>
+    <p>Acompanhe as atividades do sistema.</p>
+    <div class="log-container" id="log-container">
+      <div class="log-entry"><strong>[2025-08-31 10:00:15]</strong> Usuário 'admin' acessou a tela de configurações.</div>
+    </div>
+    <button style="margin-top: 15px;" type="button" onclick="exportLogs()">Exportar Logs</button>
+  </div>
+
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    const tabContents = document.getElementsByClassName('tab-content');
+    for (let content of tabContents) {
+      content.classList.remove('active');
+    }
+
+    const tabButtons = document.getElementsByClassName('tab-button');
+    for (let btn of tabButtons) {
+      btn.classList.remove('active');
+    }
+
+    document.getElementById(tabName).classList.add('active');
+    evt.currentTarget.classList.add('active');
+  }
+
+  function saveTaxas(e) {
+    e.preventDefault();
+    document.getElementById("msg-taxas").innerText = "✅ Taxas salvas com sucesso!";
+  }
+
+  function savePagamentos(e) {
+    e.preventDefault();
+    document.getElementById("msg-pagamentos").innerText = "✅ Integração configurada!";
+  }
+
+  function addCategory() {
+    const input = document.getElementById('nova-categoria');
+    const categoryName = input.value.trim();
+    if (categoryName === "") {
+      alert("Digite um nome válido para a categoria.");
+      return;
+    }
+    const categoryList = document.getElementById('category-list');
+    const newItem = document.createElement('div');
+    newItem.classList.add('category-item');
+    newItem.innerHTML = `<span>${categoryName}</span> <button onclick="removeCategory(this)">Remover</button>`;
+    categoryList.appendChild(newItem);
+    input.value = "";
+  }
+
+  function removeCategory(button) {
+    button.parentElement.remove();
+  }
+
+  function doBackup() {
+    const now = new Date();
+    const formatted = now.toLocaleString('pt-BR');
+    document.getElementById("last-backup").innerText = `Último backup em: ${formatted}`;
+    alert("Backup concluído com sucesso!");
+  }
+
+  function exportLogs() {
+    const logs = document.getElementById("log-container").innerText;
+    const blob = new Blob([logs], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "logs.txt";
+    link.click();
+  }
+</script>
+
+</body>
+</html>
