@@ -19,7 +19,6 @@ class Product(models.Model):
     """
     Represent a product in the inventory.
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     barcode = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
     brand = models.CharField(max_length=255, blank=True, null=True)
@@ -48,7 +47,6 @@ class StockMovement(models.Model):
     """
     Register stock movements.
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     movement_type = models.CharField(max_length=10)
     quantity = models.IntegerField()
