@@ -5,4 +5,5 @@ app_name = 'provider'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('add/', views.add_provider, name='add_provider'),
 ]
