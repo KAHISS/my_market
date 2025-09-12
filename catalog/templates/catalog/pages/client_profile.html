@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% include "global/partials/head.html" %} 
+    <title>Perfil</title>
+</head>
+<body>
+    <header>
+        <div class="header-green"></div>
+        <div class="header-blue-profile">
+            <div class="header-right">
+                <a href="#" class="header-icon-link" aria-label="Notificações">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                </a>
+                <a href="#" class="header-icon-link" aria-label="Carrinho de Compras">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                </a>
+                <a href="/" class="header-icon-link" aria-label="Página Inicial">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+<main>
+    <div class="page-container">
+        <div class="page-header">
+            <h1>Minha Conta</h1>
+        </div>
+        <div class="profile-container">
+            <aside class="profile-menu">
+                <div class="card">
+                    <ul>
+                        <li><a href="#" class="active">Meus Dados</a></li>
+                        <li><a href="#">Meus Pedidos</a></li>
+                        <li><a href="#">Endereços</a></li>
+                        <li><a href="#">Sair</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <section class="profile-content">
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Meus Dados</h2>
+                        <a href="#" class="edit-link">Editar</a>
+                    </div>
+                    <div class="card-body card-body-profile">
+                        
+                        <ul class="info-list">
+                            <li>
+                                <strong>Nome Completo:</strong>
+                                <span>Fulano de Tal</span>
+                            </li>
+                            <li>
+                                <strong>E-mail:</strong>
+                                <span>fulano.tal@email.com</span>
+                            </li>
+                            <li>
+                                <strong>CPF:</strong>
+                                <span>123.456.789-00</span>
+                            </li>
+                            <li>
+                                <strong>Telefone:</strong>
+                                <span>(11) 98765-4321</span>
+                            </li>
+                        </ul>                  
+                        <div class="profile-picture">
+                            <img src="https://placehold.co/120x120" alt="Foto de Perfil">
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Endereço Principal</h2>
+                        <a href="#" class="edit-link">Editar</a>
+                    </div>
+                    <div class="card-body">
+                        <p class="address-details">
+                            Rua das Flores, 123, Apto 45<br>
+                            Bairro Jardim, São Paulo - SP<br>
+                            CEP: 01234-567
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Pedidos Recentes</h2>
+                        <a href="#" class="edit-link">Ver todos</a>
+                    </div>
+                    <div class="card-body">
+                        <ul class="order-list">
+                            <li class="order-item">
+                                <span class="order-id">#12345</span>
+                                <span class="order-date">01/09/2025</span>
+                                <span class="order-value">R$ 153,74</span>
+                                <span class="order-status delivered">Entregue</span>
+                            </li>
+                            <li class="order-item">
+                                <span class="order-id">#12321</span>
+                                <span class="order-date">25/08/2025</span>
+                                <span class="order-value">R$ 89,90</span>
+                                <span class="order-status delivered">Entregue</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+</body>
+</html>
