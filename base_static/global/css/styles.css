@@ -1326,3 +1326,26 @@ body {
     color: var(--text-secondary);
     line-height: 1.7;
 }
+
+.client-row:hover {
+    background-color: #f9fafb; 
+    cursor: pointer;
+}
+.client-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.client-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+.client-email {
+    font-size: 0.8rem; /* 12px */
+    color: var(--text-secondary);
+}
+
+.badge-secondary {
+    background-color: #e5e7eb; /* var(--border-color) */
+    color: #4b5563;      /* Cor de texto um pouco mais escura que a secundária */
+}
