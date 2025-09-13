@@ -6,3 +6,6 @@ def profile(request):
 
 def management(request):
     return render(request, 'client/pages/clients-management.html')
+
+def add_client(request):
+    return render(request, 'client/pages/add-new-client.html')
