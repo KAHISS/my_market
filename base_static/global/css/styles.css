@@ -1282,7 +1282,7 @@ body {
     margin-top: 1rem;
 }
 
-.buy-button,
+.buy-button-product,
 .cart-button {
     border-radius: 6px;
     border: none;
@@ -1295,7 +1295,7 @@ body {
     max-width: 350px;
 }
 
-.buy-button {
+.buy-button-product {
     background-color: var(--primary-color);
     color: white;
     margin-bottom: 0.75rem; 
