@@ -1,0 +1,50 @@
+{% extends "global/pages/index.html" %}
+
+{% block main_content %}
+<div class="content-header">
+    <h2 class="content-title">
+        <i class="fas fa-plus"></i> Adicionar Novo Fornecedor
+    </h2>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form action="{% url 'provider:add_provider' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Nome do Fornecedor</label>
+                <input type="text" name="name" class="form-input" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>CNPJ</label>
+                    <input type="text" name="cnpj" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-input" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <input type="text" name="phone" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>Endereço</label>
+                    <input type="text" name="address" class="form-input">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'provider:provider' %}" class="btn btn-cancel">Cancelar</a>
+                <button type="submit" class="btn btn-save">Salvar Fornecedor</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock main_content %}
+
+<! Sidebar Links>
+{% block sidebar_links %}
+{% include 'provider/partials/sidebarLinks.html' %}
+{% endblock sidebar_links %}

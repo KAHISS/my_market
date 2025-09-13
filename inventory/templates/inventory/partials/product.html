@@ -32,7 +32,7 @@
         {% endif %}
     </td>
     <td class="text-right">
-        <button class="action-btn text-blue"><i class="fas fa-edit"></i></button>
-        <button class="action-btn text-red"><i class="fas fa-trash"></i></button>
+        <a class="action-btn text-blue" href="#"><i class="fas fa-edit"></i></a>
+        <a class="action-btn text-red" href="{% url 'inventory:product' product.id %}"><i class="fas fa-trash"></i></a>
     </td>
 </tr>
