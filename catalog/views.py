@@ -22,3 +22,7 @@ def product(request, product_id):
 
 def profile(request):
     return render(request, 'catalog/pages/client_profile.html')
+
+
+def cart(request):
+    return render(request, 'catalog/pages/cart.html')
