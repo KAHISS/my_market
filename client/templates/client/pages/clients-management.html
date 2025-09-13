@@ -1,0 +1,126 @@
+{% extends "global/pages/index.html" %}
+
+<! Main Content >
+{% block main_content %}
+<div class="content-header">
+    <h2 class="content-title">
+        <i class="fas fa-boxes"></i> Gerenciamento de Estoque
+    </h2>
+    <div class="action-buttons">
+        <button class="btn btn-export">
+            <i class="fas fa-file-export"></i> Exportar
+        </button>
+        <a href="{% url 'inventory:addProductView' %}" class="btn btn-add">
+            <i class="fas fa-plus"></i> Adicionar Produto
+        </a>
+    </div>
+</div>
+
+<div class="stats-cards">
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <p class="card-label">Produtos no estoque</p>
+                <p class="card-value">{{ products|length }}</p>
+            </div>
+            <div class="card-icon card-icon-blue">
+                <i class="fas fa-box"></i>
+            </div>
+        </div>
+        <p class="card-metric">
+            <span class="text-green">↑ 5.2%</span> em relação ao último mês
+        </p>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <p class="card-label">Baixo estoque</p>
+                <p class="card-value">48</p>
+            </div>
+            <div class="card-icon card-icon-red">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+        </div>
+        <p class="card-metric">
+            <span class="text-red">↑ 2.8%</span> em relação ao último mês
+        </p>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div>
+                <p class="card-label">Fornecedores</p>
+                <p class="card-value">23</p>
+            </div>
+            <div class="card-icon card-icon-green">
+                <i class="fas fa-truck"></i>
+            </div>
+        </div>
+        <p class="card-metric">
+            <span class="text-green">↑ 1.4%</span> em relação ao último mês
+        </p>
+    </div>
+</div>
+
+<div class="inventory-table-container">
+    <div class="table-header">
+        <div class="table-controls">
+            <select class="filter-select">
+                <option>Todos os produtos</option>
+                <option>Baixo estoque</option>
+                <option>Alimentos</option>
+                <option>Bebidas</option>
+                <option>Limpeza</option>
+            </select>
+            <span class="table-info">Mostrando 50 de 1,254 produtos</span>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Filtrar produtos..." class="filter-input">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </div>
+    <div class="table-wrapper">
+        <table class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Categoria</th>
+                    <th>Código</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                    <th>Status</th>
+                    <th class="text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    {% include "inventory/partials/product.html" %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-footer">
+        <div class="footer-info">
+            <p>Mostrando <b>1</b> a <b>4</b> de <b>1,254</b> produtos</p>
+        </div>
+        <div class="pagination">
+            <button class="pagination-btn active">Anterior</button>
+            <button class="pagination-btn current">1</button>
+            <button class="pagination-btn">2</button>
+            <button class="pagination-btn">3</button>
+            <span class="pagination-dots">...</span>
+            <button class="pagination-btn">50</button>
+            <button class="pagination-btn">Próximo</button>
+        </div>
+    </div>
+</div>
+{% endblock main_content %}
+
+<! Sidebar Links>
+{% block sidebar_links %}
+{% include 'inventory/partials/sidebarLinks.html' %}
+{% endblock sidebar_links %}
+
+<! Add New Register modal>
+{% block add_new_register %}
+{% include "inventory/partials/addNewProduct.html" %}
+{% endblock add_new_register %}
