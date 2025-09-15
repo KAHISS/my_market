@@ -7,3 +7,5 @@ class ClientAdmin(admin.ModelAdmin):
         Admin for Client model.
     """
     ...
+
+admin.site.register(Client, ClientAdmin)

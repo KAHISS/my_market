@@ -1,8 +1,9 @@
 <tr class="product-row">
     <td>
         <div class="product-cell">
-            <div class="client-name">{{ client.name }}</div>
-            <div class="client-email">{{ client.email }}</div>
+            <a href="{% url 'client:profile' client.id %}" class="client-profile-link">
+                <div class="client-name">{{ client.name }}</div>
+            </a>
         </div>
     </td>
 

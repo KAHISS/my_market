@@ -1,79 +1,85 @@
 {% extends "global/pages/index.html" %}
 
-<! Main Content>
 {% block main_content %}
 <div class="content-area">
     <div class="content-header">
-        <h2><i class="fas fa-user"></i> Perfil de nome </h2>
+        <h2><i class="fas fa-user"></i> Perfil de {{ client.name }}</h2>
     </div>
+
     <div class="cards">
         <div class="card card-profile">
-            <img src="https://i.pravatar.cc/100?u=funcionario1" alt="user profile">
-            <h2>Ricardo Moura</h2>
-            <p class="text-secondary">Vendedor e corretor de imóveis</p>
+            {% if client.image %}
+                <img src="{{ client.image.url }}" alt="Foto de {{ client.name }}">
+            {% else %}
+                <img src="https://i.pravatar.cc/150?u={{ client.email }}" alt="user profile">
+            {% endif %}
+
+            <h2>{{ client.name }}</h2>
+            <p class="text-secondary">CNPJ: {{ client.cnpj }}</p>
+
             <hr class="info-divider" style="width: 80%; margin: 20px 0;">
-            
+
             <div class="profile-kpis">
                 <div class="kpi-item">
-                    <span class="kpi-value">124</span>
-                    <span class="kpi-label">Vendas no Mês</span>
+                    <span class="kpi-value">R$ {{ client.total_spent|floatformat:2 }}</span>
+                    <span class="kpi-label">Total Gasto</span>
                 </div>
                 <div class="kpi-item">
-                    <span class="kpi-value">98%</span>
-                    <span class="kpi-label">Meta Atingida</span>
+                    <span class="kpi-value">{{ client.total_orders }}</span>
+                    <span class="kpi-label">Total de Compras</span>
                 </div>
             </div>
         </div>
+        
         <div class="card card-infos">
-            <h3 class="card-infos-title">Informações do Funcionário</h3>
+            <h3 class="card-infos-title">Informações do Cliente</h3>
 
             <ul class="info-list">
                 <li>
                     <strong>Email:</strong>
-                    <span>ricardo.moura@syspamarket.com</span>
+                    <span>{{ client.email }}</span>
                 </li>
                 <li>
                     <strong>Telefone:</strong>
-                    <span>(11) 98765-4321</span>
+                    <span>{{ client.phone }}</span>
                 </li>
                 <li>
-                    <strong>Cargo:</strong>
-                    <span>Vendedor</span>
+                    <strong>Endereço:</strong>
+                    <span>{{ client.address }}</span>
                 </li>
                 <li>
-                    <strong>Data de Admissão:</strong>
-                    <span>24/08/2023</span>
+                    <strong>Data de Nascimento:</strong>
+                    <span>{{ client.date_birth|date:"d/m/Y" }}</span>
                 </li>
                 <li>
                     <strong>Status:</strong>
-                    <span class="badge badge-green">Ativo</span>
+                    {% if client.is_active %}
+                        <span class="badge badge-green">Ativo</span>
+                    {% else %}
+                        <span class="badge badge-secondary">Inativo</span>
+                    {% endif %}
                 </li>
             </ul>
 
             <hr class="info-divider">
 
-            <h3 class="card-infos-title">Histórico de Atividades</h3>
+            <h3 class="card-infos-title">Histórico de Compras</h3>
             <ul class="info-list">
                 <li>
-                    <strong>Turnos no Mês:</strong>
-                    <span>22</span>
+                    <strong>Cliente Desde:</strong>
+                    <span>{{ client.created_at|date:"d/m/Y" }}</span>
                 </li>
                 <li>
-                    <strong>Total de Vendas:</strong>
-                    <span>1.284</span>
+                    <strong>Última Compra:</strong>
+                    <span>{{ client.last_purchase_date|date:"d/m/Y" }}</span>
                 </li>
             </ul>
 
             <div class="action-buttons-footer">
-                <button class="btn btn-edit"><i class="fas fa-edit"></i> Editar</button>
-                <button class="btn btn-delete"><i class="fas fa-trash"></i> Apagar Usuário</button>
+                <a href="{% url 'client:edit_client' client.id %}" class="btn btn-edit"><i class="fas fa-edit"></i> Editar</a>
+                <a href="{% url 'client:delete_client' client.id %}" class="btn btn-delete"><i class="fas fa-trash"></i> Apagar Cliente</a>
             </div>
         </div>
     </div>
 </div>
 {% endblock main_content %}
-
-<! Sidebar Links>
-{% block sidebar_links %}
-{% include 'client/partials/sidebarLinks.html' %}
-{% endblock sidebar_links %}
