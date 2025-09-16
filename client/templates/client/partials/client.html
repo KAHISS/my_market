@@ -1,0 +1,30 @@
+<tr class="product-row">
+    <td>
+        <div class="product-cell">
+            <a href="{% url 'client:profile' client.id %}" class="client-profile-link">
+                <div class="client-name">{{ client.name }}</div>
+            </a>
+        </div>
+    </td>
+
+    <td>{{ client.created_at|date:"d/m/Y" }}</td>
+
+    <td>{{ client.phone }}</td>
+
+    <td>{{ client.last_purchase_date|date:"d/m/Y" }}</td>
+
+    <td>R$ {{ client.total_spent|floatformat:2 }}</td>
+
+    <td>
+        {% if client.is_active %}
+            <span class="badge badge-green">Ativo</span>
+        {% else %}
+            <span class="badge badge-secondary">Inativo</span>
+        {% endif %}
+    </td>
+
+    <td class="text-right">
+        <a class="action-btn text-blue" href="{% url 'client:edit_client' client.id %}"><i class="fas fa-edit"></i></a>
+        <a class="action-btn text-red" href="{% url 'client:delete_client' client.id %}"><i class="fas fa-trash"></i></a>
+    </td>
+</tr>
