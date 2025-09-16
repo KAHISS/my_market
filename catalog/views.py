@@ -18,3 +18,11 @@ def product(request, product_id):
     return render(request, 'catalog/pages/product.html', context={
         'product': mock_product_detail
     })
+
+
+def profile(request):
+    return render(request, 'catalog/pages/client_profile.html')
+
+
+def cart(request):
+    return render(request, 'catalog/pages/cart.html')
