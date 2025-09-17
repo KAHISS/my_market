@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse
 from .models import Product
 # Create your views here.
@@ -12,9 +12,15 @@ def home(request):
 
 
 def product(request, id):
-    product = Product.objects.filter(id=id).first()
+    product = get_list_or_404(
+        Product.objects.filter(
+            id=id
+        )
+    )
     return render(request, 'inventory/pages/product-view.html', context={
-        'product': product}
+        'product': product[0],
+        'title': f"Produto - {product[0].name}"
+    }
     )
 
 
