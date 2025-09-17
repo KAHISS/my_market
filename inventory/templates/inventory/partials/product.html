@@ -1,4 +1,4 @@
-<tr class="product-row">
+<tr class="product-row" onclick="location.href='{% url "inventory:product" product.id %}'">
     <td>
         <div class="product-cell">
             <div>
@@ -30,9 +30,5 @@
                 <i class="fas fa-check-circle"></i> Estoque suficiente
             </span>
         {% endif %}
-    </td>
-    <td class="text-right">
-        <a class="action-btn text-blue" href="#"><i class="fas fa-edit"></i></a>
-        <a class="action-btn text-red" href="{% url 'inventory:product' product.id %}"><i class="fas fa-trash"></i></a>
     </td>
 </tr>
