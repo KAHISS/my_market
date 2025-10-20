@@ -1,9 +1,7 @@
-<tr class="product-row">
+<tr class="product-row" onclick="location.href='{% url "client:profile" client.id %}'">
     <td>
         <div class="product-cell">
-            <a href="{% url 'client:profile' client.id %}" class="client-profile-link">
-                <div class="client-name">{{ client.name }}</div>
-            </a>
+            <div class="client-name">{{ client.name }}</div>
         </div>
     </td>
 

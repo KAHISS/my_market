@@ -3,15 +3,15 @@
 {% block main_content %}
 <div class="content-area">
     <div class="content-header">
-        <h2><i class="fas fa-user"></i> Perfil de {{ client.name }}</h2>
+        <h2><i class="fas fa-user"></i> Perfil de {{ client.user.firstname }} {{ client.user.lastname }}</h2>
     </div>
 
     <div class="cards">
         <div class="card card-profile">
             {% if client.image %}
-                <img src="{{ client.image.url }}" alt="Foto de {{ client.name }}">
+                <img src="{{ client.image.url }}" alt="Foto de {{ client.user.username }}">
             {% else %}
-                <img src="https://i.pravatar.cc/150?u={{ client.email }}" alt="user profile">
+                <img src="https://i.pravatar.cc/150?u={{ client.user.email }}" alt="user profile">
             {% endif %}
 
             <h2>{{ client.name }}</h2>
@@ -37,7 +37,7 @@
             <ul class="info-list">
                 <li>
                     <strong>Email:</strong>
-                    <span>{{ client.email }}</span>
+                    <span>{{ client.user.email }}</span>
                 </li>
                 <li>
                     <strong>Telefone:</strong>
@@ -83,3 +83,8 @@
     </div>
 </div>
 {% endblock main_content %}
+
+<! Sidebar Links>
+{% block sidebar_links %}
+{% include 'client/partials/sidebarLinks.html' %}
+{% endblock sidebar_links %}
