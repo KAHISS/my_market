@@ -4,8 +4,11 @@ from . import views
 app_name = 'catalog'
 
 urlpatterns = [
-    path('', views.catalog, name='catalogo'),
-    path('product/<int:product_id>/', views.product, name='produtos'),
-    path('profile', views.profile, name='perfil'),
-    path('cart', views.cart, name='carrinho'),
+    path('', views.catalog, name='home'),
+    path('search/', views.search, name='search'),
+    path('product/<int:product_id>', views.product, name='product'),
+    path('category/<int:category_id>', views.category, name='category'),
+    path('offers', views.offer, name='offer'),
+    path('profile', views.profile, name='profile'),
+    path('cart', views.cart, name='cart'),
 ]

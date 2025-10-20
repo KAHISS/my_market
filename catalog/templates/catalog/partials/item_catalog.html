@@ -1,0 +1,25 @@
+<a href="{% url "catalog:product" product.id %}" class="product-card-link">
+    <div class="product-card">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+        {% endif %}
+        <p class="product-name">{{ product.name }} <br><span>{{ product.brand }}</span></p>
+        {% if product.discount > 0 or product.discount is not None %}
+            <div class="price-original-card">
+                R$ {{ product.sale_price }}
+            </div>
+            <div class="price-container">
+                <span class="product-price">R$ {{ product.get_discounted_price }}</span>{{ product.unit_measure }}
+                <span class="discount-card">-{{ product.discount }}%</span>
+            </div>
+        {% else %}
+        <div class="price-container">
+            <span class="product-price">R$ {{ product.get_discounted_price }}</span> {{ product.unit_measure }}
+        </div>
+        {% endif %}
+        <div class="price-container-packaging">
+            <span class="product-price-packaging">R$ {{ product.get_price_packaging }}</span> - 
+            <span class="product-packaging-type">{{ product.packaging_type }} com {{ product.unit_per_packaging }}</span> 
+        </div>
+    </div>
+</a>
