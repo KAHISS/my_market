@@ -7,7 +7,7 @@ from unittest.mock import patch
 class CatalogPaginationViewTest(CatalogBaseTestCase):
     def test_template_show_per_page_correctly(self):
         response = self.client.get(reverse('catalog:home'))
-        self.assertEqual(response.context['products'].paginator.per_page, 10)
+        self.assertEqual(response.context['products'].paginator.per_page, 12)
 
     @patch('catalog.views.PER_PAGE', new=10)
     def test_catalog_home_is_paginated(self):

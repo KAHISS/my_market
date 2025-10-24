@@ -1,4 +1,5 @@
 from django.shortcuts import render
 
-def ajuste(request):
-    return render(request,'config/ajuste.html')
+
+def home(request):
+    return render(request, 'global/pages/breve.html')

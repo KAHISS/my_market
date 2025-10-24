@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-def orders(request):
-    return render(request, 'employee/pages/orders.html')
+
+
+def home(request):
+    return render(request, 'global/pages/breve.html')

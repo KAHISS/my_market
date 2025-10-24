@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Em Breve!</title>
+    
+    <style>
+        /* Configurações globais */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            /* Usa Flexbox para centralizar tudo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* O contêiner principal */
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Os ícones (emojis) */
+        .icones {
+            font-size: 5rem; /* 80px */
+            margin-bottom: 20px;
+        }
+
+        /* Título principal */
+        h1 {
+            font-size: 2.5rem; /* 40px */
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        /* Mensagem de texto */
+        p {
+            font-size: 1.125rem; /* 18px */
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        /* Botão de "Voltar" */
+        .btn-voltar {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 1rem; /* 16px */
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #007bff; /* Um azul padrão */
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Efeito ao passar o mouse sobre o botão */
+        .btn-voltar:hover {
+            background-color: #0056b3; /* Um azul mais escuro */
+            transform: translateY(-2px); /* Leve "salto" */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="icones">
+            🏗️ 👷
+        </div>
+        <h1>Página em Construção</h1>
+        <p>Estamos trabalhando duro para lançar esta página. Ela funcionará em breve!</p>
+        
+        <a href="{% url 'catalog:home' %}" class="btn-voltar">Voltar à Página Inicial</a>
+    </div>
+
+</body>
+</html>

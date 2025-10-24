@@ -1,0 +1,75 @@
+###############################################################################
+# Replace
+# myMarket to the name of the gunicorn file you want
+# root to your user name
+# app_repo to the folder name of your project
+# my_market to the folder name where you find a file called wsgi.py
+#
+###############################################################################
+# Criando o arquivo myMarket.socket
+sudo nano /etc/systemd/system/myMarket.socket
+
+###############################################################################
+# Conteúdo do arquivo
+[Unit]
+Description=gunicorn blog socket
+
+[Socket]
+ListenStream=/run/myMarket.socket
+
+[Install]
+WantedBy=sockets.target
+
+###############################################################################
+# Criando o arquivo myMarket.service
+sudo nano /etc/systemd/system/myMarket.service
+
+###############################################################################
+# Conteúdo do arquivo
+[Unit]
+Description=Gunicorn daemon (You can change if you want)
+Requires=myMarket.socket
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+Restart=on-failure
+EnvironmentFile=/home/root/app_repo/.env
+WorkingDirectory=/home/root/app_repo
+# --error-logfile --enable-stdio-inheritance --log-level and --capture-output
+# are all for debugging purposes.
+ExecStart=/home/root/app_repo/venv/bin/gunicorn \
+          --error-logfile /home/root/app_repo/gunicorn-error-log \
+          --enable-stdio-inheritance \
+          --log-level "debug" \
+          --capture-output \
+          --access-logfile - \
+          --workers 6 \
+          --bind unix:/run/myMarket.socket \
+          my_market.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+###############################################################################
+# Ativando
+sudo systemctl start myMarket.socket
+sudo systemctl enable myMarket.socket
+
+# Checando
+sudo systemctl status myMarket.socket
+curl --unix-socket /run/myMarket.socket localhost
+sudo systemctl status myMarket
+
+# Restarting
+sudo systemctl restart myMarket.service
+sudo systemctl restart myMarket.socket
+sudo systemctl restart myMarket
+
+# After changing something
+sudo systemctl daemon-reload
+
+# Debugging
+sudo journalctl -u myMarket.service
+sudo journalctl -u myMarket.socket

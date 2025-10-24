@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'INSECURE')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == '1' else False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.99', '192.168.1.40']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'dashboard',
     'client',
     'provider',
-    'relatories',
     'employee',
     'users',
     'catalog'

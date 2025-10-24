@@ -92,8 +92,12 @@ def product(request, product_id):
             in_catalog=True
         )
     )
+
+    categories = Category.objects.all().order_by("name")
+
     return render(request, 'catalog/pages/product.html', context={
-        'product': item[0]
+        'product': item[0],
+        'categories': categories
     })
 
 

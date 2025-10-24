@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    {% include "global/partials/head.html" %} 
+    {% include "catalog/partials/head.html" %} 
     <title>Produto A</title>
 </head>
 <body>
@@ -12,7 +12,7 @@
         </div>
         {% include "catalog/partials/navbar.html" %}
     </header>
-    <main class="product-main main-content">
+    <main class="product-main">
         <div class="back-catalog">
             <a href="{% url 'catalog:home' %}" class="continue-shopping-link">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -34,13 +34,13 @@
                     <h2 class="product-font">{{ product.name }}</h2>
                     <section class="discount">  
                         {% if product.discount > 0 or product.discount is not None %}
-                            <p class="price-original">R$ {{ product.sale_price }}</p>
+                            <p class="price-original">R$ {{ product.get_discounted_price }}</p>
                             <p class="product-font">R$ {{ product.get_discounted_price }}<span class="discount-product">{{ product.discount }}%off</span></p>
                         {% else %}
-                            <p class="product-font">R$ {{ product.sale_price }}</p>
+                            <p class="product-font">R$ {{ product.get_discounted_price }}</p>
                         {% endif %}
                         <div class="price-container-packaging-product">
-                            <span class="product-price-packaging-product">R$ {{ product.get_price_packaging }}</span> - 
+                            <span class="product-price-packaging-product">R$ {{ product.wholesale_price }}</span> - 
                             <span class="product-packaging-type-product">{{ product.packaging_type }} com {{ product.unit_per_packaging }}</span> 
                         </div>
                     </section>
