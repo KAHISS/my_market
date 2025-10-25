@@ -1,0 +1,10 @@
+<section class="product-grid-container">
+    {% include "catalog/partials/filter_product.html" %}
+    <div class="product-grid">
+        {% for product in products %}
+            {% include "catalog/partials/item.html" %}
+        {% empty %}
+            <p>Nenhum produto encontrado.</p>
+        {% endfor %}
+    </div>
+</section>

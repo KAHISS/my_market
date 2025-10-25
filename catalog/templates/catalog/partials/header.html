@@ -1,0 +1,23 @@
+<header class="main-header">
+    <div class="header-container">
+        <a href="{% url 'catalog:home' %}" class="logo">M-A-C</a>
+        
+        <nav class="main-nav">
+            <a href="{% url 'catalog:home' %}">Página Inicial</a>
+            <a href="{% url 'catalog:offer' %}">Ofertas</a>
+        </nav>
+
+        <div class="header-actions">
+            <form action="{% url 'catalog:search' %}" method="get" class="search-bar">
+                <input type="search" name="q" value="{{ search_term }}" placeholder="Pesquisar por produtos ou marcas" required>
+                <button type="submit" class="search-button"><i data-feather="search"></i></button>
+            </form> 
+            <a href="#" class="action-icon"><i data-feather="user"></i></a>
+            <a href="#" class="action-icon"><i data-feather="shopping-cart"></i></a>
+        </div>
+
+        <a href="#" class="mobile-menu-icon">
+            <i data-feather="menu"></i>
+        </a>
+    </div>
+</header>

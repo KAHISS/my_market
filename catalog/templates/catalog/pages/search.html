@@ -1,28 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    {% include "catalog/partials/head.html" %} 
-    <title>{{ page_title }}</title>
-</head>
-<body>
-    <header class="header-fix">
-        <div class = "header-green"></div>
-        <div class = "header-blue">
-            {% include "catalog/partials/search.html" %}
-        </div>
-        {% include "catalog/partials/navbar.html" %}
-    </header>
-    <main class="main-content">
-        <h1 class="catalog-title">Catálogo</h1>
-        <h3 class="catalog-subtitle">Resultados para:<span>{{ search_term }}</span></h3>
-        <div class="galery">
-            {% for product in products %}
-                {% include 'catalog/partials/item_catalog.html' %}
-            {% empty %}
-                <h1>Nenhum produto encontrado</h1>
-            {% endfor %} 
-        </div>
-        {% include "catalog/partials/pagination.html" %}
-    </main>
-</body>
-</html>
+{% extends "catalog/partials/base.html" %}
+
+{% block title %}Resultados para "{{ search_term }}"{% endblock title %}
+
+{% block header %}
+    {% include "catalog/partials/header.html" %}
+{% endblock header %}
+
+{% block content %}
+    {% include "catalog/partials/search_mobile.html" %}
+    {% include "catalog/partials/catalog_grid.html" %}
+    {% include "catalog/partials/pagination.html" %}
+{% endblock content %}

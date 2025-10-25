@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Moderno</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<style>
+    /* --- Configurações Globais e Reset --- */
+:root {
+    /* Paleta de cor com Azul e Verde */
+    --primary-blue: #004B8D;  /* Azul para o header */
+    --primary-green: #198754; /* Verde para botões e ações */
+    --green-hover: #146c43;   /* Verde mais escuro */
+    
+    --light-gray: #f4f5f7;
+    --medium-gray: #e1e4e8;
+    --dark-gray: #586069;
+    --text-color: #24292e;
+    --white: #ffffff;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--white); /* Fundo branco, mais limpo que cinza */
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-green);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* --- Header Principal --- */
+.main-header {
+    background-color: var(--primary-blue); /* Header com fundo azul */
+    color: var(--white);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white); /* Logo branco */
+    margin-right: 1rem;
+}
+
+.main-nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-grow: 1;
+}
+
+.main-nav a {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--medium-gray); /* Links em cinza claro */
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: var(--white); /* Link ativo/hover fica branco */
+    border-bottom-color: var(--white);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-bar {
+    display: flex;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--white);
+}
+
+.search-bar input {
+    border: none;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    outline: none;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.search-button {
+    background: var(--primary-green); /* Botão de busca verde */
+    border: none;
+    color: var(--white);
+    padding: 0 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background: var(--green-hover);
+}
+
+.action-icon {
+    color: var(--medium-gray); /* Ícones do header em cinza claro */
+    transition: color 0.2s;
+}
+
+.action-icon:hover {
+    color: var(--white);
+}
+
+/* --- Elementos Mobile (Escondidos por padrão) --- */
+.mobile-menu-icon {
+    display: none;
+    color: var(--white); /* Ícone de menu branco */
+}
+
+.search-bar-mobile {
+    display: none;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+/* --- Layout da Página do Catálogo --- */
+.page-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.catalog-main {
+    width: 100%;
+}
+
+/* --- Conteúdo Principal (Produtos) --- */
+.product-grid-container {
+    width: 100%;
+}
+
+.catalog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--medium-gray);
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.catalog-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.catalog-header span {
+    font-size: 1rem;
+    color: var(--dark-gray);
+}
+
+/* Estilização do Filtro de Categoria */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.filter-group select {
+    min-width: 250px;
+    padding: 0.7rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: var(--white);
+    cursor: pointer;
+}
+
+.product-grid {
+    display: grid;
+    /* Grid responsivo: colunas de no mínimo 240px */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+/*
+===============================
+--- NOVO: CARD DE PRODUTO ---
+===============================
+*/
+.product-card {
+    background: var(--white);
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Para arredondar a imagem */
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.product-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Faz o link ocupar o espaço antes do botão */
+}
+
+.product-image-container {
+    background: var(--white);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1; /* Garante que a área da imagem seja quadrada */
+}
+
+.product-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Garante que a imagem caiba sem distorcer */
+}
+
+.product-info {
+    padding: 1rem;
+    border-top: 1px solid var(--light-gray);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Empurra os preços para baixo se os títulos tiverem tamanhos diferentes */
+}
+
+.product-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.product-brand {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    margin-bottom: 0.75rem;
+}
+
+.product-prices {
+    margin-top: auto; /* Empurra os preços para o final do card-info */
+    padding-top: 0.5rem;
+}
+
+.price-primary {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+.price-primary small {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+}
+
+.price-secondary {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--primary-green); /* Preço secundário/desconto em verde */
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+.add-to-cart-btn {
+    display: block;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: var(--primary-green);
+    color: var(--white);
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    /* Botão fica fora do .product-link */
+    margin-top: auto; 
+}
+
+.add-to-cart-btn:hover {
+    background: var(--green-hover);
+}
+
+
+/* --- Ícones --- */
+.feather {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5;
+}
+
+.search-button .feather {
+    width: 18px;
+    height: 18px;
+}
+
+
+/*
+=========================================
+--- RESPONSIVIDADE (MEDIA QUERIES) ---
+=========================================
+*/
+
+/* Para tablets e celulares grandes (ex: até 768px) */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 0 1rem;
+    }
+
+    .page-container {
+        padding: 0 1rem;
+        margin-top: 1.5rem;
+    }
+
+    /* Esconde navegação e busca do desktop */
+    .main-nav {
+        display: none;
+    }
+    .header-actions .search-bar {
+        display: none;
+    }
+
+    /* Mostra o ícone de menu mobile */
+    .mobile-menu-icon {
+        display: block;
+    }
+
+    .header-container {
+        justify-content: space-between;
+    }
+    
+    .logo {
+        margin-right: 0;
+    }
+
+    /* Mostra a barra de busca mobile */
+    .search-bar-mobile {
+        display: flex;
+        width: 100%;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        background-color: var(--light-gray);
+    }
+    .search-bar-mobile input {
+        flex-grow: 1;
+        border: none;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        outline: none;
+        background-color: transparent;
+    }
+    .search-bar-mobile .search-button {
+        padding: 0 1rem;
+    }
+
+    /* Ajusta o header do catálogo */
+    .catalog-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .filter-group select {
+        min-width: 100%;
+    }
+
+    .catalog-header h1 {
+        font-size: 1.75rem;
+    }
+}
+
+/* Para celulares pequenos (ex: até 480px) */
+@media (max-width: 480px) {
+    .product-grid {
+        /* Garante 1 coluna em telas muito pequenas */
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <a href="#" class="logo">SuaLoja</a>
+            
+            <nav class="main-nav">
+                <a href="#">Página Inicial</a>
+                <a href="#">Ofertas</a>
+                <a href="#" class="active">Catálogo</a>
+                <a href="#">Contato</a>
+            </nav>
+
+            <div class="header-actions">
+                <form class="search-bar">
+                    <input type="text" placeholder="Pesquisar por produtos...">
+                    <button type="submit" class="search-button"><i data-feather="search"></i></button>
+                </form>
+                <a href="#" class="action-icon"><i data-feather="user"></i></a>
+                <a href="#" class="action-icon"><i data-feather="shopping-cart"></i></a>
+            </div>
+
+            <a href="#" class="mobile-menu-icon">
+                <i data-feather="menu"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <main class="catalog-main">
+            <form class="search-bar-mobile">
+                <input type="text" placeholder="Pesquisar por produtos...">
+                <button type="submit" class="search-button"><i data-feather="search"></i></button>
+            </form>
+
+            <section class="product-grid-container">
+                <div class="catalog-header">
+                    <div class="catalog-header-title">
+                        <h1>Catálogo</h1>
+                        <span>Produtos em destaque</span>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="category-select">Filtrar por Categoria</label>
+                        <select id="category-select" name="categoria">
+                            <option value="">Selecione uma categoria</option>
+                            <option value="cafes">Cafés</option>
+                            <option value="eletronicos">Eletrônicos</option>
+                            <option value="roupas">Roupas</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    
+                    <div class="product-card">
+                        <a href="#" class="product-link">
+                            <div class="product-image-container">
+                                <img src="https://placehold.co/300x300/f4f5f7/24292e?text=Café+Pilão" alt="Café Pilão">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Café pilão</h3>
+                                <span class="product-brand">Pilão</span>
+                                <div class="product-prices">
+                                    <span class="price-primary">R$ 18,00 <small>UN</small></span>
+                                    <span class="price-secondary">R$ 16,50 - Caixa com 12</span>
+                                </div>
+                            </div>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
+
+                    <div class="product-card">
+                        <a href="#" class="product-link">
+                            <div class="product-image-container">
+                                <img src="https://placehold.co/300x300/f4f5f7/24292e?text=Produto" alt="Produto">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Outro Produto</h3>
+                                <span class="product-brand">Marca</span>
+                                <div class="product-prices">
+                                    <span class="price-primary">R$ 25,00 <small>UN</small></span>
+                                </div>
+                            </div>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
+
+                    <div class="product-card">
+                        <a href="#" class="product-link">
+                            <div class="product-image-container">
+                                <img src="https://placehold.co/300x300/f4f5f7/24292e?text=Produto" alt="Produto">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">Mais Um Item</h3>
+                                <span class="product-brand">Marca Famosa</span>
+                                <div class="product-prices">
+                                    <span class="price-primary">R$ 99,90 <small>UN</small></span>
+                                    <span class="price-secondary">R$ 89,90 - Promoção</span>
+                                </div>
+                            </div>
+                        </a>
+                        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Script para renderizar os ícones do Feather
+        feather.replace();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<div class="product-card">
+    <a href="{% url 'catalog:product' product.id %}" class="product-link">
+        <div class="product-image-container">
+            <img src="{{ product.image.url }}" alt="Produto">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title">{{ product.name }}</h3>
+            <span class="product-brand">{{ product.brand }}</span>
+            <div class="product-prices">
+                {% if product.discount > 0 %}
+                    <span class="price-primary">
+                        <span class="product-discount-badge">{{ product.discount }}% OFF</span>
+        
+                        R$ {{ product.get_discounted_price }}
+                        <small>UN</small>
+                    </span>
+                {% else %}
+                    <span class="price-primary">R$ {{ product.sale_price }} <small>UN</small></span>
+                {% endif %}
+                <span class="price-secondary">R$ {{ product.wholesale_price }} - {{ product.packaging_type }} com {{ product.unit_per_packaging }} {{ product.unit_measure }}</span>
+            </div>
+        </div>
+    </a>
+    <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+</div>
