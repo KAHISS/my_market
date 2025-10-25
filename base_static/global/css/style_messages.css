@@ -1,0 +1,93 @@
+:root {
+  /* Fontes e Espaçamento */
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-md: 16px;
+  --line-height-normal: 1.5;
+  --space-16: 16px;
+  --radius-base: 8px;
+
+  /* Cores base (valores RGB para controle de opacidade) */
+  --color-info-rgb: 19, 154, 222;       /* Azul */
+  --color-gray-400-rgb: 119, 124, 124;  /* Cinza */
+  --color-success-rgb: 33, 128, 141;   /* Verde-azulado (Teal) */
+  --color-warning-rgb: 240, 173, 78;    /* Laranja */
+  --color-error-rgb: 192, 21, 47;      /* Vermelho */
+
+  /* Cores de texto semânticas */
+  --color-info: #139ade;
+  --color-text-secondary: #777c7c;
+  --color-success: #218d52;
+  --color-warning: #f0ad4e;
+  --color-error: #c0152f;
+}
+
+/**
+ * Estilos Base para Mensagens
+ * Define a aparência geral do container da mensagem.
+ */
+.message {
+  padding: var(--space-16);
+  border-radius: var(--radius-base);
+  border: 1px solid;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+  --status-bg-opacity: 0.1;
+  --status-border-opacity: 0.2;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/**
+ * Mensagem de Informação (Info)
+ * Use para dicas gerais ou informações neutras.
+ */
+.message-info {
+  background-color: rgba(var(--color-info-rgb, 19, 154, 222), var(--status-bg-opacity));
+  border-color: rgba(var(--color-info-rgb, 19, 154, 222), var(--status-border-opacity));
+  color: var(--color-info, #139ade);
+}
+
+/**
+ * Mensagem de Depuração (Debug)
+ * Para informações técnicas ou de desenvolvimento.
+ */
+.message-debug {
+  background-color: rgba(var(--color-gray-400-rgb, 119, 124, 124), var(--status-bg-opacity));
+  border-color: rgba(var(--color-gray-400-rgb, 119, 124, 124), var(--status-border-opacity));
+  color: var(--color-text-secondary, #777c7c);
+}
+
+/**
+ * Mensagem de Sucesso (Success)
+ * Ideal para confirmar que uma ação foi concluída com êxito.
+ */
+.message-success {
+  background-color: rgba(var(--color-success-rgb, 33, 128, 141), var(--status-bg-opacity));
+  border-color: rgba(var(--color-success-rgb, 33, 128, 141), var(--status-border-opacity));
+  color: var(--color-success, #218d52);
+}
+
+/**
+ * Mensagem de Aviso (Warning)
+ * Use para alertar o usuário sobre algo que requer atenção.
+ */
+.message-warning {
+  background-color: rgba(var(--color-warning-rgb, 240, 173, 78), var(--status-bg-opacity));
+  border-color: rgba(var(--color-warning-rgb, 240, 173, 78), var(--status-border-opacity));
+  color: var(--color-warning, #f0ad4e);
+}
+
+/**
+ * Mensagem de Erro (Error)
+ * Para notificar sobre falhas ou problemas críticos.
+ */
+.message-error {
+  background-color: rgba(var(--color-error-rgb, 192, 21, 47), var(--status-bg-opacity));
+  border-color: rgba(var(--color-error-rgb, 192, 21, 47), var(--status-border-opacity));
+  color: var(--color-error, #c0152f);
+}
+
+/* Nota: Para este CSS funcionar, você precisaria ter as variáveis de cor
+   (--color-info-rgb, --color-success-rgb, etc.) definidas no seu :root.
+   Se não tiver, pode substituir as variáveis por valores de cor RGB diretamente. */

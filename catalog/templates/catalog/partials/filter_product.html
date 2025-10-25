@@ -1,0 +1,21 @@
+<div class="catalog-header">
+    <div class="catalog-header-title">
+        <h1>Catálogo</h1>
+        {% if page %}
+            <span>{{ page }}</span>
+        {% else %}
+            <span>Produtos em destaque</span>
+        {% endif %}
+    </div>
+    
+    <div class="filter-group">
+        <label for="category-select">Filtrar por Categoria</label>
+        <select id="category-select" onchange="window.location.href=this.value;">
+            <option value="">Selecione uma categoria</option>
+            <option value="{% url 'catalog:home' %}">Todas</option>
+            {% for category in categories %}
+                <option value="{% url 'catalog:category' category.id %}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

@@ -5,7 +5,7 @@ from django.db.models import Q
 from utils.pagination import make_pagination
 import os
 
-PER_PAGE = int(os.environ.get('PER_PAGE', 10))
+PER_PAGE = int(os.environ.get('PER_PAGE', 12))
 
 
 def catalog(request):
@@ -64,7 +64,8 @@ def category(request, category_id):
         'products': page_obj,
         'categories': categories,
         'category_name': category_name,
-        'pagination_range': pagination_range
+        'pagination_range': pagination_range,
+        'page': f'Produtos da categoria {category_name}'
     })
 
 
@@ -81,7 +82,8 @@ def offer(request):
     return render(request, 'catalog/pages/offer.html', context={
         'products': page_obj,
         'categories': categories,
-        'pagination_range': pagination_range
+        'pagination_range': pagination_range,
+        'page': 'Ofertas em destaque'
     })
 
 

@@ -1,66 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    {% include "catalog/partials/head.html" %} 
-    <title>Produto A</title>
-</head>
-<body>
-    <header class="header-fix">
-        <div class = "header-green"></div>
-        <div class = "header-blue">
-            {% include "catalog/partials/search.html" %} 
-        </div>
-        {% include "catalog/partials/navbar.html" %}
-    </header>
-    <main class="product-main">
-        <div class="back-catalog">
-            <a href="{% url 'catalog:home' %}" class="continue-shopping-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                Continuar comprando
-            </a>
-        </div>
-        <div class="product-chart">
-            {% if product.image %}
-                <div class="image-product">
-                    <img src="{{ product.image.url }}" alt="">
-                </div>
-            {% else %}
-                <div class="image-product">
-                    <img src="https://placehold.co/400x400" alt="">
-                </div>
-            {% endif %}
-            <div class="product-description">
-                <section class="product-apresentation">
-                    <h2 class="product-font">{{ product.name }}</h2>
-                    <section class="discount">  
-                        {% if product.discount > 0 or product.discount is not None %}
-                            <p class="price-original">R$ {{ product.get_discounted_price }}</p>
-                            <p class="product-font">R$ {{ product.get_discounted_price }}<span class="discount-product">{{ product.discount }}%off</span></p>
-                        {% else %}
-                            <p class="product-font">R$ {{ product.get_discounted_price }}</p>
-                        {% endif %}
-                        <div class="price-container-packaging-product">
-                            <span class="product-price-packaging-product">R$ {{ product.wholesale_price }}</span> - 
-                            <span class="product-packaging-type-product">{{ product.packaging_type }} com {{ product.unit_per_packaging }}</span> 
-                        </div>
-                    </section>
-                </section>
-                <section class="product-buy">
-                    <div class= "info-amount">
-                        <p>Estoque disponível: {{ product.stock_quantity }}</p>
-                        <div class="amount">
-                            <label for="amount">Quantidade:</label>
-                            <input type="number" id="amount" name="amount" min="1" value="1" max="{{ product.stock_quantity }}">
-                        </div>
-                    </div>
-                    <button class= "cart-button">Adicionar ao pedido</button>
-                </section>
-            </div>
-        </div>
-        <div class="product-info">
-            <h2>Descrição</h2>
-            <p class= "description">{{ product.description }}</p>
-        </div>
-    </main>
-</body>
-</html>
+{% extends "catalog/partials/base.html" %}
+
+{% block header %}
+    {% include "catalog/partials/header.html" %}
+{% endblock header %}
+
+{% block content %}
+    {% include "catalog/partials/product_info.html" %}
+{% endblock content %}

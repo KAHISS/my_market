@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import RegisterForm
 
 # Create your views here.
 
 
-def home(request):
-    return render(request, 'global/pages/breve.html')
+def register(request):
+    form = RegisterForm()
+    return render(request, 'users/pages/register_view.html', {'form': form})
