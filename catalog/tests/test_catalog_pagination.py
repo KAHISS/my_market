@@ -25,3 +25,23 @@ class CatalogPaginationViewTest(CatalogBaseTestCase):
         self.assertEqual(len(products.paginator.get_page(1)), 10)
         self.assertEqual(len(products.paginator.get_page(2)), 10)
         self.assertEqual(len(products.paginator.get_page(3)), 2)
+
+    def test_invalid_page_query(self):
+        for i in range(8):
+            kwargs = {
+                'name': f'Product {i}',
+                'in_catalog': True,
+                'slug': f'product-{i}',
+                'barcode': f'barcode-{i}'
+            }
+            self.make_product(**kwargs)
+
+        with patch('catalog.views.PER_PAGE', new=3):
+            response = self.client.get(reverse('catalog:home') + '?page=1A')
+            self.assertEqual(response.context['products'].number, 1)
+
+            response = self.client.get(reverse('catalog:home') + '?page=2')
+            self.assertEqual(response.context['products'].number, 2)
+
+            response = self.client.get(reverse('catalog:home') + '?page=3')
+            self.assertEqual(response.context['products'].number, 3)

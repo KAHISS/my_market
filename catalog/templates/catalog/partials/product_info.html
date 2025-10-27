@@ -7,7 +7,9 @@
 <main class="product-detail-main">
     
     <div class="product-image-gallery">
-        <img src="{{ product.image.url }}" alt="Produto">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="Produto">
+        {% endif %}
     </div>
 
     <section class="product-info-details">

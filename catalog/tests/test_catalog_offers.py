@@ -18,7 +18,7 @@ class CatalogOffersViewTest(CatalogBaseTestCase):
 
     def test_catalog_offers_template_shows_no_itens_found_if_no_products(self):
         response = self.client.get(reverse('catalog:offer'))
-        self.assertIn('Nenhuma oferta encontrada',
+        self.assertIn('Nenhum produto encontrado',
                       response.content.decode('utf-8'))
 
     def test_catalog_offers_template_shows_products_if_products_exist(self):

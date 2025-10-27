@@ -1,0 +1,145 @@
+/* CSS Embutido */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* FUNDO: Gradiente suave de verde-água para azul */
+    background: rgb(6, 84, 152);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    overflow: hidden;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-weight: 500;
+}
+
+
+.input-group {
+    position: relative;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.input-group i.toggle-password {
+    left: auto;
+    right: 15px;
+    cursor: pointer;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    padding-left: 30px; 
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.help-text {
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.errorlist {
+    padding-left: 1rem;
+    font-size: 0.8rem;
+    color: red;
+}
+
+/* EFEITO FOCO: Em tom de verde/azul (teal) */
+.form-group input:focus {
+    outline: none;
+    border-color: #008080; /* Cor de destaque (Teal) */
+    box-shadow: 0 0 8px rgba(0, 128, 128, 0.2);
+}
+
+/* ÍCONE FOCO: Em tom de verde/azul (teal) */
+.input-group:focus-within i {
+    color: #008080;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    /* BOTÃO: Gradiente vibrante de verde para azul */
+    background: #138f19ff;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    /* SOMBRA HOVER: Sombra azulada baseada no gradiente */
+    box-shadow: 0 6px 20px rgba(0, 158, 253, 0.3);
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: none; 
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.login-link a {
+    /* LINK: Cor de destaque (Teal) */
+    color: #008080;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

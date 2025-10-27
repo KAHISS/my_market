@@ -1,0 +1,22 @@
+{% for field in form %}
+    <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        <div class="input-group">
+            {{ field }}
+        </div>
+        
+        {% if field.help_text %}
+            <p class="help-text">{{ field.help_text }}</p>
+        {% endif %}
+        
+        {{ field.errors }}
+    </div>
+{% endfor %}
+
+{% if form.errors %}
+    <div class="message message-error">
+        A erros no formulario, corrijá-os para continuar.
+    </div>
+{% endif %}
+
+<button type="submit" class="btn">{{ action }}</button>

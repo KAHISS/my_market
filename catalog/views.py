@@ -1,5 +1,6 @@
 from inventory.models import Product, Category
 from django.shortcuts import get_list_or_404, render
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.db.models import Q
 from utils.pagination import make_pagination
@@ -45,7 +46,8 @@ def search(request):
         'products': page_obj,
         'categories': categories,
         'pagination_range': pagination_range,
-        'additional_url_query': f'&q={search_term}'
+        'additional_url_query': f'&q={search_term}',
+        'page': f'Busca por "{search_term}"'
     })
 
 

@@ -12,7 +12,7 @@
                 <input type="search" name="q" value="{{ search_term }}" placeholder="Pesquisar por produtos ou marcas" required>
                 <button type="submit" class="search-button"><i data-feather="search"></i></button>
             </form> 
-            <a href="#" class="action-icon"><i data-feather="user"></i></a>
+            <a href="{% url 'users:register' %}" class="action-icon"><i data-feather="user"></i></a>
             <a href="#" class="action-icon"><i data-feather="shopping-cart"></i></a>
         </div>
 

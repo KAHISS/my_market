@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% include "users/partials/head.html" %}
+</head>
+<body>
+    <div class="container">
+        <h2>Entrar</h2>
+        {% include "global/partials/messages.html" %}
+        <form id="loginForm" method="POST" action="{% url 'users:login' %}">
+            {% csrf_token %}
+            {% include "users/partials/form.html" %}
+            <p class="login-link">
+                Não tem uma conta? <a href="{% url 'users:register_create' %}">Registre-se</a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>
