@@ -1,6 +1,7 @@
 <header class="main-header">
+    {% load static %}
     <div class="header-container">
-        <a href="{% url 'catalog:home' %}" class="logo">M-A-C</a>
+        <a href="{% url 'catalog:home' %}" class="logo"><img src="{% static 'global/images/logo.png' %}" alt="M-A-C"></a>
         
         <nav class="main-nav">
             <a href="{% url 'catalog:home' %}">Página Inicial</a>

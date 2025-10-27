@@ -71,6 +71,10 @@ img {
     margin-right: 1rem;
 }
 
+.logo img {
+    height: 60px;
+}
+
 .main-nav {
     display: flex;
     gap: 1.5rem;
