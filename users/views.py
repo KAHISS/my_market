@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib import messages
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
+from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
@@ -12,7 +14,7 @@ def register_view(request):
     return render(request, 'users/pages/register.html', {
         'form': form,
         'action': 'Enviar',
-        'form_action': reversed('users:register_create')
+        'form_action': reverse('users:register_create')
     })
 
 
@@ -36,8 +38,32 @@ def register_create(request):
 
 
 def login_view(request):
-    return render(request, 'users/pages/login.html', {'action': 'Entrar'})
+    form = LoginForm()
+    return render(request, 'users/pages/login.html', {
+        'form': form,
+        'action': 'Entrar',
+        'form_action': reverse('users:login_create')
+    })
 
 
 def login_create(request):
-    return render(request, 'users/pages/login.html', {'action': 'Entrar'})
+    if not request.POST:
+        raise Http404("No POST data found.")
+
+    form = LoginForm(request.POST)
+
+    if form.is_valid():
+        authenticate_user = authenticate(
+            username=form.cleaned_data.get('username'),
+            password=form.cleaned_data.get('password')
+        )
+
+        if authenticate_user is not None:
+            messages.success(request, 'Login realizado com sucesso!')
+            login(request, authenticate_user)
+
+        else:
+            messages.error(request, 'Credenciais inválidas!')
+    else:
+        messages.error(request, 'Erro ao validar formulário!')
+    return redirect(reverse('users:login'))

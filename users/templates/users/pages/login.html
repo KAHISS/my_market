@@ -7,7 +7,7 @@
     <div class="container">
         <h2>Entrar</h2>
         {% include "global/partials/messages.html" %}
-        <form id="loginForm" method="POST" action="{% url 'users:login' %}">
+        <form id="loginForm" method="POST" action="{{ form_action }}">
             {% csrf_token %}
             {% include "users/partials/form.html" %}
         </form>
