@@ -12,8 +12,17 @@
                 <input type="search" name="q" value="{{ search_term }}" placeholder="Pesquisar por produtos ou marcas" required>
                 <button type="submit" class="search-button"><i data-feather="search"></i></button>
             </form> 
-            <a href="{% url 'users:register' %}" class="action-icon"></a>
-            <a href="#" class="action-icon"><i data-feather="shopping-cart"></i></a>
+            {% if request.user.is_authenticated %}
+                <p>Você está logado como {{ request.user.username }}</p>
+                <a href="{% url 'users:register' %}" class="action-icon"><i data-feather="user-plus"></i></a>
+                <form action="{% url 'users:logout' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{ request.user.username }}">
+                    <button type="submit" class="btn-logout-catalog"><i data-feather="log-out"></i></button>
+                </form>
+            {% else %}
+                <a href="{% url 'users:login' %}" class="action-icon"><i data-feather="log-in"></i></a>
+            {% endif %}
         </div>
 
         <a href="#" class="mobile-menu-icon">

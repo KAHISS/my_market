@@ -72,7 +72,7 @@ def login_create(request):
             messages.error(request, 'Credenciais inválidas!')
     else:
         messages.error(request, 'Erro ao validar formulário!')
-    return redirect(reverse('users:register'))
+    return redirect(reverse('catalog:home'))
 
 
 @login_required(login_url='users:login', redirect_field_name='next')

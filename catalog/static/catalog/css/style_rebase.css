@@ -139,10 +139,22 @@ img {
     transition: color 0.2s;
 }
 
-.action-icon:hover {
+.btn-logout-catalog {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-logout-catalog:hover {
     color: var(--white);
 }
 
+.action-icon:hover {
+    color: var(--white);
+
+}
 /* --- Ícones --- */
 .feather {
     width: 20px;
