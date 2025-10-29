@@ -5,7 +5,6 @@ from django.http import Http404
 from django.db.models import Q
 from utils.pagination import make_pagination
 import os
-from utils.picture import get_client_picture
 
 PER_PAGE = int(os.environ.get('PER_PAGE', 12))
 
@@ -23,7 +22,6 @@ def catalog(request):
         'products': page_obj,
         'categories': categories,
         'pagination_range': pagination_range,
-        'client_picture': get_client_picture(request.user)
     })
 
 
@@ -50,7 +48,6 @@ def search(request):
         'pagination_range': pagination_range,
         'additional_url_query': f'&q={search_term}',
         'page': f'Busca por "{search_term}"',
-        'client_picture': get_client_picture(request.user)
     })
 
 
@@ -71,7 +68,6 @@ def category(request, category_id):
         'category_name': category_name,
         'pagination_range': pagination_range,
         'page': f'Produtos da categoria {category_name}',
-        'client_picture': get_client_picture(request.user)
     })
 
 
@@ -90,7 +86,6 @@ def offer(request):
         'categories': categories,
         'pagination_range': pagination_range,
         'page': 'Ofertas em destaque',
-        'client_picture': get_client_picture(request.user)
     })
 
 
@@ -107,7 +102,6 @@ def product(request, product_id):
     return render(request, 'catalog/pages/product.html', context={
         'product': item[0],
         'categories': categories,
-        'client_picture': get_client_picture(request.user)
     })
 
 

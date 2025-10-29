@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from client.models import Client
 from utils.django_forms import add_placeholder, strong_password
 
 

@@ -6,11 +6,23 @@
 <body>
     <div class="container">
         <h2>Entrar</h2>
+        {% if request.user.is_authenticated %}
+            <p class="login-link">
+                Bem-vindo, {{ request.user.username }}!
+            </p>
+        {% endif %}
         {% include "global/partials/messages.html" %}
         <form id="loginForm" method="POST" action="{{ form_action }}">
             {% csrf_token %}
             {% include "users/partials/form.html" %}
         </form>
+        {% if request.user.is_authenticated %}
+            <form action="{% url 'users:logout' %}" method="POST" class="logout-form">
+                {% csrf_token %}
+                <input type="hidden" name="username" value="{{ request.user.username }}">
+                <button type="submit" class="btn-logout">Logout</button>
+            </form>
+        {% endif %}
     </div>
 </body>
 </html>

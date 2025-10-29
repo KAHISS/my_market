@@ -18,12 +18,25 @@ body {
 
 .container {
     background-color: #ffffff;
-    padding: 2.5rem;
+    padding: 2.0rem;
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 450px;
+    max-width: 50rem;
     overflow: hidden;
+}
+.register-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas de tamanho igual */
+    gap: 1.5rem 1rem; /* 1.5rem de espaço entre linhas, 1rem entre colunas */
+}
+
+
+.logout-form {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 h2 {
@@ -100,7 +113,7 @@ h2 {
 
 .btn {
     width: 100%;
-    padding: 0.8rem;
+    padding: 1rem;
     border: none;
     border-radius: 8px;
     /* BOTÃO: Gradiente vibrante de verde para azul */
@@ -111,12 +124,22 @@ h2 {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    grid-column: 1 / -1;
 }
 
 .btn:hover {
     transform: translateY(-2px);
     /* SOMBRA HOVER: Sombra azulada baseada no gradiente */
     box-shadow: 0 6px 20px rgba(0, 158, 253, 0.3);
+}
+
+.btn-logout {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #e74c3c;
 }
 
 .error-message {
@@ -128,9 +151,10 @@ h2 {
 
 .login-link {
     text-align: center;
-    margin-top: 1.5rem;
+    margin-top: 0.8rem;
     font-size: 0.9rem;
     color: #555;
+    grid-column: 1 / -1;
 }
 
 .login-link a {
@@ -142,4 +166,10 @@ h2 {
 
 .login-link a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .register-form {
+        grid-template-columns: 1fr;
+    }
 }

@@ -28,7 +28,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'INSECURE')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == '1' else False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'atacadinhocristao.cloud',
+    'www.atacadinhocristao.cloud',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -153,3 +158,10 @@ MESSAGE_TAGS = {
     constants.WARNING: 'message-warning',
     constants.ERROR: 'message-error',
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://atacadinhocristao.cloud',
+    'https://www.atacadinhocristao.cloud',
+    'http://localhost',
+    'http://127.0.0.1',
+]

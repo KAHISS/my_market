@@ -4,10 +4,13 @@ from django.contrib import messages
 from .forms import RegisterForm, LoginForm
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from client.models import Client
 
 # Create your views here.
 
 
+@login_required(login_url='users:login', redirect_field_name='next')
 def register_view(request):
     register_form_data = request.session.get("register_form_data", None)
     form = RegisterForm(register_form_data)
@@ -27,9 +30,12 @@ def register_create(request):
     form = RegisterForm(POST)
 
     if form.is_valid():
+        # save the new user
         user = form.save(commit=False)
         user.set_password(user.password)
         user.save()
+        # create a client for the new user
+        Client.objects.create(user=user)
         messages.success(request, 'Usuário criado com sucesso!')
 
         del (request.session["register_form_data"])
@@ -66,4 +72,16 @@ def login_create(request):
             messages.error(request, 'Credenciais inválidas!')
     else:
         messages.error(request, 'Erro ao validar formulário!')
+    return redirect(reverse('users:register'))
+
+
+@login_required(login_url='users:login', redirect_field_name='next')
+def logout_view(request):
+    if not request.POST:
+        raise Http404("No POST data found.")
+
+    if request.POST.get('username') != request.user.username:
+        return redirect(reverse('users:login'))
+
+    logout(request)
     return redirect(reverse('users:login'))

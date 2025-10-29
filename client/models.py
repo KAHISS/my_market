@@ -5,12 +5,13 @@ from django.contrib.auth.models import User
 
 
 class Client(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
-    cnpj = models.CharField(max_length=14, unique=True, blank=True)
-    cpf = models.CharField(max_length=11, unique=True, blank=True)
-    phone = models.CharField(max_length=15, blank=True)
-    date_birth = models.DateField()
-    address = models.CharField(max_length=255, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
+    type = models.CharField(choices=[(
+        'PF', 'Pessoa Física'), ('PJ', 'Pessoa Jurídica')], default='PF', blank=True, null=True)
+    document = models.CharField(
+        max_length=14, unique=True, blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField(
         upload_to='client/covers/%Y/%m/%d/', blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
