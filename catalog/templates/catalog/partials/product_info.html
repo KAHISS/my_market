@@ -28,7 +28,7 @@
             </span>
             <span class="price-secondary">
                 {% if product.wholesale_price > 0 %}
-                    R$ {{ product.wholesale_price }} - Caixa com {{ product.unit_per_packaging }}
+                    R$ {{ product.wholesale_price }} - {{ product.packaging_type }} com {{ product.unit_per_packaging }} {{ product.unit_measure }}
                 {% endif %}
             </span>
         </div>
