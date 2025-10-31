@@ -50,6 +50,9 @@ class UserRegisterFormTest(TestCase):
 
 class UserRegisterFormIntegrationTest(DjangoTestCase):
     def setUp(self, *args, **kwargs):
+        self.user = User.objects.create_user(
+            username='joao123', password='João@123', email='joao123@gmail.com')
+        self.client.login(username='joao123', password='João@123')
         self.form_data = {
             'first_name': 'João',
             'last_name': 'Silva',
@@ -148,6 +151,8 @@ class UserRegisterFormIntegrationTest(DjangoTestCase):
             'password2': '@Abc123456',
         })
         self.client.post(url, data=self.form_data, follow=True)
+
+        self.client.logout()
 
         is_authenticated = self.client.login(
             username='teste',

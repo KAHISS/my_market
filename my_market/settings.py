@@ -39,6 +39,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +54,78 @@ INSTALLED_APPS = [
     'users',
     'catalog'
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Atacadinho Cristão",
+    "site_header": "Atacadinho Crsitão",
+    "site_brand": "Administração",
+    "site_logo": "global/images/logo.ico",
+    "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index",
+            "permissions": ["auth.view_user"]},
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "auth.User", "permissions": ["auth.view_user"]},
+
+        {"model": "auth.Group", "permissions": ["auth.view_group"]},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "inventory"},
+
+        {"name": "Ir para o catálogo", "url": "http://atacadinhocristao.cloud/catalog/"},
+
+    ],
+    "icons": {
+        "client.Client": "fa-solid fa-user",
+        "provider.Provider": "fa-solid fa-user",
+        "users.User": "fa-solid fa-user",
+        "inventory.Product": "fa-solid fa-box",
+        "inventory.Category": "fa-solid fa-folder",
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "usermenu_links": [
+        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues",
+            "new_window": True},
+        {"model": "auth.user"}
+    ],
+    "show_ui_builder": True
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-info",
+    "accent": "accent-primary",
+    "navbar": "navbar-info navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-success",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

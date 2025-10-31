@@ -3,32 +3,31 @@ from django.core.paginator import Paginator
 
 
 def make_pagination_range(page_range, qty_pages, current_page):
-    middle = math.ceil(qty_pages / 2)
-    start = current_page - middle
-    end = current_page + middle
     total_pages = len(page_range)
+    middle = math.ceil(qty_pages / 2)
 
-    start_offset = abs(start) if start < 0 else 0
+    # Calcula início e fim do range
+    start = current_page - middle
+    end = current_page + middle - 1
 
-    if start < 0:
-        start = 0
-        end += start_offset
-    if end >= total_pages:
-        start = start - abs(total_pages - end)
+    # Garante que não passamos dos limites
+    if start < 1:
+        start = 1
+        end = qty_pages
+    if end > total_pages:
+        end = total_pages
+        start = max(total_pages - qty_pages + 1, 1)
 
-    pagination = page_range[start:end]
+    pagination = page_range[start - 1:end]
+
     return {
         'pagination': pagination,
         'page_range': page_range,
-        'start': start,
-        'end': end,
         'total_pages': total_pages,
         'current_page': current_page,
         'qty_pages': qty_pages,
-        'middle': middle,
-        'start_offset': start_offset,
-        'first_page_out_of_range': current_page > middle,
-        'last_page_out_of_range': end < total_pages
+        'first_page_out_of_range': start > 1,
+        'last_page_out_of_range': end < total_pages,
     }
 
 
