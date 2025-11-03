@@ -61,7 +61,7 @@ class UserRegisterFormIntegrationTest(DjangoTestCase):
             'password': 'João@123',
             'password2': 'João@123',
         }
-        return super().setUp(*args, **kwargs)
+        return super().setUp()
 
     @parameterized.expand([
         ('username', 'Este campo é obrigatório.'),
@@ -147,12 +147,12 @@ class UserRegisterFormIntegrationTest(DjangoTestCase):
         url = reverse('users:register_create')
         self.form_data.update({
             'username': 'teste',
+            'email': 'teste@teste.com',
             'password': '@Abc123456',
             'password2': '@Abc123456',
         })
-        self.client.post(url, data=self.form_data, follow=True)
 
-        self.client.logout()
+        self.client.post(url, data=self.form_data, follow=True)
 
         is_authenticated = self.client.login(
             username='teste',

@@ -2,10 +2,7 @@ from inventory.models import Product, Category
 from django.test import TestCase
 
 
-class CatalogBaseTestCase(TestCase):
-    def setUp(self):
-        return super().setUp()
-
+class CatalogMixin:
     def make_category(self, name='Categoria 1'):
         return Category.objects.create(name=name)
 
@@ -43,3 +40,8 @@ class CatalogBaseTestCase(TestCase):
             stock_quantity=stock_quantity,
             in_catalog=in_catalog,
         )
+
+
+class CatalogBaseTestCase(TestCase, CatalogMixin):
+    def setUp(self):
+        return super().setUp()

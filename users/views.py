@@ -21,6 +21,7 @@ def register_view(request):
     })
 
 
+@login_required(login_url='users:login', redirect_field_name='next')
 def register_create(request):
     if not request.POST:
         raise Http404("No POST data found.")
@@ -34,8 +35,6 @@ def register_create(request):
         user = form.save(commit=False)
         user.set_password(user.password)
         user.save()
-        # create a client for the new user
-        Client.objects.create(user=user)
         messages.success(request, 'Usuário criado com sucesso!')
 
         del (request.session["register_form_data"])
