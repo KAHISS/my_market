@@ -98,3 +98,71 @@ class Product(models.Model):
             quantity *= self.unit_per_packaging
         self.stock_quantity -= quantity
         self.save()
+
+
+class Stock(models.Model):
+    product = models.OneToOneField(
+        Product, on_delete=models.CASCADE, related_name='stock')
+    quantity = models.IntegerField(default=0)
+    minimum_stock = models.IntegerField(default=0)
+    purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
+    sale_price = models.DecimalField(max_digits=10, decimal_places=2)
+    wholesale_price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    discount = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True)
+    due_date = models.DateField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """
+        Return the name of the product.
+        """
+        return self.product.name
+
+        # 🏷️ Preço com desconto
+    def get_discounted_price(self):
+        """
+        Retorna o preço de venda com desconto aplicado.
+        """
+        price = self.sale_price
+        if self.discount:
+            price -= (self.discount / 100) * price
+        return round(price, 2)
+
+    # 📦 Preço por embalagem
+    def get_price_packaging(self):
+        """
+        Retorna o preço do lote considerando o número de unidades por embalagem.
+        """
+        base_price = self.get_discounted_price()
+        return round(base_price * self.product.unit_per_packaging, 2)
+
+    # 💰 Total por quantidade
+    def get_total_price(self, quantity, unit_type="unit", discount=None):
+        """
+        Retorna o preço total do produto com base na quantidade e tipo de unidade.
+        """
+        total_units = quantity * \
+            self.product.unit_per_packaging if unit_type == "packaging" else quantity
+        price_per_unit = self.sale_price
+
+        # aplica desconto adicional, se houver
+        if discount:
+            price_per_unit -= (discount / 100) * price_per_unit
+        elif self.discount:
+            price_per_unit -= (self.discount / 100) * price_per_unit
+
+        total = total_units * price_per_unit
+        return round(total, 2)
+
+    # 🔻 Reduz estoque
+    def reduce_stock(self, quantity, unit_type="unit"):
+        """
+        Reduz a quantidade do estoque.
+        """
+        total_units = quantity * \
+            self.product.unit_per_packaging if unit_type == "packaging" else quantity
+        self.quantity = max(0, self.quantity - total_units)
+        self.save()
