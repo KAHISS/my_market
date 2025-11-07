@@ -16,31 +16,31 @@
         <h1 class="product-detail-title">{{ product.name }}</h1>
 
         <div class="product-prices-detail">
-            {% if product.discount > 0 or product.discount is not None%}
-                <span class="price-original"> R$ {{ product.sale_price }}</span>
+            {% if product.stock.discount > 0 or product.stock.discount is not None%}
+                <span class="price-original"> R$ {{ product.stock.sale_price }}</span>
             {% endif %}
             <span class="price-primary"> 
                 
-                R$ {{ product.get_discounted_price }}
-                {% if product.discount > 0 or product.discount is not None%}
-                    <span class="product-discount-badge">{{ product.discount }}% OFF</span>
+                R$ {{ product.stock.get_discounted_price }}
+                {% if product.stock.discount > 0 or product.stock.discount is not None%}
+                    <span class="product-discount-badge">{{ product.stock.discount }}% OFF</span>
                 {% endif %}
             </span>
             <span class="price-secondary">
-                {% if product.wholesale_price > 0 %}
-                    R$ {{ product.wholesale_price }} - {{ product.packaging_type }} com {{ product.unit_per_packaging }} {{ product.unit_measure }}
+                {% if product.stock.wholesale_price > 0 %}
+                    R$ {{ product.stock.wholesale_price }} - {{ product.packaging_type }} com {{ product.unit_per_packaging }} {{ product.unit_measure }}
                 {% endif %}
             </span>
         </div>
 
         <div class="product-stock">
-            Estoque disponível: <strong>{{ product.stock_quantity }}</strong>
+            Estoque disponível: <strong>{{ product.stock.quantity }}</strong>
         </div>
         
         <form class="cart-form">
             <div class="quantity-selector">
                 <label for="quantity">Quantidade:</label>
-                <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock_quantity }}">
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock.quantity }}">
             </div>
             <button type="submit" class="add-to-cart-btn-large">
                 <i data-feather="shopping-cart"></i>
