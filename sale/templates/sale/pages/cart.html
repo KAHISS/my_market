@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras - AC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* --- Estilos Globais e do Catálogo (para consistência) --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Cabeçalho (Baseado na imagem) --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        header .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff; /* Cor do logo AC (chute) */
+            text-decoration: none;
+        }
+
+        header .logo span {
+            color: #000;
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            padding: 8px 0;
+            margin-right: 20px;
+        }
+
+        header nav a.active {
+            border-bottom: 2px solid #007bff;
+            color: #000;
+        }
+
+        header .search-bar {
+            flex-grow: 1;
+            margin: 0 30px;
+            position: relative;
+        }
+
+        header .search-bar input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        header .search-bar .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        header .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        header .user-actions .user-info {
+            color: #555;
+        }
+
+        header .user-actions .user-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 20px;
+            color: #555;
+        }
+
+        header .user-actions .user-icons i {
+            cursor: pointer;
+        }
+        
+        /* --- Estilos da Página do Carrinho --- */
+        .cart-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 30px;
+        }
+
+        /* Coluna da Esquerda: Itens do Carrinho */
+        .cart-items-list {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto auto;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+
+        .cart-item-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #222;
+        }
+
+        .cart-item-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .cart-item-quantity button {
+            background-color: #f5f5f5;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+        
+        .cart-item-quantity button:hover {
+            background-color: #e9e9e9;
+        }
+
+        .cart-item-quantity input {
+            width: 40px;
+            text-align: center;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 8px 0;
+            /* Remove setas do input number */
+            -moz-appearance: textfield;
+        }
+        
+        .cart-item-quantity input::-webkit-outer-spin-button,
+        .cart-item-quantity input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .cart-item-price {
+            font-size: 18px;
+            font-weight: 600;
+            width: 100px;
+            text-align: right;
+        }
+
+        .cart-item-remove button {
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .cart-item-remove button:hover {
+            color: #a71d2a;
+        }
+
+        /* Coluna da Direita: Resumo do Pedido */
+        .order-summary {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            height: fit-content; /* Para o "card" não esticar */
+            position: sticky;
+            top: 20px; /* Mantém o resumo visível ao rolar */
+        }
+
+        .order-summary h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .summary-line span:first-child {
+            color: #555;
+        }
+
+        .summary-line span:last-child {
+            font-weight: 600;
+        }
+
+        .summary-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .checkout-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745; /* Cor verde do botão "Adicionar" */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        
+        .checkout-button:hover {
+            background-color: #218838;
+        }
+
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .continue-shopping:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            header .search-bar {
+                margin: 0;
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cart-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 15px;
+            }
+            .cart-item-image {
+                margin: 0 auto;
+            }
+            .cart-item-quantity {
+                justify-content: center;
+            }
+            .cart-item-price {
+                text-align: center;
+                width: auto;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-nav">
+            <a href="#" class="logo">A<span>C</span></a>
+            <nav>
+                <a href="#" class="active">Página Inicial</a>
+                <a href="#">Ofertas</a>
+            </nav>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Pesquisar por produtos ou marcas...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        <div class="user-actions">
+            <div class="user-info">
+                Você está logado como <strong>Kaigue</strong>
+            </div>
+            <div class="user-icons">
+                <i class="fas fa-user"></i>
+                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="cart-title">Meu Carrinho</h1>
+        
+        <div class="cart-layout">
+            
+            <section class="cart-items-list" id="cart-items">
+
+                <div class="cart-item" data-price="8.99">
+                    <img src="https://i.imgur.com/example.png" alt="Amaciante Azul" class="cart-item-image" 
+                         onerror="this.src='https://via.placeholder.com/90?text=Produto';">
+                    <div class="cart-item-info">
+                        <h3>Amaciante Azul Carinho 2L</h3>
+                        <p>Teiú</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn minus" aria-label="Diminuir quantidade">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn plus" aria-label="Aumentar quantidade">+</button>
+                    </div>
+                    <div class="cart-item-price">R$ 8,99</div>
+                    <div class="cart-item-remove">
+                        <button class="remove-btn" aria-label="Remover item"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+
+                <div class="cart-item" data-price="5.99">
+                    <img src="https://i.imgur.com/example.png" alt="Amido de Milho" class="cart-item-image"
+                         onerror="this.src='https://via.placeholder.com/90?text=Produto';">
+                    <div class="cart-item-info">
+                        <h3>Amido de milho 200G</h3>
+                        <p>Maizena</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn minus" aria-label="Diminuir quantidade">-</button>
+                        <input type="number" class="quantity-input" value="2" min="1">
+                        <button class="quantity-btn plus" aria-label="Aumentar quantidade">+</button>
+                    </div>
+                    <div class="cart-item-price">R$ 11,98</div>
+                    <div class="cart-item-remove">
+                        <button class="remove-btn" aria-label="Remover item"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+
+                <div class="cart-item" data-price="3.49">
+                    <img src="https://i.imgur.com/example.png" alt="Absorvente" class="cart-item-image"
+                         onerror="this.src='https://via.placeholder.com/90?text=Produto';">
+                    <div class="cart-item-info">
+                        <h3>Absorvente com abas</h3>
+                        <p>Sym</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <button class="quantity-btn minus" aria-label="Diminuir quantidade">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn plus" aria-label="Aumentar quantidade">+</button>
+                    </div>
+                    <div class="cart-item-price">R$ 3,49</div>
+                    <div class="cart-item-remove">
+                        <button class="remove-btn" aria-label="Remover item"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+
+            </section>
+
+            <aside class="order-summary">
+                <h2>Resumo do Pedido</h2>
+                
+                <div class="summary-line">
+                    <span>Subtotal (<span id="item-count">3</span> itens)</span>
+                    <span id="subtotal">R$ 24,46</span>
+                </div>
+                
+                <div class="summary-line">
+                    <span>Frete</span>
+                    <span>A calcular</span>
+                </div>
+                
+                <div class="summary-line summary-total">
+                    <span>Total</span>
+                    <span id="total">R$ 24,46</span>
+                </div>
+
+                <a href="#" class="checkout-button">Finalizar Compra</a>
+                <a href="#" class="continue-shopping">Continuar comprando</a>
+            </aside>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsContainer = document.getElementById('cart-items');
+
+            // Função para formatar moeda
+            const formatCurrency = (value) => {
+                return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            };
+
+            // Função para atualizar o carrinho inteiro (preços e totais)
+            const updateCart = () => {
+                let subtotal = 0;
+                let itemCount = 0;
+
+                const cartItems = cartItemsContainer.querySelectorAll('.cart-item');
+                
+                cartItems.forEach(item => {
+                    const unitPrice = parseFloat(item.dataset.price);
+                    const quantityInput = item.querySelector('.quantity-input');
+                    const quantity = parseInt(quantityInput.value);
+                    
+                    if (isNaN(quantity) || quantity < 1) {
+                        quantityInput.value = 1;
+                        quantity = 1;
+                    }
+
+                    const itemTotalPrice = unitPrice * quantity;
+                    item.querySelector('.cart-item-price').textContent = formatCurrency(itemTotalPrice);
+                    
+                    subtotal += itemTotalPrice;
+                    itemCount += quantity;
+                });
+
+                // Atualiza o resumo do pedido
+                document.getElementById('item-count').textContent = itemCount;
+                document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+                document.getElementById('total').textContent = formatCurrency(subtotal); // Assumindo que o total é igual ao subtotal por enquanto
+                
+                // (Adicionar lógica de frete aqui se necessário)
+            };
+
+            // Adiciona ouvintes de evento para os botões de quantidade e remoção
+            cartItemsContainer.addEventListener('click', (event) => {
+                const target = event.target;
+                
+                // Encontra o item pai
+                const cartItem = target.closest('.cart-item');
+                if (!cartItem) return;
+
+                const quantityInput = cartItem.querySelector('.quantity-input');
+                let quantity = parseInt(quantityInput.value);
+
+                // Botão de Aumentar
+                if (target.classList.contains('plus')) {
+                    quantity++;
+                    quantityInput.value = quantity;
+                    updateCart();
+                }
+
+                // Botão de Diminuir
+                if (target.classList.contains('minus')) {
+                    if (quantity > 1) {
+                        quantity--;
+                        quantityInput.value = quantity;
+                        updateCart();
+                    }
+                }
+
+                // Botão de Remover
+                if (target.closest('.remove-btn')) {
+                    cartItem.remove();
+                    updateCart();
+                }
+            });
+
+            // Adiciona ouvinte para mudança manual no input de quantidade
+            cartItemsContainer.addEventListener('change', (event) => {
+                if (event.target.classList.contains('quantity-input')) {
+                    if (parseInt(event.target.value) < 1) {
+                        event.target.value = 1;
+                    }
+                    updateCart();
+                }
+            });
+
+            // Inicializa o carrinho ao carregar a página
+            updateCart();
+        });
+    </script>
+
+</body>
+</html>

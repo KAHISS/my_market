@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'provider',
     'employee',
     'users',
-    'catalog'
+    'catalog',
+    'sale'
 ]
 
 JAZZMIN_SETTINGS = {
@@ -73,6 +74,7 @@ JAZZMIN_SETTINGS = {
 
         # App with dropdown menu to all its models pages (Permissions checked against models)
         {"app": "inventory"},
+        {"app": "sale"},
 
         {"name": "Ir para o catálogo", "url": "http://atacadinhocristao.cloud/catalog/"},
 

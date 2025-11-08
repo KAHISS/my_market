@@ -10,5 +10,4 @@ urlpatterns = [
     path('category/<int:category_id>', views.category, name='category'),
     path('offers', views.offer, name='offer'),
     path('profile', views.profile, name='profile'),
-    path('cart', views.cart, name='cart'),
 ]
