@@ -10,36 +10,36 @@ from client.models import Client
 # Create your views here.
 
 
-@login_required(login_url='users:login', redirect_field_name='next')
-def register_view(request):
-    register_form_data = request.session.get("register_form_data", None)
-    form = RegisterForm(register_form_data)
-    return render(request, 'users/pages/register.html', {
-        'form': form,
-        'action': 'Enviar',
-        'form_action': reverse('users:register_create')
-    })
+# @login_required(login_url='users:login', redirect_field_name='next')
+# def register_view(request):
+#     register_form_data = request.session.get("register_form_data", None)
+#     form = RegisterForm(register_form_data)
+#     return render(request, 'users/pages/register.html', {
+#         'form': form,
+#         'action': 'Enviar',
+#         'form_action': reverse('users:register_create')
+#     })
 
 
-@login_required(login_url='users:login', redirect_field_name='next')
-def register_create(request):
-    if not request.POST:
-        raise Http404("No POST data found.")
+# @login_required(login_url='users:login', redirect_field_name='next')
+# def register_create(request):
+#     if not request.POST:
+#         raise Http404("No POST data found.")
 
-    POST = request.POST
-    request.session["register_form_data"] = POST
-    form = RegisterForm(POST)
+#     POST = request.POST
+#     request.session["register_form_data"] = POST
+#     form = RegisterForm(POST)
 
-    if form.is_valid():
-        # save the new user
-        user = form.save(commit=False)
-        user.set_password(user.password)
-        user.save()
-        messages.success(request, 'Usuário criado com sucesso!')
+#     if form.is_valid():
+#         # save the new user
+#         user = form.save(commit=False)
+#         user.set_password(user.password)
+#         user.save()
+#         messages.success(request, 'Usuário criado com sucesso!')
 
-        del (request.session["register_form_data"])
+#         del (request.session["register_form_data"])
 
-    return redirect('users:register')
+#     return redirect('users:register')
 
 
 def login_view(request):
@@ -66,12 +66,13 @@ def login_create(request):
         if authenticate_user is not None:
             messages.success(request, 'Login realizado com sucesso!')
             login(request, authenticate_user)
+            return redirect(reverse('catalog:home'))
 
         else:
             messages.error(request, 'Credenciais inválidas!')
+            return redirect(reverse('users:login'))
     else:
         messages.error(request, 'Erro ao validar formulário!')
-    return redirect(reverse('catalog:home'))
 
 
 @login_required(login_url='users:login', redirect_field_name='next')

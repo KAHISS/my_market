@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% include 'sale/partials/head.html' %}
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+    {% block header %}
+    {% endblock header %}
+    <main class="container">
+        {% block content %}
+        {% endblock content %}
+    </main>
+</body>
+    <script>
+        feather.replace()
+    </script>
+</html>

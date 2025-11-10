@@ -76,7 +76,7 @@ JAZZMIN_SETTINGS = {
         {"app": "inventory"},
         {"app": "sale"},
 
-        {"name": "Ir para o catálogo", "url": "http://atacadinhocristao.cloud/catalog/"},
+        {"name": "Ir para o catálogo", "url": "catalog:home"},
 
     ],
     "icons": {

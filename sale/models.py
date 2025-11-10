@@ -1,3 +1,84 @@
 from django.db import models
+from django.contrib.auth.models import User
+from inventory.models import Product
 
 # Create your models here.
+
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Carinho de {self.user.username}"
+
+    def total_price(self):
+        return sum(item.subtotal() for item in self.cart_items.all())
+
+    def total_quantity(self):
+        return sum(item.quantity for item in self.cart_items.all())
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(
+        Cart, on_delete=models.CASCADE, related_name='cart_items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.product.name} - Quantity: {self.quantity}"
+
+    def subtotal(self):
+        if self.quantity >= self.product.unit_per_packaging:
+            return self.product.stock.wholesale_price * self.quantity
+        else:
+            return self.product.stock.sale_price * self.quantity
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=50,
+        default='pendente',
+        choices=[
+            ('pendente', 'Pendente'),
+            ('em_separacao', 'Em separação'),
+            ('em_transporte', 'Em transporte'),
+            ('entregue', 'Entregue'),
+            ('pago', 'Pago'),
+            ('cancelado', 'Cancelado'),
+        ]
+    )
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Pedido de {self.user.username}"
+
+    def total_price(self):
+        return sum(item.subtotal() for item in self.order_items.all())
+
+    def total_quantity(self):
+        return sum(item.quantity for item in self.order_items.all())
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name='order_items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.product.name} - Quantity: {self.quantity}"
+
+    def subtotal(self):
+        if self.quantity >= self.product.unit_per_packaging:
+            return self.product.stock.wholesale_price * self.quantity
+        else:
+            return self.product.stock.sale_price * self.quantity

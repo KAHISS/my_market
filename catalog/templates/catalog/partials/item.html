@@ -23,5 +23,8 @@
             </div>
         </div>
     </a>
-    <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+    <form action="{% url 'sale:cart_add' product.id %}" method="post">
+        {% csrf_token %}
+        <button class="add-to-cart-btn">Adicionar ao Carrinho</button>
+    </form>
 </div>

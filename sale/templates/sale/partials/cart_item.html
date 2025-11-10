@@ -1,0 +1,30 @@
+<div class="cart-item" data-price="5.99">
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-item-image"
+        onerror="this.src='https://via.placeholder.com/90?text=Produto';">
+    <div class="cart-item-info">
+        <h3>{{ item.product.name }}</h3>
+        <p>{{ item.product.brand }}</p>
+    </div>
+    <div class="cart-item-quantity">
+        <form action="{% url 'sale:cart_update' item.id %}" method="POST">
+            {% csrf_token %}
+            <button class="quantity-btn minus packaging" name="action" value="minus_packaging">- {{ item.product.unit_per_packaging }}</button>
+            <button class="quantity-btn minus" name="action" value="minus">-</button>
+            <input type="number" class="quantity-input" value="{{ item.quantity }}" min="1" readonly>
+            <button class="quantity-btn plus" name="action" value="plus">+</button>
+            <button class="quantity-btn plus packaging" name="action" value="plus_packaging">+ {{ item.product.unit_per_packaging }}</button>
+        </form>
+    </div>
+    <div class="cart-item-price">
+        <p class="price">R$ {{ item.subtotal }}</p>
+        {% if item.quantity >= item.product.unit_per_packaging %}
+            <p class="whosale">Preço de atacado</p>
+        {% endif %}
+    </div>
+    <div class="cart-item-remove">
+        <form action="{% url 'sale:cart_remove' item.id %}" method="POST">
+            {% csrf_token %}
+            <button class="remove-btn" aria-label="Remover item"><i data-feather="delete"></i></button>
+        </form>
+    </div>
+</div>

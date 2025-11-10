@@ -14,7 +14,7 @@ def catalog(request):
         in_catalog=True
     ).order_by("name")
 
-    categories = Category.objects.all().order_by("name")
+    categories = Category.objects.all().order_by("id")
 
     page_obj, pagination_range = make_pagination(request, products, PER_PAGE)
 

@@ -1,0 +1,23 @@
+<aside class="order-summary">
+    <h2>Resumo do Pedido</h2>
+    
+    <div class="summary-line">
+        <span>Subtotal (<span id="item-count">{{ cart.total_quantity }}</span> itens)</span>
+        <span id="subtotal">R$ {{ cart.total_price }}</span>
+    </div>
+    
+    <div class="summary-line">
+        {% if user.is_staff %}
+            <span>Desconto</span>
+            <span id="discount">R$ 0,00</span>
+        {% endif %}
+    </div>
+    
+    <div class="summary-line summary-total">
+        <span>Total</span>
+        <span id="total">R$ 24,46</span>
+    </div>
+
+    <a href="#" class="checkout-button">Finalizar Compra</a>
+    <a href="#" class="continue-shopping">Continuar comprando</a>
+</aside>

@@ -99,7 +99,7 @@ img {
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .search-bar {
@@ -572,7 +572,7 @@ span.page-item {
 
 /*
 =========================================
---- 7. RESPONSIVIDADE (MOBILE) ---
+--- 7. RESPONSIVIDADE (MOBILE) ---.
 =========================================
 */
 
