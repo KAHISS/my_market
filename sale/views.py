@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import CartItem, Cart
 from inventory.models import Product
 from django.contrib import messages
-from django.shortcuts import get_list_or_404, render
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.db.models import Q
@@ -24,21 +24,33 @@ def add_item_to_cart(request, id):
     if not request.POST:
         raise Http404("No POST data found.")
 
-    cart = Cart.objects.get(user=request.user)
-    product = Product.objects.get(id=id)
+    cart = Cart.objects.get_or_create(user=request.user)[0]
+    product = get_object_or_404(Product, id=id)
+
+    if getattr(product, 'stock', None) is None:
+        messages.error(
+            request, f'O produto "{product.name}" não tem estoque.')
+        return redirect(request.META.get('HTTP_REFERER', 'sale:cart'))
+
+    if product.stock.quantity <= 0:
+        messages.error(
+            request, f'Não há estoque suficiente para adicionar mais um "{product.name}".')
+        return redirect(request.META.get('HTTP_REFERER', 'sale:cart'))
 
     cart_item, created = CartItem.objects.get_or_create(
         cart=cart, product=product)
 
-    if cart_item.quantity < product.stock.quantity:
-        if not created:
-            cart_item.quantity += 1
-            cart_item.save()
-        messages.success(request, f'"{product.name}" adicionado ao carrinho.')
+    if created:
+        cart_item.quantity = 1
+    elif cart_item.quantity < product.stock.quantity:
+        cart_item.quantity += 1
     else:
         messages.error(
             request, f'Não há estoque suficiente para adicionar mais um "{product.name}".')
+        return redirect(request.META.get('HTTP_REFERER', 'sale:cart'))
 
+    cart_item.save()
+    messages.success(request, f'{product.name} adicionado ao carrinho.')
     return redirect(request.META.get('HTTP_REFERER', 'sale:cart'))
 
 
@@ -53,7 +65,6 @@ def update_quantity(request, id):
     match action:
         case 'plus_packaging':
             if (cart_item.quantity + cart_item.product.unit_per_packaging) <= cart_item.product.stock.quantity:
-                print(cart_item.quantity)
                 cart_item.quantity += cart_item.product.unit_per_packaging
                 cart_item.save()
         case 'plus':
@@ -64,14 +75,10 @@ def update_quantity(request, id):
             if cart_item.quantity >= cart_item.product.unit_per_packaging:
                 cart_item.quantity -= cart_item.product.unit_per_packaging
                 cart_item.save()
-                if cart_item.quantity == 0:
-                    cart_item.delete()
         case 'minus':
             if cart_item.quantity > 0:
                 cart_item.quantity -= 1
                 cart_item.save()
-                if cart_item.quantity == 0:
-                    cart_item.delete()
 
     return redirect('sale:cart')
 

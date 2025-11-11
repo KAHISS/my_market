@@ -19,6 +19,9 @@ class Cart(models.Model):
     def total_quantity(self):
         return sum(item.quantity for item in self.cart_items.all())
 
+    def total_discount(self):
+        return sum(item.discount() for item in self.cart_items.all())
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
@@ -32,10 +35,26 @@ class CartItem(models.Model):
         return f"{self.product.name} - Quantity: {self.quantity}"
 
     def subtotal(self):
-        if self.quantity >= self.product.unit_per_packaging:
-            return self.product.stock.wholesale_price * self.quantity
-        else:
-            return self.product.stock.sale_price * self.quantity
+        stock = getattr(self.product, 'stock', None)
+        if stock:
+            return stock.sale_price * self.quantity
+
+    def discount(self):
+        stock = getattr(self.product, 'stock', None)
+        if not stock:
+            return 0
+
+        units_per_pack = self.product.unit_per_packaging or 1
+        full_packs = self.quantity // units_per_pack  # pacotes completos
+
+        if full_packs == 0:
+            return 0  # ainda não tem desconto
+
+        discount_per_pack = (stock.sale_price -
+                             stock.wholesale_price) * units_per_pack
+        total_discount = full_packs * discount_per_pack
+
+        return total_discount
 
 
 class Order(models.Model):

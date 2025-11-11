@@ -5,13 +5,14 @@ from .models import Cart, CartItem
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'created_at', 'updated_at')
+    list_display = ('user', 'total_price', 'total_discount',
+                    'total_quantity', 'created_at', 'updated_at')
     search_fields = ('user',)
     list_filter = ('created_at', 'updated_at')
 
 
 class CartItemAdmin(admin.ModelAdmin):
-    list_display = ('cart', 'product', 'quantity',
+    list_display = ('cart', 'product', 'quantity', 'subtotal', 'discount',
                     'created_at', 'updated_at')
     search_fields = ('cart', 'product',)
     list_filter = ('created_at', 'updated_at')

@@ -9,13 +9,13 @@
     <div class="summary-line">
         {% if user.is_staff %}
             <span>Desconto</span>
-            <span id="discount">R$ 0,00</span>
+            <span id="discount">R$ {{ cart.total_discount }}</span>
         {% endif %}
     </div>
     
     <div class="summary-line summary-total">
         <span>Total</span>
-        <span id="total">R$ 24,46</span>
+        <span id="total">{{ cart.total_price }}</span>
     </div>
 
     <a href="#" class="checkout-button">Finalizar Compra</a>
