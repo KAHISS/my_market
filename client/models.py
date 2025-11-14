@@ -12,6 +12,12 @@ class Client(models.Model):
         max_length=14, unique=True, blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
+    address_number = models.IntegerField(blank=True, null=True)
+    address_neighborhood = models.CharField(
+        max_length=255, blank=True, null=True)
+    address_city = models.CharField(max_length=255, blank=True, null=True)
+    address_state = models.CharField(max_length=255, blank=True, null=True)
+    address_zipcode = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField(
         upload_to='client/covers/%Y/%m/%d/', blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)

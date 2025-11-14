@@ -3,11 +3,11 @@
 {% block title %}Resultados para "{{ search_term }}"{% endblock title %}
 
 {% block header %}
-    {% include "catalog/partials/header.html" %}
+    {% include "global/partials/header.html" %}
 {% endblock header %}
 
 {% block content %}
-    {% include "catalog/partials/search_mobile.html" %}
+    {% include "global/partials/search_mobile.html" %}
     {% include "catalog/partials/catalog_grid.html" %}
-    {% include "catalog/partials/pagination.html" %}
+    {% include "global/partials/pagination.html" %}
 {% endblock content %}

@@ -1,0 +1,230 @@
+/*
+=========================================
+--- 1. CONFIGURAÇÕES GLOBAIS E :ROOT ---
+=========================================
+*/
+:root {
+    /* Paleta de cor com Azul e Verde */
+    --primary-blue: #004B8D;  /* Azul para o header */
+    --primary-green: #198754; /* Verde para botões e ações */
+    --green-hover: #146c43;   /* Verde mais escuro */
+    
+    --light-gray: #f4f5f7;
+    --medium-gray: #e1e4e8;
+    --dark-gray: #586069;
+    --text-color: #24292e;
+    --white: #ffffff;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--white);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-green);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+}
+
+/*
+=========================================
+--- 2. HEADER PRINCIPAL (AZUL) ---
+=========================================
+*/
+.main-header {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-right: 1rem;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.main-nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-grow: 1;
+}
+
+.main-nav a {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--medium-gray);
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: var(--white);
+    border-bottom-color: var(--white);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.search-bar {
+    display: flex;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--white);
+}
+
+.search-bar input {
+    border: none;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    outline: none;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.search-button {
+    background: var(--primary-green);
+    border: none;
+    color: var(--white);
+    padding: 0 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background: var(--green-hover);
+}
+
+.action-icon {
+    color: var(--medium-gray);
+    transition: color 0.2s;
+}
+
+.btn-logout-catalog {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-logout-catalog:hover {
+    color: var(--white);
+}
+
+.action-icon:hover {
+    color: var(--white);
+
+}
+
+/* --- Ícones --- */
+.feather {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5;
+}
+
+.search-button .feather {
+    width: 18px;
+    height: 18px;
+}
+
+/* Para tablets e celulares grandes (ex: até 768px) */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 0 1rem;
+    }
+
+    .page-container {
+        padding: 0 1rem;
+        margin-top: 1.5rem;
+    }
+
+    /* Esconde navegação e busca do desktop */
+    .main-nav {
+        display: none;
+    }
+    .header-actions .search-bar {
+        display: none;
+    }
+
+    /* Mostra o ícone de menu mobile */
+    .mobile-menu-icon {
+        display: block;
+    }
+
+    .header-container {
+        justify-content: space-between;
+    }
+    
+    .logo {
+        margin-right: 0;
+    }
+
+    /* Mostra a barra de busca mobile */
+    .search-bar-mobile {
+        display: flex;
+        width: 100%;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        background-color: var(--light-gray);
+    }
+    .search-bar-mobile input {
+        flex-grow: 1;
+        border: none;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+        outline: none;
+        background-color: transparent;
+    }
+    .search-bar-mobile .search-button {
+        padding: 0 1rem;
+    }
+}

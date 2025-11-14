@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import CartItem, Cart
 from inventory.models import Product
 from django.contrib import messages
-from django.shortcuts import get_list_or_404, get_object_or_404, render
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.db.models import Q
@@ -94,3 +94,8 @@ def remove_item(request, id):
     messages.success(
         request, f'{cart_item.product.name} removido do carrinho.')
     return redirect('sale:cart')
+
+
+@login_required(login_url='users:login', redirect_field_name='next')
+def order(request):
+    return render(request, 'sale/pages/order_detail.html')

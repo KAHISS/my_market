@@ -409,11 +409,6 @@ img {
         display: none;
     }
 
-    /* Mostra o ícone de menu mobile */
-    .mobile-menu-icon {
-        display: block;
-    }
-
     .header-container {
         justify-content: space-between;
     }

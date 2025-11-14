@@ -1,0 +1,386 @@
+:root {
+    /* Paleta de cor com Azul e Verde */
+    --primary-blue: #004B8D;  /* Azul para o header */
+    --primary-green: #198754; /* Verde para botões e ações */
+    --green-hover: #146c43;   /* Verde mais escuro */
+    
+    --light-gray: #f4f5f7;
+    --medium-gray: #e1e4e8;
+    --dark-gray: #586069;
+    --text-color: #24292e;
+    --white: #ffffff;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/*
+=========================================
+--- 8. ESTILOS PÁGINA DE PEDIDO ---
+=========================================
+*/
+
+/* --- Cabeçalho da Página (Título e ID) --- */
+.page-container {
+    padding: 2rem;
+}
+
+.order-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.order-header-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.order-header-title h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.order-header-title span {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+}
+
+/* --- Badge de Status --- */
+.order-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    color: var(--white);
+    font-size: 0.9rem;
+}
+
+.order-status-badge .feather {
+    width: 16px;
+    height: 16px;
+}
+
+/* Cores do Badge (Adicione mais conforme precisar) */
+.order-status-badge.status-delivered {
+    background-color: var(--primary-green);
+}
+.order-status-badge.status-shipped {
+    background-color: var(--primary-blue);
+}
+.order-status-badge.status-processing {
+    background-color: #ffc107; /* Amarelo */
+    color: var(--text-color);
+}
+.order-status-badge.status-cancelled {
+    background-color: #dc3545; /* Vermelho */
+}
+
+
+/* --- Layout Grid Principal --- */
+.order-layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 2/3 para itens, 1/3 para sidebar */
+    gap: 2rem;
+}
+
+.order-main-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.order-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-self: start; /* Faz o sidebar parar no topo */
+}
+
+/* --- Box de Informação (Componente reutilizável para o sidebar) --- */
+.info-box {
+    background: var(--white);
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 1.5rem;
+}
+
+.info-box h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+/* --- Lista de Resumo (Subtotal, Total) --- */
+.summary-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.summary-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.summary-list li span {
+    color: var(--dark-gray);
+}
+
+.summary-list li strong {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.summary-list li.total {
+    font-size: 1.25rem;
+    border-top: 1px solid var(--medium-gray);
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+}
+
+.summary-list li.total strong {
+    font-weight: 700;
+    color: var(--primary-green);
+}
+
+.text-discount {
+    color: var(--primary-green) !important;
+    font-weight: 600;
+}
+
+
+/* --- Lista de Detalhes (Cliente, Vendedor) --- */
+.details-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.details-list li {
+    font-size: 0.95rem;
+    color: var(--dark-gray);
+    line-height: 1.5;
+}
+.details-list li strong {
+    color: var(--text-color);
+    font-weight: 600;
+    margin-right: 0.25rem;
+}
+
+address {
+    font-style: normal;
+    line-height: 1.6;
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+}
+
+
+/* --- Tabela de Itens --- */
+.order-items-table-container {
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    overflow-x: auto; /* MODIFICADO DE 'overflow: hidden;' */
+    background: var(--white);
+    box-shadow: var(--box-shadow);
+}
+
+table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid var(--medium-gray);
+    vertical-align: middle;
+}
+
+table thead {
+    background: var(--light-gray);
+}
+
+table th {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--dark-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Info do Produto dentro da Tabela */
+.product-item-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.item-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--medium-gray);
+    flex-shrink: 0;
+}
+
+.item-thumbnail.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--light-gray);
+    color: var(--dark-gray);
+}
+.item-thumbnail.placeholder .feather {
+    width: 24px;
+    height: 24px;
+}
+
+.item-title {
+    display: block;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 1rem;
+    margin-bottom: 0.1rem;
+}
+
+.item-brand {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+}
+
+/* --- Botões de Ação --- */
+.order-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.btn .feather {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-primary {
+    background: var(--primary-green);
+    color: var(--white);
+    border: 1px solid var(--primary-green);
+}
+.btn-primary:hover {
+    background: var(--green-hover);
+    border-color: var(--green-hover);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--dark-gray);
+    border: 1px solid var(--medium-gray);
+}
+.btn-secondary:hover {
+    background: var(--light-gray);
+    border-color: var(--dark-gray);
+    color: var(--text-color);
+}
+
+
+/*
+=========================================
+--- 9. RESPONSIVIDADE (PÁGINA PEDIDO) ---
+=========================================
+*/
+
+/* Para Tablets (ex: até 992px) */
+@media (max-width: 992px) {
+    .order-layout-grid {
+        grid-template-columns: 1fr; /* Coluna única */
+    }
+
+    .order-sidebar {
+        /* Move o sidebar para cima no mobile */
+        grid-row-start: 1;
+    }
+}
+
+/* Para Celulares (ex: até 480px) */
+@media (max-width: 480px) {
+    .order-items-table-container {
+        max-width: 20rem;
+    }
+
+    .order-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    
+    .order-header-title {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    .order-header-title h1 {
+        font-size: 1.75rem;
+    }
+    .order-header-title span {
+        font-size: 1rem;
+    }
+
+    .order-actions {
+        grid-template-columns: 1fr; /* Botões empilhados */
+    }
+
+    table th, table td {
+        padding: 0.75rem;
+    }
+
+    .product-item-info {
+        gap: 0.75rem;
+    }
+    .item-thumbnail {
+        width: 45px;
+        height: 45px;
+    }
+    .item-title {
+        font-size: 0.9rem;
+    }
+    .item-brand {
+        font-size: 0.8rem;
+    }
+}

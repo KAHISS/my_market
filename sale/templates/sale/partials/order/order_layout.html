@@ -1,0 +1,90 @@
+<div class="order-page-header">
+    <div class="order-header-title">
+        <h1>Detalhes do Pedido</h1>
+        <span>#123456789</span>
+    </div>
+    <div class="order-status-badge status-delivered">
+        <i data-feather="check-circle"></i> Entregue
+    </div>
+</div>
+
+<div class="order-layout-grid">
+
+    <div class="order-main-content">
+        <h2>Itens do Pedido (3)</h2>
+
+        <div class="order-items-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Qtde.</th>
+                        <th>Preço Unit.</th>
+                        <th>Preço Total</th>
+                        <th>Desconto</th>
+                        <th>Total</th>      
+                    </tr>
+                </thead>
+                <tbody>
+                    {% include 'sale/partials/order/order_items.html' %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="order-sidebar">
+
+        <div class="info-box">
+            <h3>Resumo do Pedido</h3>
+            <ul class="summary-list">
+                <li>
+                    <span>Subtotal (3 itens)</span>
+                    <strong>R$ 86,00</strong>
+                </li>
+                <li>
+                    <span>Desconto</span>
+                    <strong class="text-discount">- R$ 8,60</strong>
+                </li>
+                <li class="total">
+                    <span>Total</span>
+                    <strong>R$ 77,40</strong>
+                </li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>Detalhes da Transação</h3>
+            <ul class="details-list">
+                <li><strong>Cliente:</strong> jojo (jojo@exemplo.com)</li>
+                <li><strong>Vendedor:</strong> M-A-C Store</li>
+                <li><strong>Data do Pedido:</strong> 10 de Nov, 2025</li>
+                <li><strong>Status:</strong> Entregue</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>Pagamento</h3>
+            <ul class="details-list">
+                <li><strong>Método:</strong> Cartão de Crédito</li>
+                <li><strong>Final:</strong> **** **** **** 4242</li>
+                <li><strong>Status:</strong> Aprovado</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>Endereço de Entrega</h3>
+            <address>
+                Jojo da Silva<br>
+                Rua das Flores, 123, Apt 45<br>
+                Bairro Centro, São Paulo - SP<br>
+                CEP: 01000-000
+            </address>
+        </div>
+        
+        <div class="order-actions">
+            <button class="btn btn-secondary"><i data-feather="printer"></i> Imprimir Pedido</button>
+            <button class="btn btn-primary"><i data-feather="help-circle"></i> Ajuda</button>
+        </div>
+    </div>
+
+</div>
