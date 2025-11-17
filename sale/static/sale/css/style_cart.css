@@ -53,128 +53,6 @@ img {
 --- 2. HEADER PRINCIPAL (AZUL) ---
 =========================================
 */
-.main-header {
-    background-color: var(--primary-blue);
-    color: var(--white);
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 70px;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--white);
-    margin-right: 1rem;
-}
-
-.logo img {
-    height: 60px;
-}
-
-.main-nav {
-    display: flex;
-    gap: 1.5rem;
-    flex-grow: 1;
-}
-
-.main-nav a {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--medium-gray);
-    padding: 0.5rem 0;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
-}
-
-.main-nav a:hover,
-.main-nav a.active {
-    color: var(--white);
-    border-bottom-color: var(--white);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.search-bar {
-    display: flex;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    background-color: var(--white);
-}
-
-.search-bar input {
-    border: none;
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-    outline: none;
-    background-color: transparent;
-    color: var(--text-color);
-}
-
-.search-button {
-    background: var(--primary-green);
-    border: none;
-    color: var(--white);
-    padding: 0 0.8rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-}
-
-.search-button:hover {
-    background: var(--green-hover);
-}
-
-.action-icon {
-    color: var(--medium-gray);
-    transition: color 0.2s;
-}
-
-.btn-logout-catalog {
-    background-color: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-logout-catalog:hover {
-    color: var(--white);
-}
-
-.action-icon:hover {
-    color: var(--white);
-
-}
-
-/* --- Ícones --- */
-.feather {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2.5;
-}
-
-.search-button .feather {
-    width: 18px;
-    height: 18px;
-}
-
 /* --- Estilos da Página do Carrinho --- */
 .cart-title {
     font-size: 28px;
@@ -273,6 +151,36 @@ img {
     margin: 0;
 }
 
+.item-price-discount {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.item-price-discount .discount {
+    font-size: 0.9rem;
+    font-weight: 600;
+    background-color: #1ed37e;
+    border-radius: 10px;
+    padding: 0px 10px;
+}
+
+.item-price-discount .original-subtotal {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #777;
+    text-decoration: line-through;
+}
+
+.cart-item-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+    margin-top: 10px;
+}
+
 .cart-item-price .price {
     font-size: 18px;
     font-weight: 600;
@@ -342,6 +250,19 @@ img {
     border-top: 1px solid #ccc;
     font-size: 20px;
     font-weight: bold;
+}
+
+.client-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #e7f4ff;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.client-select option {
+    padding: 10px;
 }
 
 .checkout-button {

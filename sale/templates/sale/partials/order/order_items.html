@@ -8,9 +8,9 @@
             </div>
         </div>
     </td>
-    <td>2</td>
-    <td>R$ 28,00</td>
-    <td>R$ 58,00</td>
-    <td>0,00</td>
-    <td><strong>R$ 56,00</strong></td>
+    <td>{{ item.quantity }}</td>
+    <td>{{ item.product.stock.sale_price }}</td>
+    <td>{{ item.subtotal }}</td>
+    <td>{{ item.discount }}</td>
+    <td><strong>{{ item.total_price_with_discount }}</strong></td>
 </tr>

@@ -1,17 +1,17 @@
 <div class="order-page-header">
     <div class="order-header-title">
         <h1>Detalhes do Pedido</h1>
-        <span>#123456789</span>
+        <span>#{{ order.id }}</span>
     </div>
-    <div class="order-status-badge status-delivered">
-        <i data-feather="check-circle"></i> Entregue
+    <div class="order-status-badge status-{{ order.status }}">
+        <i data-feather="check-circle"></i> {{ order.get_status_display }}
     </div>
 </div>
 
 <div class="order-layout-grid">
 
     <div class="order-main-content">
-        <h2>Itens do Pedido (3)</h2>
+        <h2>Itens do Pedido ({{ order.total_quantity }})</h2>
 
         <div class="order-items-table-container">
             <table>
@@ -20,13 +20,15 @@
                         <th>Produto</th>
                         <th>Qtde.</th>
                         <th>Preço Unit.</th>
-                        <th>Preço Total</th>
+                        <th>Preço Subtotal</th>
                         <th>Desconto</th>
                         <th>Total</th>      
                     </tr>
                 </thead>
                 <tbody>
-                    {% include 'sale/partials/order/order_items.html' %}
+                    {% for item in order.order_items.all %}
+                        {% include "sale/partials/order/order_items.html"%}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -38,16 +40,16 @@
             <h3>Resumo do Pedido</h3>
             <ul class="summary-list">
                 <li>
-                    <span>Subtotal (3 itens)</span>
-                    <strong>R$ 86,00</strong>
+                    <span>Subtotal ({{ order.total_quantity }} itens)</span>
+                    <strong>R$ {{ order.total_price|floatformat:2 }}</strong>
                 </li>
                 <li>
                     <span>Desconto</span>
-                    <strong class="text-discount">- R$ 8,60</strong>
+                    <strong class="text-discount">- R$ {{ order.total_discount|floatformat:2 }}</strong>
                 </li>
                 <li class="total">
                     <span>Total</span>
-                    <strong>R$ 77,40</strong>
+                    <strong>R$ {{ order.total_price_with_discount|floatformat:2 }}</strong>
                 </li>
             </ul>
         </div>
@@ -55,10 +57,10 @@
         <div class="info-box">
             <h3>Detalhes da Transação</h3>
             <ul class="details-list">
-                <li><strong>Cliente:</strong> jojo (jojo@exemplo.com)</li>
+                <li><strong>Cliente:</strong> {{ order.client.user.first_name }} {{ order.client.user.last_name }}</li>
                 <li><strong>Vendedor:</strong> M-A-C Store</li>
-                <li><strong>Data do Pedido:</strong> 10 de Nov, 2025</li>
-                <li><strong>Status:</strong> Entregue</li>
+                <li><strong>Data do Pedido:</strong> {{ order.created_at|date:"d de N, Y" }}</li>
+                <li><strong>Status:</strong> {{ order.get_status_display }}</li>
             </ul>
         </div>
 

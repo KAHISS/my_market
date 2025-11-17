@@ -19,7 +19,13 @@
         </form>
     </div>
     <div class="cart-item-price">
-        <p class="price">R$ {{ item.subtotal }}</p>
+        {% if item.discount > 0 %}
+            <div class="item-price-discount">
+                <p class="discount">{{ item.percentage_discount }}%</p>
+                <p class="original-subtotal">R$ {{ item.subtotal }}</p>
+            </div>
+        {% endif %}
+        <p class="price">R$ {{ item.total_price_with_discount }}</p>
     </div>
     <div class="cart-item-remove">
         <form action="{% url 'sale:cart_remove' item.id %}" method="POST">
