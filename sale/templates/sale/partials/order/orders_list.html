@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Pedidos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Dashboard de Pedidos</h1>
+        </header>
+
+        <section class="stats-container">
+            <div class="stat-card total">
+                <h3>Total de Pedidos</h3>
+                <p>Quantidade: <span id="total-qty">0</span></p>
+                <p>Valor: <span id="total-value">R$ 0,00</span></p>
+            </div>
+            <div class="stat-card pagos">
+                <h3>Pedidos Pagos</h3>
+                <p>Quantidade: <span id="paid-qty">0</span></p>
+                <p>Valor: <span id="paid-value">R$ 0,00</span></p>
+            </div>
+            <div class="stat-card nao-pagos">
+                <h3>Pedidos Não Pagos</h3>
+                <p>Quantidade: <span id="unpaid-qty">0</span></p>
+                <p>Valor: <span id="unpaid-value">R$ 0,00</span></p>
+            </div>
+        </section>
+
+        <section class="controls">
+            <input type="search" id="search-bar" placeholder="Buscar por nº, cliente ou vendedor...">
+            <select id="filter-status">
+                <option value="Todos">Todos os Status</option>
+                <option value="Pago">Pagos</option>
+                <option value="Não Pago">Não Pagos</option>
+                <option value="Pendente">Pendente</option>
+            </select>
+        </section>
+
+        <main id="order-list">
+            </main>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
