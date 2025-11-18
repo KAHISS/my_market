@@ -168,7 +168,7 @@ def order_detail(request, id):
     order = Order.objects.get(id=id)
     client = Client.objects.get(user=request.user)
 
-    if order.user != request.user:
+    if order.user != request.user and not request.user.is_staff and not request.user.is_superuser:
         raise Http404("Order not found.")
 
     return render(request, 'sale/pages/order_detail.html', {
