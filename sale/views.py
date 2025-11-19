@@ -10,6 +10,7 @@ from utils.pagination import make_pagination
 import os
 from django.shortcuts import redirect
 from client.models import Client
+from django.db.models import Sum
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
@@ -161,6 +162,28 @@ def checkout(request):
     messages.success(request, 'Compra realizada com sucesso.')
 
     return redirect('sale:order', id=new_order.id)
+
+
+@login_required(login_url='users:login', redirect_field_name='next')
+def order_list(request):
+    if request.user.is_staff or request.user.is_superuser:
+        orders = Order.objects.all()
+    else:
+        orders = Order.objects.filter(user=request.user)
+
+    stats = {
+        'total_orders': orders.count(),
+        'total_sales': orders.aggregate(Sum('total_price_with_discount'))['total_price_with_discount__sum'] or 0,
+        'total_orders_pending': orders.filter(status='pendente').count(),
+        'total_sales_pending': orders.filter(status='pendente').aggregate(Sum('total_price_with_discount'))['total_price_with_discount__sum'] or 0,
+        'total_orders_completed': orders.filter(status='completo').count(),
+        'total_sales_completed': orders.filter(status='completo').aggregate(Sum('total_price_with_discount'))['total_price_with_discount__sum'] or 0,
+    }
+
+    return render(request, 'sale/pages/orders.html', {
+        'orders': orders,
+        'stats': stats,
+    })
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
