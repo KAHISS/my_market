@@ -1,0 +1,9 @@
+<script id="django-config" type="application/json">
+    {
+        "csrf_token": "{{ csrf_token }}",
+        "urls": {
+            "sale_cart": "{% url 'sale:cart' %}",
+            "product_list": "{% url 'inventory:product_list' %}"
+        }
+    }
+</script>
