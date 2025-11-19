@@ -1,0 +1,234 @@
+/* --- (Mantenha o código anterior igual até chegar aqui) --- */
+/* ... todo o CSS anterior ... */
+
+/* Reset Básico e Fontes */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased; /* Melhora a fonte no iOS */
+}
+
+.container {
+    max-width: 1200px;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #2c3e50;
+    font-size: 1.8rem; /* Ajuste leve para mobile */
+}
+
+/* 1. Estatísticas */
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap; 
+}
+
+.stat-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    flex: 1; 
+    min-width: 250px; 
+}
+
+.stat-card h3 {
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 1.3rem;
+}
+
+.stat-card p {
+    font-size: 1.25rem;
+    color: #111;
+    font-weight: 600;
+}
+
+.stat-card.total h3 { color: #2980b9; }
+.stat-card.pagos h3 { color: #27ae60; }
+.stat-card.nao-pagos h3 { color: #dba905; }
+
+/* 2. Controles de Busca e Filtro */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.controls input,
+.controls select {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    height: 48px; /* Altura boa para o toque do dedo */
+}
+
+.controls input {
+    flex: 3;
+    min-width: 250px;
+}
+
+.controls select {
+    flex: 1;
+    min-width: 150px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+/* 3. Lista de Pedidos */
+#order-list {
+    display: grid;
+    gap: 20px;
+    /* O minmax aqui ajuda, mas vamos reforçar no media query abaixo */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.order-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #ccc;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.order-card-header h2 {
+    font-size: 1.3rem;
+    color: #34495e;
+}
+
+.order-status {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.order-card-body {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 10px;
+}
+
+.order-card-body p {
+    color: #555;
+    font-size: 1.25rem;
+}
+
+.order-card-footer {
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+    text-align: right;
+    border-top: 1px solid #f0f0f0;
+    border-radius: 0 0 8px 8px;
+    margin-top: auto; /* Empurra o rodapé para o fundo do card */
+}
+
+.order-total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Cores dinâmicas */
+.status-pago { background-color: #e0f8e9; color: #27ae60; }
+.order-card.status-pago { border-left-color: #27ae60; }
+
+.status-nao-pago { background-color: #fdeaea; color: #c0392b; }
+.order-card.status-nao-pago { border-left-color: #c0392b; }
+
+.status-pendente { background-color: #fef8e2; color: #f39c12; }
+.order-card.status-pendente { border-left-color: #f39c12; }
+
+/* =========================================
+   MEDIA QUERIES (RESPONSIVIDADE MOBILE)
+   ========================================= */
+
+@media (max-width: 768px) {
+    
+    .container {
+        padding: 10px; /* Menos padding nas bordas para aproveitar a tela */
+        margin: 0; /* Remove margem externa */
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+        text-align: left; /* Alinha à esquerda fica melhor em mobile as vezes */
+        padding-left: 5px;
+    }
+
+    /* Estatísticas empilhadas verticalmente */
+    .stats-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .stat-card {
+        width: 100%; /* Força largura total */
+        padding: 20px; /* Reduz levemente o padding interno */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* Ajuste para exibir info lado a lado dentro do card de status no mobile */
+    .stat-card h3 { margin-bottom: 0; }
+    .stat-card div { text-align: right; }
+
+    /* Controles: Barra de busca e Select empilhados */
+    .controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .controls input,
+    .controls select {
+        width: 100%; /* Ocupam a linha inteira */
+        min-width: 0; /* Remove restrição anterior */
+    }
+
+    /* Lista de Pedidos */
+    #order-list {
+        grid-template-columns: 1fr; /* Uma coluna única */
+    }
+
+    .order-card-body {
+        grid-template-columns: 1fr; /* Informações do cliente empilhadas, não lado a lado */
+        gap: 8px;
+    }
+    
+    .order-card-header h2 {
+        font-size: 1rem; /* Título um pouco menor */
+    }
+}

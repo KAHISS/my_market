@@ -9,7 +9,7 @@
             <p><strong>Vendedor:</strong> {{ order.seller }}</p>
         {% endif %}
         <p><strong>Data:</strong> {{ order.created_at|date:"d/m/Y H:i:s" }} </p>
-        <p><strong>Ultima Atualização: </strong> {{ order.updated_at|date:"d/m/Y H:i:s" }}</p>
+        <p><strong>Ultima Atualização:</strong> {{ order.updated_at|date:"d/m/Y H:i:s" }}</p>
     </div>
     <div class="order-card-footer">
         <span class="order-total">R$ {{ order.total_price_with_discount }}</span>

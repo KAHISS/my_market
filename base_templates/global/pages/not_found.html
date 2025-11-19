@@ -2,31 +2,150 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Página não encontrada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página não encontrada - 404</title>
     <style>
+        /* Reset Básico e Fonte Moderna */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0f172a; /* Fundo escuro para contraste */
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Elementos de Fundo (Bolhas para o Gradiente) */
+        .background-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+            animation: float 10s infinite alternate;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: #005c97; /* Azul */
+            top: -50px;
+            left: -50px;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            background: #36d1dc; /* Verde Água/Azul */
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            background: #00b09b; /* Verde Vibrante */
+            top: 20%;
+            right: 20%;
+            animation-duration: 15s;
+        }
+
+        /* Container Principal com efeito de Vidro (Glassmorphism) */
+        .container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 3rem 4rem;
+            border-radius: 24px;
             text-align: center;
-            padding: 80px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            color: white;
+            max-width: 90%;
         }
-        h1 {
-            font-size: 50px;
-            color: #ff4444;
+
+        /* Tipografia do 404 */
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(to right, #36d1dc, #5b86e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -5px;
         }
-        p {
-            font-size: 18px;
-            margin-top: 20px;
+
+        .message-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
         }
-        a {
-            color: #0066cc;
+
+        .message-text {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Botão Moderno */
+        .home-btn {
             text-decoration: none;
-            font-weight: bold;
+            background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+            padding: 15px 35px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 176, 155, 0.3);
+            display: inline-block;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(0, 176, 155, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* Animação Flutuante */
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 50px); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .error-code { font-size: 6rem; }
+            .container { padding: 2rem; }
         }
     </style>
 </head>
 <body>
-    <h1>404</h1>
-    <p>Oops! A página que você está procurando não existe.</p>
-    <a href="/">Voltar ao início</a>
+
+    <div class="background-shape shape-1"></div>
+    <div class="background-shape shape-2"></div>
+    <div class="background-shape shape-3"></div>
+
+    <div class="container">
+        <h1 class="error-code">404</h1>
+        <h2 class="message-title">Ops, parece que você se perdeu.</h2>
+        <p class="message-text">A página que você está procurando não existe ou foi movida.</p>
+        
+        <a href="{% url 'catalog:home' %}" class="home-btn">Voltar para a home</a>
+    </div>
+
 </body>
 </html>
