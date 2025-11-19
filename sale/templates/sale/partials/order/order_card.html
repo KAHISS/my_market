@@ -1,0 +1,17 @@
+<div class="order-card status-{{ order.status }}" onclick="location.href='{% url 'sale:order_detail' order.id %}'">
+    <div class="order-card-header">
+        <h2>Pedido #{{ order.id }}</h2>
+        <span class="order-status status-{{ order.status }}">{{ order.status }}</span>
+    </div>
+    <div class="order-card-body">
+        <p><strong>Cliente:</strong> {{ order.user }}</p>
+        {% if order.seller %}
+            <p><strong>Vendedor:</strong> {{ order.seller }}</p>
+        {% endif %}
+        <p><strong>Data:</strong> {{ order.created_at|date:"d/m/Y H:i:s" }} </p>
+        <p><strong>Ultima Atualização: </strong> {{ order.updated_at|date:"d/m/Y H:i:s" }}</p>
+    </div>
+    <div class="order-card-footer">
+        <span class="order-total">R$ {{ order.total_price_with_discount }}</span>
+    </div>
+</div>
