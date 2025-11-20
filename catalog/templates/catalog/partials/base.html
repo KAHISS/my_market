@@ -7,6 +7,7 @@
 <body>
     {% block header %}
     {% endblock header %}
+    <div id="popup" class="popup">Item adicionado ao carrinho!</div>
     <div class="page-container">
         {% block content %}
         {% endblock content %}
@@ -15,5 +16,5 @@
     <script>
         feather.replace()
     </script>
-    {% include 'catalog/partials/script_json.html' %}
+    {{ js_context|json_script:"django-cfg" }}
 </html>

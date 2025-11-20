@@ -37,12 +37,12 @@
             Estoque disponível: <strong>{{ product.stock.quantity }}</strong>
         </div>
         
-        <form class="cart-form">
+        <form class="cart-form" method="post">
             <div class="quantity-selector">
                 <label for="quantity">Quantidade:</label>
                 <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock.quantity }}">
             </div>
-            <button type="submit" class="add-to-cart-btn-large">
+            <button type="submit" class="add-to-cart-btn-large" id="{{ product.id }}" name="product_id">
                 <i data-feather="shopping-cart"></i>
                 Adicionar ao pedido
             </button>

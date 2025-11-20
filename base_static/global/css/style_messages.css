@@ -91,3 +91,33 @@
 /* Nota: Para este CSS funcionar, você precisaria ter as variáveis de cor
    (--color-info-rgb, --color-success-rgb, etc.) definidas no seu :root.
    Se não tiver, pode substituir as variáveis por valores de cor RGB diretamente. */
+
+.popup {
+    position: fixed;
+    margin-top: 5rem;
+    top: 20px;
+    right: 20px;
+    background: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    opacity: 0;
+    border-radius: 5px;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.popup.show {
+    opacity: 1;
+}
+
+.error {
+    background-color: #f44336;
+}
+.success {
+    background-color: #4caf50;
+}
+.warning {
+    background-color: #ffc107;
+}
+.info {
+    background-color: #2196f3;
+}

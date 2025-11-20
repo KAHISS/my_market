@@ -1,9 +1,12 @@
+{% load static %}
 <script id="django-config" type="application/json">
     {
         "csrf_token": "{{ csrf_token }}",
         "urls": {
             "sale_cart": "{% url 'sale:cart' %}",
-            "product_list": "{% url 'inventory:product_list' %}"
+            "sale_cart_add": "{% url 'sale:cart_add_test' %}",
+            "product_list": "{% url 'inventory:product_list' %}",
+            "script_message": "{% static 'global/js/show_message.js' %}"
         }
     }
 </script>
