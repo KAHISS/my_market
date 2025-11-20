@@ -252,6 +252,19 @@ img {
     font-weight: bold;
 }
 
+.checkout-form {
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkout-form label {
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .client-select {
     width: 100%;
     padding: 10px;

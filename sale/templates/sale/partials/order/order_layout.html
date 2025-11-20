@@ -57,29 +57,30 @@
         <div class="info-box">
             <h3>Detalhes da Transação</h3>
             <ul class="details-list">
-                <li><strong>Cliente:</strong> {{ order.client.user.first_name }} {{ order.client.user.last_name }}</li>
-                <li><strong>Vendedor:</strong> M-A-C Store</li>
-                <li><strong>Data do Pedido:</strong> {{ order.created_at|date:"d de N, Y" }}</li>
-                <li><strong>Status:</strong> {{ order.get_status_display }}</li>
+                <li><strong>Cliente:</strong> {{ order.user.first_name }} {{ order.user.last_name }}</li>
+                {% if order.seller %}
+                    <li><strong>Vendedor:</strong> {{ order.seller.first_name }} {{ order.seller.last_name }}</li>
+                {% endif %}
+                <li><strong>Data do Pedido:</strong> {{ order.created_at|date:"d N, Y" }}</li>
+                <li><strong>Entregue:</strong> {{ order.delivered|yesno:"Sim,Não" }}</li>
             </ul>
         </div>
 
         <div class="info-box">
             <h3>Pagamento</h3>
             <ul class="details-list">
-                <li><strong>Método:</strong> Cartão de Crédito</li>
-                <li><strong>Final:</strong> **** **** **** 4242</li>
-                <li><strong>Status:</strong> Aprovado</li>
+                <li><strong>Método:</strong> {{ order.payment_method }}</li>
+                <li><strong>Status:</strong> {{ order.get_status_display }}</li>
             </ul>
         </div>
 
         <div class="info-box">
             <h3>Endereço de Entrega</h3>
             <address>
-                Jojo da Silva<br>
-                Rua das Flores, 123, Apt 45<br>
-                Bairro Centro, São Paulo - SP<br>
-                CEP: 01000-000
+                {{ order.user.first_name}} {{ order.user.last_name }}<br>
+                {{ client.address }}, {{ client.address_number }}<br>
+                Bairro {{ client.address_neighborhood }}, {{ client.address_city }} - {{ client.address_state }}<br>
+                CEP: {{ client.address_zipcode }}
             </address>
         </div>
         

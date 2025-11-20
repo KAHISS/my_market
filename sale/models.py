@@ -72,19 +72,17 @@ class Order(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name='order_client')
     seller = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name='order_seller')
+        User, on_delete=models.SET_NULL, null=True, related_name='order_seller', blank=True)
     status = models.CharField(
         max_length=50,
         default='pendente',
         choices=[
             ('pendente', 'Pendente'),
-            ('em_separacao', 'Em separação'),
-            ('em_transporte', 'Em transporte'),
-            ('entregue', 'Entregue'),
             ('pago', 'Pago'),
             ('cancelado', 'Cancelado'),
         ]
     )
+    payment_method = models.CharField(max_length=255, default='dinheiro')
     total_price = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
     total_discount = models.DecimalField(
@@ -92,6 +90,7 @@ class Order(models.Model):
     total_quantity = models.PositiveIntegerField(default=0)
     total_price_with_discount = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
+    delivered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
