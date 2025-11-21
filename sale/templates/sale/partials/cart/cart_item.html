@@ -9,13 +9,13 @@
         <p>{{ item.product.brand }}</p>
     </div>
     <div class="cart-item-quantity">
-        <form action="{% url 'sale:cart_update' item.id %}" method="POST">
+        <form action="" method="post" id="{{ item.product.id }}">
             {% csrf_token %}
-            <button class="quantity-btn minus packaging" name="action" value="minus_packaging">- {{ item.product.unit_per_packaging }}</button>
-            <button class="quantity-btn minus" name="action" value="minus">-</button>
+            <button class="quantity-btn minus packaging" name="action" value="minus_packaging" data-unit="{{ item.product.unit_per_packaging }}">- {{ item.product.unit_per_packaging }}</button>
+            <button class="quantity-btn minus" name="action" value="minus" data-unit="1">-</button>
             <input type="number" class="quantity-input" value="{{ item.quantity }}" min="1" readonly>
-            <button class="quantity-btn plus" name="action" value="plus">+</button>
-            <button class="quantity-btn plus packaging" name="action" value="plus_packaging">+ {{ item.product.unit_per_packaging }}</button>
+            <button class="quantity-btn plus" name="action" value="plus" data-unit="1">+</button>
+            <button class="quantity-btn plus packaging" name="action" value="plus_packaging" data-unit="{{ item.product.unit_per_packaging }}">+ {{ item.product.unit_per_packaging }}</button>
         </form>
     </div>
     <div class="cart-item-price">

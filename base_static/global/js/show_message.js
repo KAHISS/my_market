@@ -6,5 +6,6 @@ export function showPopup(message, type) {
 
     setTimeout(() => {
         popup.classList.remove('show');
+        popup.classList.remove(type);
     }, 3000); // 3 segundos
 }

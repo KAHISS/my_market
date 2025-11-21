@@ -26,7 +26,7 @@ def catalog(request):
         "urls": {
             "catalog": reverse('catalog:home'),
             "add_to_cart": reverse('sale:cart_add'),
-            "script_message": STATIC_URL + "global/js/show_message.js"
+            "script_message": STATIC_URL
         }
     }
 

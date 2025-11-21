@@ -103,7 +103,7 @@
     opacity: 0;
     border-radius: 5px;
     pointer-events: none;
-    transition: opacity 0.4s ease;
+    transition:  0.4s;
 }
 .popup.show {
     opacity: 1;
