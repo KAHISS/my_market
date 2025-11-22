@@ -85,66 +85,70 @@ def add_item_to_cart(request):
         cart_item.quantity += quantity
         cart_item.save()
 
+    if cart_item.discount() > 0:
+        return JsonResponse({
+            'sucess': True,
+            'message': f'{product.name} adicionado ao carrinho.',
+            'add_discount': True,
+            'info': {
+                'subtotal': cart_item.subtotal(),
+                'discount': cart_item.discount(),
+                'percentage_discount': cart_item.percentage_discount(),
+                'total_price_with_discount': cart_item.total_price_with_discount()
+            }
+        })
     return JsonResponse({'success': True, 'message': f'{product.name} adicionado ao carrinho.'})
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
-def update_quantity(request, id):
+def remove_item_to_cart(request):
     if request.method != 'POST':
         raise Http404("No POST data found.")
 
-    action = request.POST.get('action')
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'message': 'Erro no formato dos dados enviados.'})
+
+    productId = data.get('productId')
+    quantity = data.get('quantity')
+
+    try:
+        quantity = int(quantity)
+    except (ValueError, TypeError):
+        return JsonResponse({'success': False, 'message': 'Quantidade inválida.'})
+
+    if not productId or quantity < 1:
+        return JsonResponse({'success': False, 'message': 'Dados inválidos.'})
+
+    cart = Cart.objects.get_or_create(user=request.user)[0]
 
     with transaction.atomic():
-        try:
-            cart_item = CartItem.objects.select_for_update().select_related('product__stock').get(
-                id=id,
-                cart__user=request.user
-            )
-        except CartItem.DoesNotExist:
-            raise Http404("Item não encontrado no seu carrinho.")
+        product = get_object_or_404(
+            Product.objects.select_for_update(), id=productId)
 
-        product = cart_item.product
-        stock_qty = product.stock.quantity
+        if getattr(product, 'stock', None) is None:
+            return JsonResponse({'success': False, 'message': 'Erro de cadastro: produto sem estoque vinculado.'})
 
-        match action:
-            case 'plus_packaging':
-                if (cart_item.quantity + product.unit_per_packaging) <= stock_qty:
-                    cart_item.quantity += product.unit_per_packaging
-                    cart_item.save()
-                else:
-                    messages.error(
-                        request,
-                        f'Não há estoque suficiente para adicionar mais {product.packaging_type.lower()} de "{product.name}".'
-                    )
+        if product.stock.quantity <= 0:
+            return JsonResponse({'success': False, 'message': 'Estoque esgotado.'})
 
-            case 'plus':
-                if cart_item.quantity < stock_qty:
-                    cart_item.quantity += 1
-                    cart_item.save()
-                else:
-                    messages.error(
-                        request,
-                        f'Não há estoque suficiente para adicionar mais "{product.name}".'
-                    )
+        cart_item = get_object_or_404(
+            CartItem.objects.select_for_update(),
+            cart=cart,
+            product=product,
+        )
 
-            case 'minus_packaging':
-                if cart_item.quantity >= product.unit_per_packaging:
-                    cart_item.quantity -= product.unit_per_packaging
-                    if cart_item.quantity == 0:
-                        cart_item.delete()
-                    else:
-                        cart_item.save()
+        final_quantity = cart_item.quantity - quantity
 
-            case 'minus':
-                if cart_item.quantity > 0:
-                    cart_item.quantity -= 1
-                    if cart_item.quantity == 0:
-                        cart_item.delete()
-                    else:
-                        cart_item.save()
+        if final_quantity < 0:
+            msg = f'{product.name} foi removido do carrinho removido '
+            return JsonResponse({'success': True, 'message': msg, 'remove': True})
 
-    return redirect('sale:cart')
+        cart_item.quantity -= quantity
+        cart_item.save()
+
+    return JsonResponse({'success': True, 'message': f'Foi removido {quantity} {product.name} do carrinho.'})
 
 
 @login_required(login_url='users:login', redirect_field_name='next')

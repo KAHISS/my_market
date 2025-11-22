@@ -5,9 +5,8 @@ const config = JSON.parse(djangoConfig);
 const { csrf_token, urls } = config;
 
 // 1. Melhoria: Receber o botão para poder desabilitá-lo
-const addItemToCart = async (url, id, quantity, buttonElement = null) => {
+const addItemToCart = async (url, id, quantity, buttonElement = null, form = null) => {
     
-    // Bloqueia o botão para evitar clique duplo
     if (buttonElement) {
         buttonElement.disabled = true;
     }
@@ -27,9 +26,55 @@ const addItemToCart = async (url, id, quantity, buttonElement = null) => {
 
         if (data.success) {
             showPopup(data.message, 'success');
+
+            if (data.add_discount) {
+                // colocar as informações atualizadas no carrinho
+            }
         } else {
             showPopup(data.message, 'error');
         }
+
+        return data;
+    } catch (error) {
+        console.error(error);
+        showPopup('Ocorreu um erro ao adicionar ao carrinho. Tente novamente.', 'error');
+    } finally {
+        if (buttonElement) {
+            buttonElement.disabled = false;
+        }
+    }
+}
+
+const removeItemFromCart = async (url, id, buttonElement = null, inputElement = null) => {
+
+    if (buttonElement) {
+        buttonElement.disabled = true;
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrf_token
+            },
+            body: JSON.stringify({ productId: id, quantity: quantity })
+        });
+        console.log(response)
+
+        const data = await response.json();
+
+        if (data.success) {
+            showPopup(data.message, 'success');
+            if (data.remove) {
+            } else {
+                inputElement.value = parseInt(inputElement.value) - quantity;
+            }
+        } else {
+            showPopup(data.message, 'error');
+        }
+
+        return data;
     } catch (error) {
         console.error(error);
         showPopup('Ocorreu um erro ao adicionar ao carrinho. Tente novamente.', 'error');
@@ -76,10 +121,11 @@ if (quantityButtons.length > 0) {
         button.addEventListener('click', (e) => {
             e.preventDefault();
             const unit = parseInt(e.currentTarget.dataset.unit);
-            const productId = parseInt(e.currentTarget.parentNode.id);
-            console.log(`Adicionando Produto: ${productId}, Qtd: ${unit}`);       
+            const form = e.currentTarget.parentNode
+            const productId = parseInt(form.id)
+
             if (productId) {
-                addItemToCart(urls.add_to_cart, productId, unit, e.currentTarget);
+                addItemToCart(urls.add_to_cart, productId, unit, e.currentTarget, form);
             } else {
                 console.error("ID do produto não encontrado no botão de quantidade");
             }
