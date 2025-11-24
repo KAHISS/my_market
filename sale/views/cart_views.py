@@ -22,16 +22,22 @@ def cart_view(request):
     if not cart:
         raise Http404('Cart not found')
 
+    if cart.total_discount() > 0:
+        display_discount = True
+    else:
+        display_discount = False
+
     js_context = {
         "csrf_token": get_token(request),
         "urls": {
             "catalog": reverse('catalog:home'),
             "add_to_cart": reverse('sale:cart_add'),
+            "remove_from_cart": reverse('sale:cart_remove'),
             "script_message": STATIC_URL
         }
     }
 
-    return render(request, 'sale/pages/cart.html', {'cart': cart, 'clients': clients, 'js_context': js_context})
+    return render(request, 'sale/pages/cart.html', {'cart': cart, 'clients': clients, 'js_context': js_context, 'display_discount': display_discount})
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
@@ -87,17 +93,41 @@ def add_item_to_cart(request):
 
     if cart_item.discount() > 0:
         return JsonResponse({
-            'sucess': True,
+            'success': True,
             'message': f'{product.name} adicionado ao carrinho.',
             'add_discount': True,
-            'info': {
+            'info_cart_item': {
+                'quantity': cart_item.quantity,
                 'subtotal': cart_item.subtotal(),
                 'discount': cart_item.discount(),
                 'percentage_discount': cart_item.percentage_discount(),
                 'total_price_with_discount': cart_item.total_price_with_discount()
+            },
+            'info_cart': {
+                'quantity': cart.total_quantity(),
+                'total_price': cart.total_price(),
+                'total_discount': cart.total_discount(),
+                'total_price_with_discount': cart.total_price_with_discount()
             }
         })
-    return JsonResponse({'success': True, 'message': f'{product.name} adicionado ao carrinho.'})
+    return JsonResponse({
+        'success': True,
+        'message': f'{product.name} adicionado ao carrinho.',
+        'add_discount': False,
+        'info_cart_item': {
+            'quantity': cart_item.quantity,
+            'subtotal': cart_item.subtotal(),
+            'discount': cart_item.discount(),
+            'percentage_discount': cart_item.percentage_discount(),
+            'total_price_with_discount': cart_item.total_price_with_discount()
+        },
+        'info_cart': {
+            'quantity': cart.total_quantity(),
+            'total_price': cart.total_price(),
+            'total_discount': cart.total_discount(),
+            'total_price_with_discount': cart.total_price_with_discount()
+        }
+    })
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
@@ -141,14 +171,62 @@ def remove_item_to_cart(request):
 
         final_quantity = cart_item.quantity - quantity
 
-        if final_quantity < 0:
+        if final_quantity <= 0:
             msg = f'{product.name} foi removido do carrinho removido '
-            return JsonResponse({'success': True, 'message': msg, 'remove': True})
+            cart_item.delete()
+            return JsonResponse({
+                'success': True,
+                'message': msg,
+                'remove': True,
+                'info_cart': {
+                    'quantity': cart.total_quantity(),
+                    'total_price': cart.total_price(),
+                    'total_discount': cart.total_discount(),
+                    'total_price_with_discount': cart.total_price_with_discount()
+                }
+            })
 
         cart_item.quantity -= quantity
         cart_item.save()
 
-    return JsonResponse({'success': True, 'message': f'Foi removido {quantity} {product.name} do carrinho.'})
+    if cart_item.discount() > 0:
+        return JsonResponse({
+            'success': True,
+            'message': f'{product.name} foi removido do carrinho.',
+            'add_discount': True,
+            'info_cart_item': {
+                'quantity': cart_item.quantity,
+                'subtotal': cart_item.subtotal(),
+                'discount': cart_item.discount(),
+                'percentage_discount': cart_item.percentage_discount(),
+                'total_price_with_discount': cart_item.total_price_with_discount()
+            },
+            'info_cart': {
+                'quantity': cart.total_quantity(),
+                'total_price': cart.total_price(),
+                'total_discount': cart.total_discount(),
+                'total_price_with_discount': cart.total_price_with_discount()
+            }
+        })
+
+    return JsonResponse({
+        'success': True,
+        'message': f'{product.name} foi removido do carrinho.',
+        'add_discount': False,
+        'info_cart_item': {
+            'quantity': cart_item.quantity,
+            'subtotal': cart_item.subtotal(),
+            'discount': cart_item.discount(),
+            'percentage_discount': cart_item.percentage_discount(),
+            'total_price_with_discount': cart_item.total_price_with_discount()
+        },
+        'info_cart': {
+            'quantity': cart.total_quantity(),
+            'total_price': cart.total_price(),
+            'total_discount': cart.total_discount(),
+            'total_price_with_discount': cart.total_price_with_discount()
+        }
+    })
 
 
 @login_required(login_url='users:login', redirect_field_name='next')

@@ -86,7 +86,14 @@
         
         <div class="order-actions">
             <button class="btn btn-secondary"><i data-feather="printer"></i> Imprimir Pedido</button>
-            <button class="btn btn-primary"><i data-feather="help-circle"></i> Ajuda</button>
+            {% if request.user.is_staff or request.user.is_superuser %}
+                <form action="{% url 'sale:order_cancel' order.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-danger"><i data-feather="x"></i> Cancelar Pedido</button>
+                </form>
+            {% else %}
+                <button class="btn btn-primary"><i data-feather="help-circle"></i> Ajuda</button>
+            {% endif %}
         </div>
     </div>
 

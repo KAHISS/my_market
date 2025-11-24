@@ -4,6 +4,31 @@ const djangoConfig = document.getElementById('django-cfg').textContent;
 const config = JSON.parse(djangoConfig);
 const { csrf_token, urls } = config;
 
+const updateCart = (data, id) => {
+    const productElement = document.getElementById(`product-${id}`);
+    if (productElement) {
+        // Atualizando valor do input
+        productElement.querySelector(`.quantity-input`).value = data.info_cart_item.quantity;
+
+        // deixando disconto visível e atualizando os valores
+        const discountElement = productElement.querySelector('.item-price-discount');
+        if (data.add_discount) {
+            discountElement.classList.add('show');
+            discountElement.querySelector('.discount').innerText = `${data.info_cart_item.percentage_discount}%`;
+            discountElement.querySelector('.original-subtotal').innerText = `R$ ${data.info_cart_item.subtotal}`.replace('.', ',');
+        } else {
+            discountElement.classList.remove('show');
+        }
+        discountElement.parentNode.querySelector('.price').innerText = `R$ ${data.info_cart_item.total_price_with_discount}`.replace('.', ',');
+
+        // atualizando sumario
+        const summaryElement = document.querySelector('.order-summary');
+        summaryElement.querySelector('#subtotal').innerText = `R$ ${data.info_cart.total_price}`.replace('.', ',');
+        summaryElement.querySelector('#discount').innerText = `R$ ${data.info_cart.total_discount}`.replace('.', ',');
+        summaryElement.querySelector('#total').innerText = `R$ ${data.info_cart.total_price_with_discount}`.replace('.', ',');
+    }
+}
+
 // 1. Melhoria: Receber o botão para poder desabilitá-lo
 const addItemToCart = async (url, id, quantity, buttonElement = null, form = null) => {
     
@@ -20,16 +45,12 @@ const addItemToCart = async (url, id, quantity, buttonElement = null, form = nul
             },
             body: JSON.stringify({ productId: id, quantity: quantity })
         });
-        console.log(response)
 
         const data = await response.json();
 
         if (data.success) {
             showPopup(data.message, 'success');
-
-            if (data.add_discount) {
-                // colocar as informações atualizadas no carrinho
-            }
+            updateCart(data, id);
         } else {
             showPopup(data.message, 'error');
         }
@@ -45,7 +66,7 @@ const addItemToCart = async (url, id, quantity, buttonElement = null, form = nul
     }
 }
 
-const removeItemFromCart = async (url, id, buttonElement = null, inputElement = null) => {
+const removeItemFromCart = async (url, id, quantity, buttonElement = null, form = null) => {
 
     if (buttonElement) {
         buttonElement.disabled = true;
@@ -67,8 +88,9 @@ const removeItemFromCart = async (url, id, buttonElement = null, inputElement = 
         if (data.success) {
             showPopup(data.message, 'success');
             if (data.remove) {
+                buttonElement.parentNode.parentNode.parentNode.remove();
             } else {
-                inputElement.value = parseInt(inputElement.value) - quantity;
+                updateCart(data, id);
             }
         } else {
             showPopup(data.message, 'error');
@@ -77,7 +99,7 @@ const removeItemFromCart = async (url, id, buttonElement = null, inputElement = 
         return data;
     } catch (error) {
         console.error(error);
-        showPopup('Ocorreu um erro ao adicionar ao carrinho. Tente novamente.', 'error');
+        showPopup('Ocorreu um erro ao remover do carrinho. ' + error, 'error');
     } finally {
         if (buttonElement) {
             buttonElement.disabled = false;
@@ -115,9 +137,9 @@ if (singleButton) {
 }
 
 // CORREÇÃO CRÍTICA DO TERCEIRO BLOCO
-const quantityButtons = document.querySelectorAll('.quantity-btn.plus');
-if (quantityButtons.length > 0) {
-    quantityButtons.forEach(button => {
+const plusButtons = document.querySelectorAll('.quantity-btn.plus');
+if (plusButtons.length > 0) {
+    plusButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
             const unit = parseInt(e.currentTarget.dataset.unit);
@@ -126,6 +148,24 @@ if (quantityButtons.length > 0) {
 
             if (productId) {
                 addItemToCart(urls.add_to_cart, productId, unit, e.currentTarget, form);
+            } else {
+                console.error("ID do produto não encontrado no botão de quantidade");
+            }
+        });
+    });
+}
+
+const minusButtons = document.querySelectorAll('.quantity-btn.minus');
+if (minusButtons.length > 0) {
+    minusButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const unit = parseInt(e.currentTarget.dataset.unit);
+            const form = e.currentTarget.parentNode
+            const productId = parseInt(form.id)
+
+            if (productId) {
+                removeItemFromCart(urls.remove_from_cart, productId, unit, e.currentTarget, form);
             } else {
                 console.error("ID do produto não encontrado no botão de quantidade");
             }

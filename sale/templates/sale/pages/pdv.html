@@ -1,0 +1,14 @@
+{% extends 'sale/partials/base.html' %}
+
+{% block title %}Ponto de Venda{% endblock title %}
+
+{% block header %}
+    {% include 'global/partials/header.html' %}
+{% endblock header %}
+
+{% block content %}
+    {% include "global/partials/messages.html" %}
+    {% include 'sale/partials/pdv/items_and_sumary.html' %}
+    {% include 'sale/partials/pdv/payment_method.html' %}
+    {% include 'sale/partials/pdv/search_product.html' %}
+{% endblock content %}

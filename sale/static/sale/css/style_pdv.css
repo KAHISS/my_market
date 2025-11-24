@@ -1,0 +1,451 @@
+/* --- Variáveis de Cor (Tema Azul e Verde) --- */
+:root {
+    --primary-color: #00796b; /* Azul-esverdeado (Teal) */
+    --secondary-color: #43a047; /* Verde */
+    --danger-color: #e53935; /* Vermelho para remover/cancelar */
+    --light-bg: #f4f7f6; /* Fundo bem claro, levemente verde */
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Reset Básico e Fontes --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* --- Layout Principal --- */
+.pos-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 20px;
+    gap: 20px;
+}
+
+.cart-container {
+    flex: 2;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.summary-container {
+    flex: 1;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    position: sticky; /* Painel fica fixo ao rolar */
+    top: 20px;
+    height: fit-content;
+}
+
+h2, h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* --- Botões Comuns --- */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color); /* Verde para ação principal */
+}
+
+.btn-secondary {
+    background-color: var(--primary-color); /* Azul-esverdeado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-danger {
+    background-color: transparent;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+}
+.btn-danger:hover {
+    background-color: var(--danger-color);
+    color: #fff;
+}
+
+
+/* --- Inputs --- */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 121, 107, 0.2);
+}
+
+/* --- Lista de Itens (Carrinho) --- */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px 10px 10px;
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+}
+.header-product { flex-basis: 45%; }
+.header-quantity { flex-basis: 25%; text-align: center; }
+.header-price { flex-basis: 20%; text-align: right; }
+.header-remove { flex-basis: 10%; }
+
+
+#cart-items {
+    list-style: none;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.item-name {
+    flex-basis: 45%;
+    font-weight: 500;
+}
+
+.item-quantity {
+    flex-basis: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-quantity input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin: 0 5px;
+    font-size: 14px;
+    padding: 5px;
+    /* Esconde setas do input number */
+    -moz-appearance: textfield;
+}
+.item-quantity input::-webkit-outer-spin-button,
+.item-quantity input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-btn {
+    width: 25px;
+    height: 25px;
+    border: 1px solid var(--border-color);
+    background-color: #f9f9f9;
+    color: var(--text-color);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 22px;
+}
+.quantity-btn:hover {
+    background-color: #eee;
+}
+
+.item-price {
+    flex-basis: 20%;
+    text-align: right;
+    font-weight: 500;
+}
+
+.remove-btn {
+    flex-basis: 10%;
+    background: none;
+    border: none;
+    color: var(--danger-color);
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+}
+.remove-btn:hover {
+    opacity: 0.7;
+}
+
+/* --- Painel de Resumo --- */
+.summary-details {
+    margin: 25px 0;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.summary-line span:last-child {
+    font-weight: 600;
+}
+
+.discount-line label {
+    font-weight: 500;
+}
+.discount-line input {
+    width: 60px;
+    padding: 5px;
+    text-align: right;
+    font-size: 16px;
+}
+
+.summary-line.total {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-top: 15px;
+}
+
+.summary-line.total span {
+    font-weight: 700;
+}
+
+/* --- Modal --- */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay escuro */
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 10% auto;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #333;
+}
+
+#modal-search-input {
+    margin-bottom: 20px;
+}
+
+#modal-results-list {
+    list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#modal-results-list li {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    transition: background-color 0.2s ease;
+}
+#modal-results-list li:last-child {
+    border-bottom: none;
+}
+
+#modal-results-list li:hover {
+    background-color: var(--light-bg);
+}
+
+#modal-results-list .item-price {
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+/* --- Animações do Modal --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Estilos do Modal de Pagamento --- */
+#payment-modal .modal-content {
+    max-width: 450px;
+}
+
+.payment-total {
+    font-size: 24px;
+    font-weight: 600;
+    padding: 15px;
+    background-color: var(--light-bg);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.payment-total strong {
+    color: var(--secondary-color);
+}
+
+.payment-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.payment-method-btn {
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: #fff;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.payment-method-btn:hover {
+    background-color: #f9f9f9;
+    border-color: var(--primary-color);
+}
+
+/* Classe para o botão selecionado */
+.payment-method-btn.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 5px rgba(0, 121, 107, 0.3);
+}
+
+#cash-payment-details {
+    padding: 15px;
+    border: 1px dashed var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+#cash-payment-details .input-group {
+    margin-bottom: 15px;
+}
+
+#cash-payment-details input {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: right;
+}
+
+.payment-change {
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-change strong {
+    color: var(--secondary-color);
+    font-size: 24px;
+}
+
+/* Classe utilitária para esconder elementos */
+.hidden {
+    display: none;
+}
+
+#confirm-payment-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

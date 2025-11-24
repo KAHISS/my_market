@@ -43,132 +43,6 @@ img {
 
 /*
 =========================================
---- 2. HEADER PRINCIPAL (AZUL) ---
-=========================================
-*/
-.main-header {
-    background-color: var(--primary-blue);
-    color: var(--white);
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 70px;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--white);
-    margin-right: 1rem;
-}
-
-.logo img {
-    height: 60px;
-}
-
-.main-nav {
-    display: flex;
-    gap: 1.5rem;
-    flex-grow: 1;
-}
-
-.main-nav a {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--medium-gray);
-    padding: 0.5rem 0;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
-}
-
-.main-nav a:hover,
-.main-nav a.active {
-    color: var(--white);
-    border-bottom-color: var(--white);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.search-bar {
-    display: flex;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    background-color: var(--white);
-}
-
-.search-bar input {
-    border: none;
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-    outline: none;
-    background-color: transparent;
-    color: var(--text-color);
-}
-
-.search-button {
-    background: var(--primary-green);
-    border: none;
-    color: var(--white);
-    padding: 0 0.8rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-}
-
-.search-button:hover {
-    background: var(--green-hover);
-}
-
-.action-icon {
-    color: var(--medium-gray);
-    transition: color 0.2s;
-}
-
-.btn-logout-catalog {
-    background-color: transparent;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-logout-catalog:hover {
-    color: var(--white);
-}
-
-.action-icon:hover {
-    color: var(--white);
-
-}
-/* --- Ícones --- */
-.feather {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2.5;
-}
-
-.search-button .feather {
-    width: 18px;
-    height: 18px;
-}
-
-/*
-=========================================
 --- 3. LAYOUT DA PÁGINA (CATÁLOGO) ---
 =========================================
 */
@@ -355,70 +229,6 @@ img {
 
 /*
 =========================================
---- 5. PAGINAÇÃO ---
-=========================================
-*/
-.pagination-container {
-    width: 100%;
-    margin-top: 3rem;
-    margin-bottom: 2rem;
-    padding: 0 1rem;
-}
-
-.pagination-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.page-item {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 40px;
-    height: 40px;
-    padding: 0 0.5rem;
-    border-radius: var(--border-radius, 8px);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--dark-gray);
-    text-decoration: none;
-}
-
-.page-link {
-    border: 1px solid var(--medium-gray);
-    background-color: var(--white);
-    transition: all 0.2s ease-in-out;
-}
-
-.page-link:hover {
-    border-color: var(--primary-green);
-    color: var(--primary-green);
-    background-color: #f0fdf4;
-}
-
-span.page-item {
-    border: none;
-    background: transparent;
-}
-
-.page-current {
-    background-color: var(--primary-green);
-    border-color: var(--primary-green);
-    color: var(--white);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.page-current:hover {
-    background-color: var(--primary-green);
-    border-color: var(--primary-green);
-    color: var(--white);
-}
-
-/*
-=========================================
 --- 6. ESTILOS PÁGINA DE PRODUTO ---
 =========================================
 */
@@ -589,32 +399,12 @@ span.page-item {
 }
 
 
-/* Para tablets e celulares grandes (ex: até 768px) */
-@media (max-width: 768px) {
-    .main-header {
-        padding: 0 1rem;
-    }
+/* Para tablets e celulares grandes (ex: até 695px) */
+@media (max-width: 695px) {
 
     .page-container {
         padding: 0 1rem;
         margin-top: 1.5rem;
-    }
-
-    /* Esconde navegação e busca do desktop */
-    .main-nav {
-        display: none;
-    }
-    .header-actions .search-bar {
-        display: none;
-    }
-
-    /* Mostra o ícone de menu mobile */
-    .mobile-menu-icon {
-        display: block;
-    }
-
-    .header-container {
-        justify-content: space-between;
     }
     
     .logo {
@@ -692,6 +482,10 @@ span.page-item {
 
 /* Para celulares pequenos (ex: até 480px) */
 @media (max-width: 480px) {
+    .reference-icon-action {
+        display: none;
+    }
+
     .product-grid {
         grid-template-columns: 1fr;
     }

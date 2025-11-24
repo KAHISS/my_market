@@ -15,9 +15,9 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 12))
 def catalog(request):
     products = Product.objects.filter(
         in_catalog=True
-    ).order_by("name")
+    ).order_by("category__name")
 
-    categories = Category.objects.all().order_by("id")
+    categories = Category.objects.all().order_by("name")
 
     page_obj, pagination_range = make_pagination(request, products, PER_PAGE)
 
@@ -45,9 +45,9 @@ def search(request):
         raise Http404("Não encontrado")
 
     products = Product.objects.filter(
-        Q(Q(name__icontains=search_term) | Q(brand__icontains=search_term)) &
+        Q(Q(name__icontains=search_term) | Q(brand__icontains=search_term) | Q(barcode__icontains=search_term)) &
         Q(in_catalog=True)
-    ).order_by("name")
+    ).order_by("category__name")
 
     categories = Category.objects.all().order_by("name")
 
@@ -78,7 +78,7 @@ def category(request, category_id):
     products = Product.objects.filter(
         in_catalog=True,
         category_id=category_id
-    ).order_by("name")
+    ).order_by("category__name")
 
     categories = Category.objects.all().order_by("name")
     category_name = Category.objects.get(id=category_id).name
@@ -108,7 +108,7 @@ def offer(request):
     products = Product.objects.filter(
         discount__gt=0,
         in_catalog=True
-    ).order_by("name")
+    ).order_by("category__name")
 
     categories = Category.objects.all().order_by("name")
 
@@ -156,7 +156,3 @@ def product(request, product_id):
         'categories': categories,
         'js_context': js_context,
     })
-
-
-def profile(request):
-    return render(request, 'catalog/pages/client_profile.html')

@@ -1,11 +1,12 @@
 export function showPopup(message, type) {
     const popup = document.getElementById('popup');
-    popup.innerText = message;
-    popup.classList.add('show');
-    popup.classList.add(type);
+    const p = document.createElement('p');
+    p.innerText = message;
+    popup.appendChild(p);
+    p.classList.add('show');
+    p.classList.add(type);
 
     setTimeout(() => {
-        popup.classList.remove('show');
-        popup.classList.remove(type);
-    }, 3000); // 3 segundos
+        popup.removeChild(p);
+    }, 2 * 1000);
 }

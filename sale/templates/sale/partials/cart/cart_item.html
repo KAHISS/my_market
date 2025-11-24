@@ -1,4 +1,4 @@
-<div class="cart-item" data-price="5.99">
+<div class="cart-item" data-price="5.99" id="product-{{ item.product.id }}">
     {% if item.product.image %}
         <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-item-image">
     {% else %}
@@ -10,16 +10,19 @@
     </div>
     <div class="cart-item-quantity">
         <form action="" method="post" id="{{ item.product.id }}">
-            {% csrf_token %}
-            <button class="quantity-btn minus packaging" name="action" value="minus_packaging" data-unit="-{{ item.product.unit_per_packaging }}">- {{ item.product.unit_per_packaging }}</button>
-            <button class="quantity-btn minus" name="action" value="minus" data-unit="-1">-</button>
-            <input type="number" class="quantity-input" value="{{ item.quantity }}" min="1" id="quantity-display" readonly>
+            <button class="quantity-btn minus packaging" name="action" value="minus_packaging" data-unit="{{ item.product.unit_per_packaging }}">- {{ item.product.unit_per_packaging }}</button>
+            <button class="quantity-btn minus" name="action" value="minus" data-unit="1">-</button>
+            <input type="number" class="quantity-input" value="{{ item.quantity }}" min="1" id="quantity-input" readonly>
             <button class="quantity-btn plus" name="action" value="plus" data-unit="1">+</button>
             <button class="quantity-btn plus packaging" name="action" value="plus_packaging" data-unit="{{ item.product.unit_per_packaging }}">+ {{ item.product.unit_per_packaging }}</button>
         </form>
     </div>
     <div class="cart-item-price">
-        <div class="item-price-discount">
+        {% if display_discount %}
+            <div class="item-price-discount show">
+        {% else %}
+            <div class="item-price-discount">
+        {% endif %}
             <p class="discount">{{ item.percentage_discount }}%</p>
             <p class="original-subtotal">R$ {{ item.subtotal }}</p>
         </div>

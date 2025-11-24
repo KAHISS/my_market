@@ -1,0 +1,32 @@
+<div id="payment-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="close-payment-modal">&times;</span>
+        <h3>Finalizar Pagamento</h3>
+        
+        <div class="payment-total">
+            <span>Total a Pagar:</span>
+            <strong id="modal-total-amount">R$ 0,00</strong>
+        </div>
+
+        <label class="payment-label">Forma de Pagamento:</label>
+        <div class="payment-methods">
+            <button class="payment-method-btn" data-method="dinheiro">Dinheiro</button>
+            <button class="payment-method-btn" data-method="credito">Crédito</button>
+            <button class="payment-method-btn" data-method="debito">Débito</button>
+            <button class="payment-method-btn" data-method="pix">PIX</button>
+        </div>
+        
+        <div id="cash-payment-details" class="hidden">
+            <div class="input-group">
+                <label for="cash-received">Valor Recebido</label>
+                <input type="number" id="cash-received" placeholder="0,00">
+            </div>
+            <div class="payment-change">
+                <span>Troco:</span>
+                <strong id="change-amount">R$ 0,00</strong>
+            </div>
+        </div>
+        
+        <button id="confirm-payment-btn" class="btn btn-primary" disabled>Confirmar Pagamento</button>
+    </div>
+</div>

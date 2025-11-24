@@ -13,10 +13,9 @@ class ProductAdmin(admin.ModelAdmin):
     """
         Admin for Product model.
     """
-    list_display = ['id', 'name', 'brand', 'category',
-                    'sale_price', 'stock_quantity', 'in_catalog']
-    list_display_links = 'name', 'brand', 'category', 'sale_price', 'stock_quantity'
-    search_fields = 'name', 'brand', 'category__name', 'sale_price', 'stock_quantity'
+    list_display = ['id', 'name', 'brand', 'category', 'in_catalog']
+    list_display_links = 'name', 'brand', 'category'
+    search_fields = 'name', 'brand', 'category__name', 'barcode'
     list_filter = 'category', 'in_catalog', 'brand'
     list_per_page = 10
     list_editable = ['in_catalog']
@@ -30,7 +29,7 @@ class StockAdmin(admin.ModelAdmin):
     """
     list_display = ['product', 'quantity', 'created_at', 'updated_at']
     list_display_links = 'product', 'quantity', 'created_at', 'updated_at'
-    search_fields = 'product__name', 'quantity', 'product__brand', 'product__category__name'
+    search_fields = 'product__name', 'quantity', 'product__brand', 'product__category__name', 'product__barcode'
     list_filter = 'product__category', 'product__in_catalog'
     list_per_page = 10
     ordering = '-created_at',

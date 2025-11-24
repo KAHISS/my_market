@@ -13,7 +13,7 @@
     
     <div class="summary-line summary-total">
         <span>Total</span>
-        <span id="total">{{ cart.total_price_with_discount }}</span>
+        <span id="total">R$ {{ cart.total_price_with_discount }}</span>
     </div>
 
     <form action="{% url 'sale:checkout' %}" method="post" class="checkout-form">

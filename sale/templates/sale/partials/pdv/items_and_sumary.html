@@ -1,0 +1,41 @@
+<div class="pos-container">
+    
+    <div class="cart-container">
+        <h2>Itens da Venda</h2>
+        <div class="cart-header">
+            <span class="header-product">Produto</span>
+            <span class="header-quantity">Qtd.</span>
+            <span class="header-price">Preço</span>
+            <span class="header-remove"></span>
+        </div>
+        <ul id="cart-items">
+            </ul>
+    </div>
+
+    <div class="summary-container">
+        <h3>Resumo do Pedido</h3>
+        
+        <div class="input-group">
+            <label for="barcode-input">Código de Barras</label>
+            <input type="text" id="barcode-input" placeholder="Passe o leitor ou digite o código...">
+        </div>
+        
+        <div class="summary-details">
+            <div class="summary-line">
+                <span>Subtotal</span>
+                <span id="subtotal">R$ 0,00</span>
+            </div>
+            <div class="summary-line discount-line">
+                <label for="discount-input">Desconto (%)</label>
+                <input type="number" id="discount-input" value="0" min="0" max="100">
+            </div>
+            <div class="summary-line total">
+                <span>Total</span>
+                <span id="total">R$ 0,00</span>
+            </div>
+        </div>
+
+        <button id="payment-btn" class="btn btn-primary">Finalizar Pagamento</button>
+        <button id="cancel-btn" class="btn btn-danger">Cancelar Venda</button>
+    </div>
+</div>

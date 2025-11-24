@@ -64,6 +64,8 @@ header h1 {
 .stat-card.total h3 { color: #2980b9; }
 .stat-card.pagos h3 { color: #27ae60; }
 .stat-card.nao-pagos h3 { color: #dba905; }
+.stat-card.cancelados h3 { color: #e74c3c; }
+
 
 /* 2. Controles de Busca e Filtro */
 .controls {
@@ -95,12 +97,31 @@ header h1 {
     background-color: #fff;
 }
 
+
+.controls button {
+    min-width: 150px;
+    cursor: pointer;
+    background-color: #004b8d;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    height: 48px;
+}
+
 /* 3. Lista de Pedidos */
 #order-list {
     display: grid;
     gap: 20px;
     /* O minmax aqui ajuda, mas vamos reforçar no media query abaixo */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+#order-list .no-orders {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+    font-size: 1.2rem;
 }
 
 .order-card {
@@ -110,6 +131,7 @@ header h1 {
     border-left: 5px solid #ccc;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .order-card-header {
@@ -164,8 +186,8 @@ header h1 {
 .status-pago { background-color: #e0f8e9; color: #27ae60; }
 .order-card.status-pago { border-left-color: #27ae60; }
 
-.status-nao-pago { background-color: #fdeaea; color: #c0392b; }
-.order-card.status-nao-pago { border-left-color: #c0392b; }
+.status-cancelado { background-color: #fdeaea; color: #c0392b; }
+.order-card.status-cancelado { border-left-color: #c0392b; }
 
 .status-pendente { background-color: #fef8e2; color: #f39c12; }
 .order-card.status-pendente { border-left-color: #f39c12; }

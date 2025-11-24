@@ -56,7 +56,6 @@ img {
 .main-header {
     background-color: var(--primary-blue);
     color: var(--white);
-    padding: 0 2rem;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -64,11 +63,51 @@ img {
 
 .header-container {
     max-width: 1400px;
+    padding: 0 1rem;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 70px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    width: 19rem;
+    height: 2.5rem;
+    background-color: var(--white);
+}
+
+.search-bar input {
+    border: none;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    width: 100%;
+    outline: none;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.search-button {
+    background: var(--primary-green);
+    border: none;
+    color: var(--white);
+    padding: 0 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background: var(--green-hover);
 }
 
 .logo {
@@ -84,8 +123,10 @@ img {
 
 .main-nav {
     display: flex;
-    gap: 1.5rem;
-    flex-grow: 1;
+    background-color: #0070d2;
+    padding: 0 1rem;
+    width: 100%;
+    gap: 1.1rem;
 }
 
 .main-nav a {
@@ -109,47 +150,20 @@ img {
     gap: 2rem;
 }
 
-.search-bar {
-    display: flex;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    background-color: var(--white);
-}
-
-.search-bar input {
-    border: none;
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-    outline: none;
-    background-color: transparent;
-    color: var(--text-color);
-}
-
-.search-button {
-    background: var(--primary-green);
-    border: none;
-    color: var(--white);
-    padding: 0 0.8rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-}
-
-.search-button:hover {
-    background: var(--green-hover);
-}
-
 .action-icon {
     color: var(--medium-gray);
     transition: color 0.2s;
 }
 
+.reference-icon-action {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
 .btn-logout-catalog {
     background-color: transparent;
     border: none;
-    color: white;
+    color: var(--medium-gray);
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -162,7 +176,6 @@ img {
     color: var(--white);
 
 }
-
 /* --- Ícones --- */
 .feather {
     width: 20px;
@@ -177,26 +190,18 @@ img {
 
 /* Para tablets e celulares grandes (ex: até 768px) */
 @media (max-width: 768px) {
-    .main-header {
-        padding: 0 1rem;
-    }
-
     .page-container {
         padding: 0 1rem;
         margin-top: 1.5rem;
     }
 
     /* Esconde navegação e busca do desktop */
-    .main-nav {
-        display: none;
-    }
-    .header-actions .search-bar {
+    .header-left .search-bar {
         display: none;
     }
 
-    /* Mostra o ícone de menu mobile */
-    .mobile-menu-icon {
-        display: block;
+    .reference-icon-action {
+        display: none;
     }
 
     .header-container {

@@ -1,28 +1,31 @@
 <header class="main-header">
     {% load static %}
     <div class="header-container">
-        <a href="{% url 'catalog:home' %}" class="logo"><img src="{% static 'global/images/logo.png' %}" alt="M-A-C"></a>
-       
-        <nav class="main-nav">
+        <div class="header-left">
+            <a href="{% url 'catalog:home' %}" class="logo"><img src="{% static 'global/images/logo.png' %}" alt="M-A-C"></a>
             <form action="{% url 'catalog:search' %}" method="get" class="search-bar">
                 <input type="search" name="q" value="{{ search_term }}" placeholder="Pesquisar por produtos ou marcas" required>
                 <button type="submit" class="search-button"><i data-feather="search"></i></button>
             </form> 
-            <a href="{% url 'catalog:home' %}">Página Inicial</a>
-            <a href="{% url 'catalog:offer' %}">Ofertas</a>
-        </nav>
+        </div>
+        
 
         <div class="header-actions">
             {% if request.user.is_authenticated %}
-                <a href="{% url 'sale:cart' %}" class="action-icon"><i data-feather="shopping-cart"></i></a>
+                <a href="{% url 'sale:order_list' %}" class="action-icon"><i data-feather="clipboard"></i> <span class="reference-icon-action">Pedidos</span></a>
+                <a href="{% url 'sale:cart' %}" class="action-icon"><i data-feather="shopping-cart"></i> <span class="reference-icon-action">Carrinho</span></a>
                 <form action="{% url 'users:logout' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="username" value="{{ request.user.username }}">
-                    <button type="submit" class="btn-logout-catalog"><i data-feather="log-out"></i></button>
+                    <button type="submit" class="btn-logout-catalog action-icon"><i data-feather="log-out"></i> <span class="reference-icon-action">Sair</span></button>
                 </form>
             {% else %}
                 <a href="{% url 'users:login' %}" class="action-icon"><i data-feather="log-in"></i></a>
             {% endif %}
         </div>
     </div>
+    <nav class="main-nav">
+        <a href="{% url 'catalog:home' %}">Página Inicial</a>
+        <a href="{% url 'catalog:offer' %}">Ofertas</a>
+    </nav>
 </header>

@@ -4,8 +4,6 @@
 
         {% for item in cart.cart_items.all %}
             {% include 'sale/partials/cart/cart_item.html'%}
-        {% empty %}
-            <p>Carrinho vazio</p>
         {% endfor %}
 
     </section>

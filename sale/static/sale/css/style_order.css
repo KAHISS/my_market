@@ -72,17 +72,14 @@
 }
 
 /* Cores do Badge (Adicione mais conforme precisar) */
-.order-status-badge.status-delivered {
+.order-status-badge.status-pago {
     background-color: var(--primary-green);
 }
-.order-status-badge.status-shipped {
-    background-color: var(--primary-blue);
-}
-.order-status-badge.status-processing {
+.order-status-badge.status-pendente {
     background-color: #ffc107; /* Amarelo */
     color: var(--text-color);
 }
-.order-status-badge.status-cancelled {
+.order-status-badge.status-cancelado {
     background-color: #dc3545; /* Vermelho */
 }
 
