@@ -1,6 +1,6 @@
 {% extends 'sale/partials/base.html' %}
 
-{% block title %}Pedidos{% endblock title %}
+{% block title %}Vendas {{ sale.id }}{% endblock title %}
 
 {% block header %}
     {% include 'global/partials/header.html' %}
@@ -8,6 +8,5 @@
 
 {% block content %}
     {% include "global/partials/messages.html" %}
-    {% include 'sale/partials/order/orders_list.html' %}
-    {% include 'sale/partials/pagination.html' %}
+    {% include 'sale/partials/order/order_layout.html' %}
 {% endblock content %}

@@ -1,12 +1,14 @@
 <div id="search-modal">
     <div class="modal-content">
-        <span class="close-btn" id="close-search-modal">&times;</span>
         <h3>Pesquisar Produto</h3>
-        <input type="text" id="modal-search-input" placeholder="Digite o nome ou código do produto...">
+        <form action="" class="controls" method="get">
+            <input type="search" id="search-bar" placeholder="Buscar por nome, categoria ou código" name="q">
+            <button type="submit">Buscar</button>
+        </form>  
         <ul id="modal-results-list">
             {% for product in products %}
                 <li data-id="{{ product.id }}">
-                    <span>{{ product.name }} (Cód: {{ product.id }})</span>
+                    <span>{{ product.name }} (Cód: {{ product.barcode }})</span>
                     <span class="item-price">R$ {{ product.stock.sale_price }}</span>
                 </li>
             {% endfor %}

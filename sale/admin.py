@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Cart, CartItem, Order, OrderItem
-
-# Register your models here.
+from .models import Cart, CartItem, Order, OrderItem, Sale, SaleItems
 
 
 class CartAdmin(admin.ModelAdmin):
@@ -32,7 +30,23 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'updated_at')
 
 
+class SaleAdmin(admin.ModelAdmin):
+    list_display = ('seller', 'total_price', 'total_discount',
+                    'total_quantity', 'created_at', 'updated_at')
+    search_fields = ('seller', 'status')
+    list_filter = ('created_at', 'updated_at', 'status', 'seller')
+
+
+class SaleItemsAdmin(admin.ModelAdmin):
+    list_display = ('sale', 'product', 'quantity',
+                    'price', 'discount', 'subtotal')
+    search_fields = ('sale', 'product')
+    list_filter = ('sale', 'product', 'quantity', 'price')
+
+
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartItem, CartItemAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(Sale, SaleAdmin)
+admin.site.register(SaleItems, SaleItemsAdmin)

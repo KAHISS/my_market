@@ -9,7 +9,26 @@
             <span class="header-remove"></span>
         </div>
         <ul id="cart-items">
-            </ul>
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+            {% include "sale/partials/pdv/item.html"%}
+        </ul>
     </div>
 
     <div class="summary-container">
@@ -37,5 +56,7 @@
 
         <button id="payment-btn" class="btn btn-primary">Finalizar Pagamento</button>
         <button id="cancel-btn" class="btn btn-danger">Cancelar Venda</button>
+        {% include 'sale/partials/pdv/payment_method.html' %}
     </div>
+    {% include 'sale/partials/pdv/search_product.html' %}
 </div>

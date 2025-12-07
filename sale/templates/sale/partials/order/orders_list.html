@@ -12,22 +12,22 @@
             <div class="stat-card total">
                 <h3>Total de Pedidos</h3>
                 <p>Quantidade: <span id="total-qty">{{ stats.total_orders }}</span></p>
-                <p>Valor: <span id="total-value">R$ {{ stats.total_sales }}</span></p>
+                <p>Valor: <span id="total-value">R$ {{ stats.total_sales|floatformat:2 }}</span></p>
             </div>
             <div class="stat-card pagos">
                 <h3>Pedidos Pagos</h3>
                 <p>Quantidade: <span id="paid-qty">{{ stats.total_orders_completed }}</span></p>
-                <p>Valor: <span id="paid-value">R$ {{ stats.total_sales_completed }}</span></p>
+                <p>Valor: <span id="paid-value">R$ {{ stats.total_sales_completed|floatformat:2 }}</span></p>
             </div>
             <div class="stat-card nao-pagos">
                 <h3>Pedidos Pendentes</h3>
                 <p>Quantidade: <span id="unpaid-qty">{{ stats.total_orders_pending }}</span></p>
-                <p>Valor: <span id="unpaid-value">R$ {{ stats.total_sales_pending }}</span></p>
+                <p>Valor: <span id="unpaid-value">R$ {{ stats.total_sales_pending|floatformat:2 }}</span></p>
             </div>
             <div class="stat-card cancelados">
                 <h3>Pedidos Cancelados</h3>
                 <p>Quantidade: <span id="unpaid-qty">{{ stats.total_orders_cancelled }}</span></p>
-                <p>Valor: <span id="unpaid-value">R$ {{ stats.total_sales_cancelled }}</span></p>
+                <p>Valor: <span id="unpaid-value">R$ {{ stats.total_sales_cancelled|floatformat:2 }}</span></p>
             </div>
         {% endif %}
     </section>
