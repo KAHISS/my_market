@@ -12,6 +12,8 @@ from django.http import Http404, JsonResponse
 from client.models import Client
 from my_market.settings import STATIC_URL
 from django.middleware.csrf import get_token
+from utils.pagination import make_pagination
+from django.db.models import Q
 import json
 
 PER_PAGE = 10
@@ -48,15 +50,24 @@ def pdv_search(request):
 
     page_obj, pagination_range = make_pagination(request, products, PER_PAGE)
 
+    js_context = {
+        "csrf_token": get_token(request),
+        "urls": {
+            "pdv_search_url": reverse('sale:pdv_search'),
+            "script_message": STATIC_URL
+        }
+    }
+
     return render(request, 'sale/pages/pdv.html', {
         'products': page_obj,
         'pagination_range': pagination_range,
-        'search_term': search_term
+        'search_term': search_term,
+        'js_context': js_context
     })
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
-def add_item_to_cart(request):
+def add_item_to_cart_pdv(request):
     if request.method != 'POST':
         raise Http404("No POST data found.")
 

@@ -3,8 +3,10 @@ import { showPopup } from '/static/global/js/show_message.js';
 // load django configs
 const djangoConfig = document.getElementById('django-cfg').textContent;
 const config = JSON.parse(djangoConfig);
+console.log(config.urls);
+
 const { csrf_token, urls } = config;
-const { createSale, updateSale, deleteSale } = urls;
+const { createSale, updateSale, deleteSale, script_message } = urls;
 
 const updateSaleList = (product) => {
     const saleList = document.getElementById('cart-items');
@@ -56,3 +58,4 @@ const addItemToCart = async (url, barcode, quantity, buttonElement = null, form 
         }
     }
 }
+

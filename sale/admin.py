@@ -39,9 +39,9 @@ class SaleAdmin(admin.ModelAdmin):
 
 class SaleItemsAdmin(admin.ModelAdmin):
     list_display = ('sale', 'product', 'quantity',
-                    'price', 'discount', 'subtotal')
-    search_fields = ('sale', 'product')
-    list_filter = ('sale', 'product', 'quantity', 'price')
+                    'subtotal', 'discount', 'percentage_discount', 'total_price_with_discount')
+    search_fields = ('sale', 'product', 'quantity', 'subtotal')
+    list_filter = ('sale', 'product', 'quantity')
 
 
 admin.site.register(Cart, CartAdmin)

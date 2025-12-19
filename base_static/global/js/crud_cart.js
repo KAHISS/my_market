@@ -32,6 +32,7 @@ const updateCart = (data, id) => {
 // 1. Melhoria: Receber o botão para poder desabilitá-lo
 const addItemToCart = async (url, id, quantity, buttonElement = null, form = null) => {
     
+    console.log('addItemToCart', url, id, quantity, buttonElement, form);
     if (buttonElement) {
         buttonElement.disabled = true;
     }
