@@ -33,18 +33,25 @@ class SaleItem(models.Model):
     sale = models.ForeignKey(Sale, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
+    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    percentage_discount = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
+    total_price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.product} - {self.quantity}'
 
-    def subtotal(self):
+    def get_subtotal(self):
         stock = getattr(self.product, 'stock', None)
         if stock:
-            return stock.sale_price * self.quantity
+            self.subtotal = stock.sale_price * self.quantity
+            self.save()
 
-    def discount(self):
+    def get_discount(self):
         stock = getattr(self.product, 'stock', None)
         if not stock:
             return 0
@@ -61,10 +68,11 @@ class SaleItem(models.Model):
 
         return total_discount
 
-    def percentage_discount(self):
-        discount = ((self.subtotal() - self.discount()) /
-                    self.subtotal() * 100) - 100
+    def get_percentage_discount(self):
+        discount = ((self.subtotal - self.discount) /
+                    self.subtotal * 100) - 100
         return f"{discount:.1f}"
 
-    def total_price_with_discount(self):
-        return self.subtotal() - self.discount()
+    def get_total_price(self):
+        self.total_price = self.subtotal - self.discount
+        self.save()

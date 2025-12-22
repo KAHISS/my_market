@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ponto de Vendas (PDV)</title>
-    <link rel="stylesheet" href="{% static 'sale/css/style_pdv.css' %}">
-    <link rel="stylesheet" href="{% static 'global/css/style_paginations.css' %}">
-    <link rel="stylesheet" href="{% static 'sale/css/style_order_list.css' %}">
-    <script src="{% static 'sale/js/crud_sale.js' %}" defer type="module"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    {% include 'sale/partials/pdv/items_and_sumary.html' %}
-</body>
-    {{ js_context|json_script:"django-cfg" }}
-</html>
+{% extends 'sale/partials/base.html' %}
+
+{% block title %}Ponto de Venda{% endblock title %}
+
+{% block header %}
+    {% include 'global/partials/header.html' %}
+{% endblock header %}
+
+{% block content %}
+    {% include "global/partials/messages.html" %}
+    {% include "sale/partials/pdv/sales_list.html" %}
+{% endblock content %}

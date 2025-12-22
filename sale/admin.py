@@ -39,7 +39,7 @@ class SaleAdmin(admin.ModelAdmin):
 
 class SaleItemsAdmin(admin.ModelAdmin):
     list_display = ('sale', 'product', 'quantity',
-                    'subtotal', 'discount', 'percentage_discount', 'total_price_with_discount')
+                    'subtotal', 'discount', 'percentage_discount', 'total_price')
     search_fields = ('sale', 'product', 'quantity', 'subtotal')
     list_filter = ('sale', 'product', 'quantity')
 

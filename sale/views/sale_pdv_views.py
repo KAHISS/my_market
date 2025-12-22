@@ -20,7 +20,7 @@ PER_PAGE = 10
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
-def pdv(request):
+def sale(request):
     products = Product.objects.all().order_by('name')
 
     page_obj, pagination_range = make_pagination(request, products, PER_PAGE)
@@ -28,12 +28,12 @@ def pdv(request):
     js_context = {
         "csrf_token": get_token(request),
         "urls": {
-            "pdv_search_url": reverse('sale:pdv_search'),
+            "pdv_search_url": reverse('sale:sale_search'),
             "script_message": STATIC_URL
         }
     }
 
-    return render(request, 'sale/pages/pdv.html', {
+    return render(request, 'sale/pages/sale.html', {
         'products': page_obj,
         'pagination_range': pagination_range,
         'js_context': js_context
@@ -41,7 +41,7 @@ def pdv(request):
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
-def pdv_search(request):
+def sale_search(request):
     search_term = request.GET.get('q', '').strip()
     products = Product.objects.filter(
         Q(name__icontains=search_term) |
@@ -53,17 +53,22 @@ def pdv_search(request):
     js_context = {
         "csrf_token": get_token(request),
         "urls": {
-            "pdv_search_url": reverse('sale:pdv_search'),
+            "pdv_search_url": reverse('sale:sale_search'),
             "script_message": STATIC_URL
         }
     }
 
-    return render(request, 'sale/pages/pdv.html', {
+    return render(request, 'sale/pages/sale.html', {
         'products': page_obj,
         'pagination_range': pagination_range,
         'search_term': search_term,
         'js_context': js_context
     })
+
+
+@login_required(login_url='users:login', redirect_field_name='next')
+def sales_list(request):
+    return render(request, 'sale/pages/pdv.html')
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
@@ -118,40 +123,38 @@ def add_item_to_cart_pdv(request):
         sale_item.quantity += quantity
         sale_item.save()
 
-    if sale_item.discount() > 0:
+    if sale_item.discount > 0:
         return JsonResponse({
             'success': True,
-            'message': f'{product.name} adicionado ao carrinho.',
             'add_discount': True,
             'info_cart_item': {
                 'quantity': sale_item.quantity,
-                'subtotal': sale_item.subtotal(),
-                'discount': sale_item.discount(),
-                'percentage_discount': sale_item.percentage_discount(),
-                'total_price_with_discount': sale_item.total_price_with_discount()
+                'subtotal': sale_item.subtotal,
+                'discount': sale_item.discount,
+                'percentage_discount': sale_item.get_percentage_discount(),
+                'total_price_with_discount': sale_item.total_price
             },
             'info_cart': {
-                'quantity': sale.quantity(),
-                'total_price': sale.total_price(),
-                'total_discount': sale.total_discount(),
-                'total_price_with_discount': sale.total_price_with_discount()
+                'quantity': sale.quantity,
+                'total_price': sale.total_price,
+                'total_discount': sale.total_discount,
+                'total_price_with_discount': sale.total_price
             }
         })
     return JsonResponse({
         'success': True,
-        'message': f'{product.name} adicionado ao carrinho.',
-        'add_discount': False,
+        'add_discount':  False,
         'info_cart_item': {
             'quantity': sale_item.quantity,
-            'subtotal': sale_item.subtotal(),
-            'discount': sale_item.discount(),
-            'percentage_discount': sale_item.percentage_discount(),
-            'total_price_with_discount': sale_item.total_price_with_discount()
+            'subtotal': sale_item.subtotal,
+            'discount': sale_item.discount,
+            'percentage_discount': sale_item.get_percentage_discount(),
+            'total_price_with_discount': sale_item.total_price
         },
         'info_cart': {
-            'quantity': sale.quantity(),
-            'total_price': sale.total_price(),
-            'total_discount': sale.total_discount(),
-            'total_price_with_discount': sale.total_price_with_discount()
+            'quantity': sale.quantity,
+            'total_price': sale.total_price,
+            'total_discount': sale.total_discount,
+            'total_price_with_discount': sale.total_price
         }
     })

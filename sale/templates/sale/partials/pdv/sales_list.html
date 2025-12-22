@@ -1,0 +1,57 @@
+<div class="container">
+    <header>
+        <h1>Dashboard de Vendas</h1>
+    </header>
+
+    <section class="stats-container">
+        {% if request.user.is_staff %}
+            <div class="stat-card total">
+                <h3>Total de Vendas</h3>
+                <p>Quantidade: <span id="total-qty">{{ stats.total_orders }}</span></p>
+                <p>Valor: <span id="total-value">R$ {{ stats.total_sales|floatformat:2 }}</span></p>
+            </div>
+            <div class="stat-card pagos">
+                <h3>Vendas Pagas</h3>
+                <p>Quantidade: <span id="paid-qty">{{ stats.total_orders_completed }}</span></p>
+                <p>Valor: <span id="paid-value">R$ {{ stats.total_sales_completed|floatformat:2 }}</span></p>
+            </div>
+            <div class="stat-card nao-pagos">
+                <h3>Vendas Pendentes</h3>
+                <p>Quantidade: <span id="unpaid-qty">{{ stats.total_orders_pending }}</span></p>
+                <p>Valor: <span id="unpaid-value">R$ {{ stats.total_sales_pending|floatformat:2 }}</span></p>
+            </div>
+            <div class="stat-card cancelados">
+                <h3>Vendas Canceladas</h3>
+                <p>Quantidade: <span id="unpaid-qty">{{ stats.total_orders_cancelled }}</span></p>
+                <p>Valor: <span id="unpaid-value">R$ {{ stats.total_sales_cancelled|floatformat:2 }}</span></p>
+            </div>
+        {% endif %}
+    </section>
+
+    <div class="controls">
+        <form action="{% url 'sale:search_order' %}" method="get">
+            <input type="search" id="search-bar" placeholder="Buscar por nº, cliente ou vendedor..." name="q">
+            <input type="date" name="date" id="date">
+            <select id="filter-status" name="status">
+                <option value="">Todos</option>
+                <option value="pago">Pagas</option>
+                <option value="pendente">Pendentes</option>
+                <option value="cancelado">Canceladas</option>
+            </select>
+            <button type="submit">Buscar</button>
+        </form>
+        <form action="" method="post">
+            {% csrf_token %}
+            <button type="submit">Nova venda</button>
+        </form>
+    </div>
+
+    <main id="order-list">
+        {% for order in orders %}
+            {% include "sale/partials/order/sale_card.html" %}
+        {% empty %}
+            <p class="no-orders">Nenhuma venda encontrada.</p>
+        {% endfor %}
+    </main>
+
+</div>
