@@ -9,18 +9,18 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, JsonResponse
-from client.models import Client
 from my_market.settings import STATIC_URL
 from django.middleware.csrf import get_token
 from utils.pagination import make_pagination
-from django.db.models import Q
+from django.db.models import Q, Sum
 import json
 
 PER_PAGE = 10
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
-def sale(request):
+def sale_detail(request, id):
+    sale = get_object_or_404(Sale, id=id)
     products = Product.objects.all().order_by('name')
 
     page_obj, pagination_range = make_pagination(request, products, PER_PAGE)
@@ -28,12 +28,13 @@ def sale(request):
     js_context = {
         "csrf_token": get_token(request),
         "urls": {
-            "pdv_search_url": reverse('sale:sale_search'),
+            "pdv_search_url": reverse('sale:sale_search', args=[id]),
             "script_message": STATIC_URL
         }
     }
 
     return render(request, 'sale/pages/sale.html', {
+        'sale': sale,
         'products': page_obj,
         'pagination_range': pagination_range,
         'js_context': js_context
@@ -41,7 +42,8 @@ def sale(request):
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
-def sale_search(request):
+def sale_search(request, id):
+    sale = get_object_or_404(Sale, id=id)
     search_term = request.GET.get('q', '').strip()
     products = Product.objects.filter(
         Q(name__icontains=search_term) |
@@ -53,12 +55,13 @@ def sale_search(request):
     js_context = {
         "csrf_token": get_token(request),
         "urls": {
-            "pdv_search_url": reverse('sale:sale_search'),
+            "pdv_search_url": reverse('sale:sale_search', args=[id]),
             "script_message": STATIC_URL
         }
     }
 
     return render(request, 'sale/pages/sale.html', {
+        'sale': sale,
         'products': page_obj,
         'pagination_range': pagination_range,
         'search_term': search_term,
@@ -67,8 +70,30 @@ def sale_search(request):
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
-def sales_list(request):
-    return render(request, 'sale/pages/pdv.html')
+def sale_list(request):
+    if request.user.is_staff or request.user.is_superuser:
+        sales = Sale.objects.all().order_by('-created_at')
+    else:
+        return redirect('catalog:home')
+
+    stats = {
+        'total_orders': sales.count(),
+        'total_sales': sales.aggregate(Sum('total_price'))['total_price__sum'] or 0,
+        'total_orders_pending': sales.filter(status='pendente').count(),
+        'total_sales_pending': sales.filter(status='pendente').aggregate(Sum('total_price'))['total_price__sum'] or 0,
+        'total_orders_completed': sales.filter(status='pago').count(),
+        'total_sales_completed': sales.filter(status='pago').aggregate(Sum('total_price'))['total_price__sum'] or 0,
+        'total_orders_cancelled': sales.filter(status='cancelado').count(),
+        'total_sales_cancelled': sales.filter(status='cancelado').aggregate(Sum('total_price'))['total_price__sum'] or 0,
+    }
+
+    page_obj, pagination_range = make_pagination(request, sales, PER_PAGE)
+
+    return render(request, 'sale/pages/pdv.html', {
+        'sales': page_obj,
+        'stats': stats,
+        'pagination_range': pagination_range,
+    })
 
 
 @login_required(login_url='users:login', redirect_field_name='next')

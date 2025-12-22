@@ -97,11 +97,38 @@ header h1 {
     background-color: #fff;
 }
 
+.controls .search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
-.controls button {
+.search-form  input{
+    min-width: 250px;
+}
+
+.search-form select {
+    min-width: 150px;
+}
+
+.controls .new-order-form {
+    flex: 1;
+}
+
+.search-order-btn {
     min-width: 150px;
     cursor: pointer;
     background-color: #004b8d;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    height: 48px;
+}
+.new-order-btn {
+    width: 100%;
+    cursor: pointer;
+    background-color: #02c52c;
     color: #fff;
     border: none;
     border-radius: 6px;

@@ -29,7 +29,7 @@
     </section>
 
     <div class="controls">
-        <form action="{% url 'sale:search_order' %}" method="get">
+        <form action="{% url 'sale:search_order' %}" method="get" class="search-form">
             <input type="search" id="search-bar" placeholder="Buscar por nº, cliente ou vendedor..." name="q">
             <input type="date" name="date" id="date">
             <select id="filter-status" name="status">
@@ -38,17 +38,17 @@
                 <option value="pendente">Pendentes</option>
                 <option value="cancelado">Canceladas</option>
             </select>
-            <button type="submit">Buscar</button>
+            <button type="submit" class="search-order-btn">Buscar</button>
         </form>
-        <form action="" method="post">
+        <form action="" method="post" class="new-order-form">
             {% csrf_token %}
-            <button type="submit">Nova venda</button>
+            <button type="submit" class="new-order-btn">Nova venda</button>
         </form>
     </div>
 
     <main id="order-list">
-        {% for order in orders %}
-            {% include "sale/partials/order/sale_card.html" %}
+        {% for sale in sales %}
+            {% include "sale/partials/pdv/sale_card.html" %}
         {% empty %}
             <p class="no-orders">Nenhuma venda encontrada.</p>
         {% endfor %}

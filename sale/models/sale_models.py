@@ -7,6 +7,8 @@ from inventory.models import Product
 
 class Sale(models.Model):
     seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    client = models.CharField(
+        max_length=255, default='Consumidor Final', blank=True)
     total_quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     total_discount = models.DecimalField(
@@ -21,7 +23,15 @@ class Sale(models.Model):
             ('cancelado', 'Cancelado'),
         ]
     )
-    payment_method = models.CharField(max_length=255, default='dinheiro')
+    payment_method = models.CharField(
+        max_length=255,
+        default='dinheiro',
+        choices=[
+            ('dinheiro', 'Dinheiro'),
+            ('cartão', 'Cartão'),
+            ('pix', 'Pix'),
+        ]
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

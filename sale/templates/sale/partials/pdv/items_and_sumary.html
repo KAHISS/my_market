@@ -9,25 +9,11 @@
             <span class="header-remove"></span>
         </div>
         <ul id="cart-items">
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
-            {% include "sale/partials/pdv/item.html"%}
+            {% for item in items %}
+                {% include "sale/partials/pdv/item.html" %}
+            {% empty %}
+                <li>Nenhum item na venda</li>
+            {% endfor %}
         </ul>
     </div>
 
@@ -45,7 +31,7 @@
                 <span id="subtotal">R$ 0,00</span>
             </div>
             <div class="summary-line discount-line">
-                <label for="discount-input">Desconto (%)</label>
+                <label for="discount-input">Desconto (R$)</label>
                 <input type="number" id="discount-input" value="0" min="0" max="100">
             </div>
             <div class="summary-line total">
@@ -56,6 +42,8 @@
 
         <button id="payment-btn" class="btn btn-primary">Finalizar Pagamento</button>
         <button id="cancel-btn" class="btn btn-danger">Cancelar Venda</button>
+        <button id="print-btn" class="btn btn-secondary">Imprimir</button>
+        
         {% include 'sale/partials/pdv/payment_method.html' %}
     </div>
     {% include 'sale/partials/pdv/search_product.html' %}
