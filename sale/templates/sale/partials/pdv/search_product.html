@@ -1,7 +1,7 @@
 <div id="search-modal">
     <div class="modal-content">
         <h3>Pesquisar Produto</h3>
-        <form action="{% url 'sale:sale_search' sale.id %}" class="controls" method="GET">
+        <form action="{% url 'sale:sale_detail' sale.id %}" class="controls" method="GET">
             <input type="search" id="search-bar" placeholder="Buscar por nome, categoria ou código" name="q">
             <button type="submit">Buscar</button>
         </form>  

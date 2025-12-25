@@ -21,7 +21,15 @@ PER_PAGE = 10
 @login_required(login_url='users:login', redirect_field_name='next')
 def sale_detail(request, id):
     sale = get_object_or_404(Sale, id=id)
-    products = Product.objects.all().order_by('name')
+    search_term = request.GET.get('q', '').strip()
+
+    if search_term == 'empty':
+        products = []
+    else:
+        products = Product.objects.filter(
+            Q(name__icontains=search_term) |
+            Q(barcode__icontains=search_term)
+        ).order_by('name')
 
     page_obj, pagination_range = make_pagination(request, products, PER_PAGE)
 
@@ -36,6 +44,7 @@ def sale_detail(request, id):
     return render(request, 'sale/pages/sale.html', {
         'sale': sale,
         'products': page_obj,
+        'search_term': search_term,
         'pagination_range': pagination_range,
         'js_context': js_context
     })
@@ -44,28 +53,12 @@ def sale_detail(request, id):
 @login_required(login_url='users:login', redirect_field_name='next')
 def sale_search(request, id):
     sale = get_object_or_404(Sale, id=id)
-    search_term = request.GET.get('q', '').strip()
-    products = Product.objects.filter(
-        Q(name__icontains=search_term) |
-        Q(barcode__icontains=search_term)
-    ).order_by('name')
-
     page_obj, pagination_range = make_pagination(request, products, PER_PAGE)
-
-    js_context = {
-        "csrf_token": get_token(request),
-        "urls": {
-            "pdv_search_url": reverse('sale:sale_search', args=[id]),
-            "script_message": STATIC_URL
-        }
-    }
 
     return render(request, 'sale/pages/sale.html', {
         'sale': sale,
         'products': page_obj,
         'pagination_range': pagination_range,
-        'search_term': search_term,
-        'js_context': js_context
     })
 
 

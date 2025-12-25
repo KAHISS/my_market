@@ -21,6 +21,8 @@
         <h3>Resumo do Pedido</h3>
         
         <div class="input-group">
+            <label for="quantity">Quantidade</label>
+            <input type="number" id="quantity" placeholder="Quantidade...">
             <label for="barcode-input">Código de Barras</label>
             <input type="text" id="barcode-input" placeholder="Passe o leitor ou digite o código...">
         </div>
@@ -40,9 +42,9 @@
             </div>
         </div>
 
+        <button id="print-btn" class="btn btn-secondary">Imprimir</button>
         <button id="payment-btn" class="btn btn-primary">Finalizar Pagamento</button>
         <button id="cancel-btn" class="btn btn-danger">Cancelar Venda</button>
-        <button id="print-btn" class="btn btn-secondary">Imprimir</button>
         
         {% include 'sale/partials/pdv/payment_method.html' %}
     </div>
