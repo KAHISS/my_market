@@ -90,7 +90,7 @@ def sale_list(request):
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
-def add_item_to_cart_pdv(request):
+def add_item_to_sale(request):
     if request.method != 'POST':
         raise Http404("No POST data found.")
 
@@ -139,13 +139,17 @@ def add_item_to_cart_pdv(request):
             return JsonResponse({'success': False, 'message': msg})
 
         sale_item.quantity += quantity
+        sale_item.get_subtotal()
+        sale_item.get_discount()
         sale_item.save()
 
     if sale_item.discount > 0:
         return JsonResponse({
             'success': True,
             'add_discount': True,
+            'created': True if created else False,
             'info_cart_item': {
+                'barcode': sale_item.product.barcode,
                 'quantity': sale_item.quantity,
                 'subtotal': sale_item.subtotal,
                 'discount': sale_item.discount,
@@ -153,16 +157,18 @@ def add_item_to_cart_pdv(request):
                 'total_price_with_discount': sale_item.total_price
             },
             'info_cart': {
-                'quantity': sale.quantity,
-                'total_price': sale.total_price,
+                'quantity': sale.total_quantity,
+                'price': sale.price,
                 'total_discount': sale.total_discount,
-                'total_price_with_discount': sale.total_price
+                'total_price': sale.total_price
             }
         })
     return JsonResponse({
         'success': True,
         'add_discount':  False,
+        'created': True if created else False,
         'info_cart_item': {
+            'barcode': sale_item.product.barcode,
             'quantity': sale_item.quantity,
             'subtotal': sale_item.subtotal,
             'discount': sale_item.discount,
@@ -170,9 +176,9 @@ def add_item_to_cart_pdv(request):
             'total_price_with_discount': sale_item.total_price
         },
         'info_cart': {
-            'quantity': sale.quantity,
-            'total_price': sale.total_price,
+            'quantity': sale.total_quantity,
+            'price': sale.price,
             'total_discount': sale.total_discount,
-            'total_price_with_discount': sale.total_price
+            'total_price': sale.total_price
         }
     })

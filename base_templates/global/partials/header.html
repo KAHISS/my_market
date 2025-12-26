@@ -12,6 +12,7 @@
 
         <div class="header-actions">
             {% if request.user.is_authenticated %}
+                <a href="{% url 'sale:sale_list' %}" class="action-icon"><i data-feather="clipboard"></i> <span class="reference-icon-action">PDV</span></a>
                 <a href="{% url 'sale:order_list' %}" class="action-icon"><i data-feather="clipboard"></i> <span class="reference-icon-action">Pedidos</span></a>
                 <a href="{% url 'sale:cart' %}" class="action-icon"><i data-feather="shopping-cart"></i> <span class="reference-icon-action">Carrinho</span></a>
                 <form action="{% url 'users:logout' %}" method="POST">

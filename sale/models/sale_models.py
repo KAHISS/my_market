@@ -36,14 +36,14 @@ class Sale(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.seller} - {self.total_price}'
+        return f'Venda #{self.id} - {self.seller}'
 
 
 class SaleItem(models.Model):
     sale = models.ForeignKey(Sale, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     percentage_discount = models.DecimalField(
         max_digits=10, decimal_places=2, default=0)
@@ -79,6 +79,8 @@ class SaleItem(models.Model):
         return total_discount
 
     def get_percentage_discount(self):
+        if not self.subtotal or self.discount == 0:
+            return 0
         discount = ((self.subtotal - self.discount) /
                     self.subtotal * 100) - 100
         return f"{discount:.1f}"

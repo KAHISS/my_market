@@ -8,12 +8,16 @@
     <link rel="stylesheet" href="{% static 'sale/css/style_pdv.css' %}">
     <link rel="stylesheet" href="{% static 'global/css/style_paginations.css' %}">
     <link rel="stylesheet" href="{% static 'sale/css/style_order_list.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/style_messages.css' %}">
     <script src="{% static 'sale/js/crud_sale.js' %}" defer type="module"></script>
+    <script src="{% static 'sale/js/script.js' %}" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="popup" class="popup"></div>
+    <input type="hidden" id="id-sale" value="{{ sale.id }}">
     {% include 'sale/partials/pdv/items_and_sumary.html' %}
 </body>
     {{ js_context|json_script:"django-cfg" }}
