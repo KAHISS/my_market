@@ -12,6 +12,10 @@
             {% endif %}
             <p><strong>Data:</strong> {{ sale.created_at|date:"d/m/Y H:i:s" }} </p>
             <p><strong>Ultima Atualização:</strong> {{ sale.updated_at|date:"d/m/Y H:i:s" }}</p>
+            <p><strong>Forma de Pagamento:</strong> {{ sale.payment_method }}</p>
+            {% if sale.payment_method == 'dinheiro' %}
+                <p><strong>Valor recebido:</strong>R$ {{ sale.cash_received }}</p>
+            {% endif %}
         </div>
         <div class="order-card-footer">
             <span class="order-total">R$ {{ sale.total_price }}</span>

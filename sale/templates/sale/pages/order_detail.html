@@ -7,6 +7,9 @@
 {% endblock header %}
 
 {% block content %}
+    <input type="hidden" id="id-order" value="{{ order.id }}">
+    <input type="hidden" id="client" value="{{ order.user.first_name }} {{ order.user.last_name }}">
+    <input type="hidden" id="seller" value="{{ order.seller.first_name }} {{ order.seller.last_name }}">
     {% include 'global/partials/search_mobile.html' %}
     {% include "global/partials/messages.html" %}
     {% include 'sale/partials/order/order_layout.html' %}

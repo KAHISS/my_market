@@ -41,7 +41,7 @@
             <ul class="summary-list">
                 <li>
                     <span>Subtotal ({{ order.total_quantity }} itens)</span>
-                    <strong>R$ {{ order.total_price|floatformat:2 }}</strong>
+                    <strong class="subtotal">R$ {{ order.total_price|floatformat:2 }}</strong>
                 </li>
                 <li>
                     <span>Desconto</span>
@@ -57,12 +57,12 @@
         <div class="info-box">
             <h3>Detalhes da Transação</h3>
             <ul class="details-list">
-                <li><strong>Cliente:</strong> {{ order.user.first_name }} {{ order.user.last_name }}</li>
+                <li id="client-input"><strong>Cliente:</strong> {{ order.user.first_name }} {{ order.user.last_name }}</li>
                 {% if order.seller %}
-                    <li><strong>Vendedor:</strong> {{ order.seller.first_name }} {{ order.seller.last_name }}</li>
+                    <li id="seller-input"><strong>Vendedor:</strong> {{ order.seller.first_name }} {{ order.seller.last_name }}</li>
                 {% endif %}
-                <li><strong>Data do Pedido:</strong> {{ order.created_at|date:"d N, Y" }}</li>
-                <li><strong>Entregue:</strong> {{ order.delivered|yesno:"Sim,Não" }}</li>
+                <li id="order-date-input"><strong>Data do Pedido:</strong> {{ order.created_at|date:"d N, Y" }}</li>
+                <li id="delivered-input"><strong>Entregue:</strong> {{ order.delivered|yesno:"Sim,Não" }}</li>
             </ul>
         </div>
 
@@ -85,7 +85,7 @@
         </div>
         
         <div class="order-actions">
-            <button class="btn btn-secondary"><i data-feather="printer"></i> Imprimir Pedido</button>
+            <button class="btn btn-secondary" id="print-order"><i data-feather="printer" ></i> Imprimir Pedido</button>
             {% if request.user.is_staff or request.user.is_superuser %}
                 <form action="{% url 'sale:order_cancel' order.id %}" method="POST">
                     {% csrf_token %}

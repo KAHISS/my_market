@@ -3,11 +3,11 @@
         <h3>Pesquisar Produto</h3>
         <form action="{% url 'sale:sale_detail' sale.id %}" class="controls" method="GET">
             <input type="search" id="search-bar" placeholder="Buscar por nome, categoria ou código" name="q">
-            <button type="submit">Buscar</button>
+            <button type="submit" id="search-button-sale">Buscar</button>
         </form>  
         <ul id="modal-results-list">
             {% for product in products %}
-                <li data-id="{{ product.id }}">
+                <li data-barcode="{{ product.barcode }}" class="product-item">
                     <span>{{ product.name }} (Cód: {{ product.barcode }})</span>
                     <span>{{ product.brand }}</span>
                     <span>{{ product.category }}</span>

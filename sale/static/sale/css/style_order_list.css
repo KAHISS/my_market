@@ -93,7 +93,6 @@ header h1 {
 .controls button {
     min-width: 150px;
     cursor: pointer;
-    background-color: #0464ff;
     color: #fff;
     border: none;
     border-radius: 6px;

@@ -31,17 +31,16 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 
 class SaleAdmin(admin.ModelAdmin):
-    list_display = ('seller', 'total_price', 'total_discount',
+    list_display = ('seller', 'total_price', 'discount',
                     'total_quantity', 'created_at', 'updated_at')
     search_fields = ('seller', 'status')
     list_filter = ('created_at', 'updated_at', 'status', 'seller')
 
 
 class SaleItemsAdmin(admin.ModelAdmin):
-    list_display = ('sale', 'product', 'quantity',
-                    'subtotal', 'discount', 'percentage_discount', 'total_price')
+    list_display = ('sale', 'product', 'quantity', 'subtotal')
     search_fields = ('sale', 'product', 'quantity', 'subtotal')
-    list_filter = ('sale', 'product', 'quantity')
+    list_filter = ('sale', 'product', 'quantity', 'subtotal')
 
 
 admin.site.register(Cart, CartAdmin)

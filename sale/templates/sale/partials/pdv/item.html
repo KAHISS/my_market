@@ -1,10 +1,16 @@
-<li class="cart-item" data-id="7891000000010">
-    <span class="item-name">Refrigerante Cola 2L</span>
+<li class="cart-item" id="{{ item.id }}">
+    <span class="item-name">{{ item.product.name }}</span>
     <div class="item-quantity">
-        <button class="quantity-btn decrease" data-id="7891000000010">-</button>
-        <input type="number" class="quantity-input" value="1" min="1" data-id="7891000000010">
-        <button class="quantity-btn increase" data-id="7891000000010">+</button>
+        {% if sale.status == 'pendente' %}
+            <button class="quantity-btn decrease" data-barcode="{{ item.product.barcode }}">-</button>
+            <input type="number" class="quantity-input" value="{{ item.quantity }}" min="1" readonly>
+            <button class="quantity-btn increase" data-barcode="{{ item.product.barcode }}">+</button>
+        {% else %}
+            <span class="item-quantity-value">{{ item.quantity }}</span>
+        {% endif %}
     </div>
-    <span class="item-price">R$&nbsp;8,50</span>
-    <button class="remove-btn" data-id="7891000000010">×</button>
+    <span class="item-price">R$&nbsp;{{ item.subtotal }}</span>
+    {% if sale.status == 'pendente' %}
+        <button class="remove-btn" data-id="{{ item.id }}" data-url="{% url 'sale:sale_remove' %}">×</button>
+    {% endif %}
 </li>

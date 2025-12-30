@@ -1,14 +1,3 @@
-// --- DADOS DE EXEMPLO (Simulando uma venda pronta) ---
-// Em produção, isso viria da sua lógica de carrinho
-let cart = [
-    { name: 'Refrigerante Cola 2L', price: 8.50, quantity: 2 },
-    { name: 'Salgadinho Queijo 150g', price: 6.99, quantity: 1 },
-    { name: 'Pão de Forma', price: 7.20, quantity: 1 }
-];
-let currentTotal = 31.19; // Total fixo do exemplo
-let discountPercent = 0;
-let selectedPaymentMethod = null;
-
 // --- Seletores do DOM ---
 const paymentBtn = document.getElementById('payment-btn');
 const paymentModal = document.getElementById('payment-modal');
@@ -18,7 +7,14 @@ const paymentMethodButtons = document.querySelectorAll('.payment-method-btn');
 const cashPaymentDetails = document.getElementById('cash-payment-details');
 const cashReceivedInput = document.getElementById('cash-received');
 const changeAmountEl = document.getElementById('change-amount');
+const confirmPaymentForm = document.getElementById('payment-form');
 const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
+const printBtn = document.getElementById('print-btn');
+
+// --- DADOS DE EXEMPLO (Simulando uma venda pronta) ---
+// Em produção, isso viria da sua lógica de carrinho
+let selectedPaymentMethod = null;
+
 
 // --- Helper: Formatar Moeda ---
 const formatCurrency = (value) => {
@@ -28,10 +24,13 @@ const formatCurrency = (value) => {
 // --- 1. Lógica do Modal de Pagamento ---
 
 // Abrir Modal
-paymentBtn.addEventListener('click', () => {
-    modalTotalAmount.textContent = formatCurrency(currentTotal);
-    paymentModal.style.display = 'block';
-});
+if (paymentBtn) {
+    paymentBtn.addEventListener('click', () => {
+        const currentTotal = document.getElementById('total').innerText;
+        modalTotalAmount.textContent = formatCurrency(currentTotal);
+        paymentModal.style.display = 'block';
+    });
+}
 
 // Fechar Modal
 closePaymentModalBtn.addEventListener('click', () => {
@@ -71,8 +70,9 @@ paymentMethodButtons.forEach(button => {
 
 // Cálculo de Troco em Tempo Real
 cashReceivedInput.addEventListener('input', () => {
+    const currentTotal = document.getElementById('total').innerText;
     const cashReceived = parseFloat(cashReceivedInput.value) || 0;
-    const change = cashReceived - currentTotal;
+    const change = cashReceived - parseFloat(currentTotal.replace('R$', '').replace(',', '.')) || 0;
 
     if (change < 0) {
         changeAmountEl.textContent = "Faltam R$ " + Math.abs(change).toFixed(2);
@@ -95,94 +95,181 @@ const resetPaymentUI = () => {
 
 // --- 2. Lógica de Geração da Notinha ---
 
-const generateReceipt = (saleDetails) => {
-    // Gera o HTML da lista de itens
+const generateSaleOrder = (saleDetails) => {
+    // Gera as linhas da tabela de itens
     const itemsHtml = saleDetails.cart.map(item => `
-        <tr class="receipt-item">
+        <tr>
+            <td>${item.reference || '000000'}</td>
             <td>${item.name}</td>
-            <td>${item.quantity}</td>
-            <td>${formatCurrency(item.price * item.quantity)}</td>
+            <td style="text-align: center;">UN</td>
+            <td style="text-align: center;">${item.quantity}</td>
+            <td style="text-align: right;">${formatCurrency(item.price)}</td>
         </tr>
     `).join('');
 
     const now = new Date();
 
-    // Estrutura HTML completa do Recibo
-    const receiptHtml = `
+    const saleOrderHtml = `
         <!DOCTYPE html>
         <html lang="pt-br">
         <head>
             <meta charset="UTF-8">
-            <title>Recibo</title>
             <style>
-                body { font-family: 'Courier New', monospace; width: 300px; margin: 0 auto; color: #000; }
-                .header { text-align: center; border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px; }
-                h2 { margin: 0; font-size: 16px; }
-                p { margin: 2px 0; font-size: 12px; }
-                table { width: 100%; font-size: 12px; }
-                th, td { text-align: left; padding: 2px 0; }
-                th { border-bottom: 1px dashed #000; }
-                .totals { margin-top: 10px; border-top: 1px dashed #000; padding-top: 10px; font-size: 12px; }
-                .flex { display: flex; justify-content: space-between; margin-bottom: 3px; }
-                .bold { font-weight: bold; }
-                .footer { text-align: center; margin-top: 20px; font-size: 10px; }
-                @media print { body { margin: 0; } }
+                body { font-family: Arial, sans-serif; margin: 20px; color: #000; font-size: 11px; }
+                .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 5px; }
+                .company-name { font-size: 18px; font-weight: bold; }
+                
+                .info-section { width: 100%; border-bottom: 1px solid #000; margin-bottom: 10px; padding: 5px 0; }
+                .info-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+                
+                .title-bar { 
+                    display: flex; justify-content: space-between; align-items: center;
+                    border-bottom: 1px solid #000; padding: 5px 0; font-weight: bold; font-size: 14px;
+                }
+
+                table.items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                table.items-table th { border-bottom: 1px solid #000; text-align: left; padding: 5px; }
+                table.items-table td { padding: 5px; }
+
+                .footer { margin-top: 30px; border-top: 1px solid #000; padding-top: 10px; }
+                .footer-container { display: flex; justify-content: space-between; }
+                .totals-box { width: 250px; }
+                .total-row { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 3px; }
+                
+                .signature { margin-top: 20px; text-align: right; }
+                
+                @media print {
+                    @page {
+                        margin: 0; /* Remove margens do navegador */
+                    }
+                    body {
+                        margin: 0.5cm; /* Margem mínima para não cortar o texto */
+                    }
+                    .no-print {
+                        display: none;
+                    }
+                }
             </style>
         </head>
         <body>
-            <div class="header">
-                <h2>MERCADO EXEMPLO</h2>
-                <p>${now.toLocaleDateString()} - ${now.toLocaleTimeString()}</p>
-                <p>*** NÃO É DOCUMENTO FISCAL ***</p>
-            </div>
-            <table>
-                <thead><tr><th>Item</th><th>Qtd</th><th>Total</th></tr></thead>
-                <tbody>${itemsHtml}</tbody>
+            <table class="header-table">
+                <tr>
+                    <td width="10%"><img src="/static/global/images/logo.ico" alt="Logo" width="60"></td>
+                    <td width="60%">
+                        <div class="company-name">ATACADINHO CRISTÃO</div>
+                        <div>Rua São Sebastião - Centro - Belo Campo-BA 45160-000</div>
+                    </td>
+                    <td width="30%" style="text-align: right;">
+                        (77) 98856-1490<br>
+                        CNPJ 51.603.548/0001-67
+                    </td>
+                </tr>
             </table>
-            <div class="totals">
-                <div class="flex bold"><span>TOTAL:</span><span>${formatCurrency(saleDetails.total)}</span></div>
-                <div class="flex"><span>Forma:</span><span>${saleDetails.paymentMethod.toUpperCase()}</span></div>
-                ${saleDetails.paymentMethod === 'dinheiro' ? `
-                <div class="flex"><span>Recebido:</span><span>${formatCurrency(saleDetails.cashReceived)}</span></div>
-                <div class="flex"><span>Troco:</span><span>${formatCurrency(saleDetails.change)}</span></div>
-                ` : ''}
+
+            <div class="title-bar">
+                <span>VENDA #${saleDetails.id}</span>
+                <span style="font-size: 11px;">Hora: ${now.toLocaleTimeString()} &nbsp; Data: ${now.toLocaleDateString()}</span>
             </div>
-            <div class="footer"><p>Obrigado e volte sempre!</p></div>
+
+            <div class="info-section">
+                <div class="info-row">
+                    <span><strong>Cliente:</strong> ${saleDetails.client}</span>
+                </div>
+                <div class="info-row">
+                    <span><strong>Endereço:</strong></span>
+                    <span><strong>Cidade:</strong> BELO CAMPO</span>
+                    <span><strong>UF:</strong></span>
+                </div>
+            </div>
+
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Referencia</th>
+                        <th>Descrição do Item</th>
+                        <th style="text-align: center;">uni</th>
+                        <th style="text-align: center;">Quantia</th>
+                        <th style="text-align: right;">Valor Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemsHtml}
+                </tbody>
+            </table>
+
+            <div class="footer">
+                <div class="footer-container">
+                    <div class="details">
+                        <p><strong>Vendedor:</strong> ${saleDetails.seller}</p>
+                        <p><strong>Situação Atual:</strong> Entrega direta para o cliente</p>
+                    </div>
+                    <div class="totals-box">
+                        <div class="total-row"><span>VALOR PRODUTOS:</span> <span>${formatCurrency(saleDetails.subtotal || 0)}</span></div>
+                        <div class="total-row"><span>FRETE:</span> <span>${formatCurrency(saleDetails.freight || 0)}</span></div>
+                        <div class="total-row"><span>VALOR DESCONTO:</span> <span>${formatCurrency(saleDetails.discount || 0)}</span></div>
+                        <div class="total-row" style="font-size: 14px; border-top: 1px solid #000; padding-top: 5px;">
+                            <span>VALOR TOTAL:</span> <span>${formatCurrency(saleDetails.total)}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">GRATO PELA PREFERÊNCIA</div>
+                <div class="signature">
+                    Visto _________________________________________________
+                </div>
+            </div>
         </body>
         </html>
     `;
 
-    // Abre janela, escreve e imprime
-    const win = window.open('', '', 'width=640,height=480');
-    win.document.write(receiptHtml);
+    const win = window.open('', '', 'width=900,height=600');
+    win.document.write(saleOrderHtml);
     win.document.close();
+    // Aguarda carregar imagens (logo) antes de imprimir
     win.onload = () => {
         win.print();
         win.close();
     };
 };
 
-// --- 3. Ação Final: Botão Confirmar ---
-
-confirmPaymentBtn.addEventListener('click', () => {
+confirmPaymentForm.addEventListener('submit', (event) => {
+    event.preventDefault();
     const cashReceived = parseFloat(cashReceivedInput.value) || 0;
-    
-    const saleDetails = {
-        cart: cart,
-        total: currentTotal,
-        paymentMethod: selectedPaymentMethod,
-        cashReceived: cashReceived,
-        change: (selectedPaymentMethod === 'dinheiro') ? (cashReceived - currentTotal) : 0
-    };
+    console.log(cashReceived);
+    const paymentMethod = document.getElementById('payment-method');
+    paymentMethod.value = selectedPaymentMethod;
+    const valueReceived = document.getElementById('value-received');
+    console.log(valueReceived);
+    valueReceived.value = cashReceived;
 
-    // 1. Gera notinha
-    generateReceipt(saleDetails);
-
-    // 2. Fecha modal e limpa
-    paymentModal.style.display = 'none';
-    resetPaymentUI();
-    
-    // Aqui você adicionaria o código para limpar o carrinho real
-    alert("Venda finalizada e recibo gerado!");
+    confirmPaymentForm.submit();
 });
 
+printBtn.addEventListener('click', () => {
+    const saleId = document.getElementById('id-sale').value;
+    const client = document.getElementById('client-input').value;
+    const seller = document.getElementById('seller').value;
+    const items = document.querySelectorAll('.cart-item');
+    const cartItems = [];
+    items.forEach(item => {
+        const name = item.querySelector('.item-name').innerText;
+        const price = parseFloat(item.querySelector('.item-price').innerText.replace('R$', '').replace(',', '.'));
+        const quantity = item.querySelector('.item-quantity-value').innerText;
+        cartItems.push({ name, price, quantity });
+    });
+    const subtotal = parseFloat(document.getElementById('subtotal').innerText.replace('R$', '').replace(',', '.'));
+    const discount = parseFloat(document.getElementById('discount-input').value) || 0;
+    const freight = parseFloat(document.getElementById('frete-input').value) || 0;
+    const total = subtotal - discount + freight;
+    const saleDetails = {
+        id: saleId,
+        client: client,
+        seller: seller,
+        cart: cartItems,
+        subtotal: subtotal,
+        discount: discount,
+        freight: freight,
+        total: total,
+    }; 
+
+    generateSaleOrder(saleDetails);
+});

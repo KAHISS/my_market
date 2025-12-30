@@ -1,4 +1,4 @@
-<tr>
+<tr class="cart-item" id="item-{{ item.id }}">
     <td>
         <div class="product-item-info">
             <img src="{{ item.product.image.url }}" alt="cafe" class="item-thumbnail">
@@ -8,9 +8,9 @@
             </div>
         </div>
     </td>
-    <td>{{ item.quantity }}</td>
-    <td>{{ item.product.stock.sale_price }}</td>
-    <td>{{ item.subtotal }}</td>
-    <td>{{ item.discount }}</td>
-    <td><strong>{{ item.total_price_with_discount }}</strong></td>
+    <td class="item-quantity">{{ item.quantity }}</td>
+    <td class="item-sale-price">{{ item.product.stock.sale_price }}</td>
+    <td class="item-subtotal">{{ item.subtotal }}</td>
+    <td class="item-discount">{{ item.discount }}</td>
+    <td class="item-total-price"><strong>{{ item.total_price_with_discount }}</strong></td>
 </tr>

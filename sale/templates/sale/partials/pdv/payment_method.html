@@ -27,6 +27,11 @@
             </div>
         </div>
         
-        <button id="confirm-payment-btn" class="btn btn-primary" disabled>Confirmar Pagamento</button>
+        <form action="{% url 'sale:sale_finish' sale.id %}" method="post" id="payment-form">
+            {% csrf_token %}
+            <input type="hidden" id="payment-method" name="payment_method" value="">
+            <input type="hidden" id="value-received" name="value_received" value="">
+            <button type="submit" id="confirm-payment-btn" class="btn btn-primary" disabled>Confirmar Pagamento</button>
+        </form>
     </div>
 </div>

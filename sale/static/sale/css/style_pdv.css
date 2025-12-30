@@ -487,3 +487,49 @@ input[type="number"]:focus {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+.status-pendente {
+    padding: 2px 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(255, 187, 0);
+    background-color: rgb(236, 173, 2);
+    border-radius: 10px;
+    border: 2px solid #cb8c04;
+}
+
+.status-pago {
+    padding: 2px 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(0, 121, 107);
+    background-color: rgb(173, 255, 187);
+    border-radius: 10px;
+    border: 2px solid #00796b;
+}
+
+.status-cancelado {
+    padding: 2px 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(255, 0, 0);
+    background-color: rgb(255, 187, 187);
+    border-radius: 10px;
+    border: 2px solid #cb0404;
+}
+
+#search-button-sale {
+    background-color: #0380ba;
+}
+
+@media print {
+    @page {
+        margin: 0; /* Remove margens do navegador */
+    }
+    body {
+        margin: 0.5cm; /* Margem mínima para não cortar o texto */
+    }
+    .no-print {
+        display: none;
+    }
+}
