@@ -198,11 +198,8 @@ def add_item_to_sale(request):
         product = get_object_or_404(
             Product.objects.select_for_update(), barcode__icontains=barcode)
 
-        if product is None:
-            return JsonResponse({'success': False, 'message': 'Produto não encontrado.'})
-
         if getattr(product, 'stock', None) is None:
-            return JsonResponse({'success': False, 'message': 'Produto sem estoque.'})
+            return JsonResponse({'success': False, 'message': 'Erro de cadastro: produto sem estoque vinculado.'})
 
         sale_item, created = SaleItem.objects.get_or_create(
             sale=sale,
