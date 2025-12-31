@@ -70,8 +70,8 @@ def add_item_to_cart(request):
         if getattr(product, 'stock', None) is None:
             return JsonResponse({'success': False, 'message': 'Erro de cadastro: produto sem estoque vinculado.'})
 
-        if product.stock.quantity <= 0:
-            return JsonResponse({'success': False, 'message': 'Estoque esgotado.'})
+        '''if product.stock.quantity <= 0:
+            return JsonResponse({'success': False, 'message': 'Estoque esgotado.'})'''
 
         cart_item, created = CartItem.objects.get_or_create(
             cart=cart,
@@ -84,9 +84,9 @@ def add_item_to_cart(request):
 
         final_quantity = cart_item.quantity + quantity
 
-        if final_quantity > product.stock.quantity:
+        '''if final_quantity > product.stock.quantity:
             msg = f'Estoque insuficiente. Você já tem {cart_item.quantity} no carrinho e só restam {product.stock.quantity} no total.'
-            return JsonResponse({'success': False, 'message': msg})
+            return JsonResponse({'success': False, 'message': msg})'''
 
         cart_item.quantity += quantity
         cart_item.save()
@@ -160,8 +160,8 @@ def remove_item_to_cart(request):
         if getattr(product, 'stock', None) is None:
             return JsonResponse({'success': False, 'message': 'Erro de cadastro: produto sem estoque vinculado.'})
 
-        if product.stock.quantity <= 0:
-            return JsonResponse({'success': False, 'message': 'Estoque esgotado.'})
+        '''if product.stock.quantity <= 0:
+            return JsonResponse({'success': False, 'message': 'Estoque esgotado.'})'''
 
         cart_item = get_object_or_404(
             CartItem.objects.select_for_update(),

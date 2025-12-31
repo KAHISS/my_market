@@ -32,15 +32,17 @@ def checkout_cart(request):
                 product_db = Product.objects.select_for_update(
                 ).select_related('stock').get(id=item.product.id)
 
-                # Verifica se a quantidade pedida é maior que o estoque atual do banco
+                '''# Verifica se a quantidade pedida é maior que o estoque atual do banco
                 if item.quantity > product_db.stock.quantity:
                     # LEVANTA ERRO: Isso força o cancelamento de TUDO que foi feito nesse bloco atomic
                     # inclusive de produtos anteriores do loop que já tinham sido descontados.
                     raise ValueError(
-                        f'Não há estoque suficiente para "{product_db.name}".')
+                        f'Não há estoque suficiente para "{product_db.name}".')'''
 
                 # Deduz o estoque
                 product_db.stock.quantity -= item.quantity
+                if product_db.stock.quantity < 0:
+                    product_db.stock.quantity = 0
                 product_db.stock.save()
 
             # 2. Definição de Cliente/Vendedor

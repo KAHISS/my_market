@@ -210,11 +210,11 @@ def add_item_to_sale(request):
         if created and sale_item.quantity != 0:
             sale_item.quantity = 0
 
-        if product.stock.quantity - quantity < 0:
+        '''if product.stock.quantity - quantity < 0:
             msg = f'Estoque insuficiente. Só restam {product.stock.quantity} no estoque.'
             if created:
                 sale_item.delete()
-            return JsonResponse({'success': False, 'message': msg})
+            return JsonResponse({'success': False, 'message': msg})'''
 
         product.stock.quantity -= quantity
         if product.stock.quantity <= 0:
