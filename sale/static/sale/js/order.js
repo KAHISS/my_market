@@ -139,33 +139,35 @@ const generateSaleOrder = (saleDetails) => {
     };
 };
 
-printOrderBtn.addEventListener('click', () => {
-    const orderId = document.getElementById('id-order').value;
-    const client = document.getElementById('client').value;
-    const seller = document.getElementById('seller').value;
-    const items = document.querySelectorAll('.cart-item');
-    const cartItems = [];
-    items.forEach(item => {
-        const name = item.querySelector('.item-title').innerText;
-        const quantity = item.querySelector('.item-quantity').innerText;
-        const price = item.querySelector('.item-sale-price').innerText;
-        const subtotal = item.querySelector('.item-subtotal').innerText;
-        const discount = item.querySelector('.item-discount').innerText;
-        const total = item.querySelector('.item-total-price').innerText;
-        cartItems.push({ name, price, quantity, subtotal, discount, total });
-    });
-    const total = document.querySelector('.subtotal').innerText;
-    const discount = document.querySelector('.text-discount').innerText;
-    const currentTotal = document.querySelector('.total').innerText;
-    const saleDetails = {
-        id: orderId,
-        client: client,
-        seller: seller,
-        cart: cartItems,
-        subtotal: total,
-        discount: discount,
-        total: currentTotal,
-    }; 
+if (printOrderBtn) {
+    printOrderBtn.addEventListener('click', () => {
+        const orderId = document.getElementById('id-order').value;
+        const client = document.getElementById('client').value;
+        const seller = document.getElementById('seller').value;
+        const items = document.querySelectorAll('.cart-item');
+        const cartItems = [];
+        items.forEach(item => {
+            const name = item.querySelector('.item-title').innerText;
+            const quantity = item.querySelector('.item-quantity').innerText;
+            const price = item.querySelector('.item-sale-price').innerText;
+            const subtotal = item.querySelector('.item-subtotal').innerText;
+            const discount = item.querySelector('.item-discount').innerText;
+            const total = item.querySelector('.item-total-price').innerText;
+            cartItems.push({ name, price, quantity, subtotal, discount, total });
+        });
+        const total = document.querySelector('.subtotal').innerText;
+        const discount = document.querySelector('.text-discount').innerText;
+        const currentTotal = document.querySelector('.total').innerText;
+        const saleDetails = {
+            id: orderId,
+            client: client,
+            seller: seller,
+            cart: cartItems,
+            subtotal: total,
+            discount: discount,
+            total: currentTotal,
+        }; 
 
-    generateSaleOrder(saleDetails);
-});
+        generateSaleOrder(saleDetails);
+    });
+}

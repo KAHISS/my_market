@@ -3,10 +3,10 @@
     <div class="item-quantity">
         {% if sale.status == 'pendente' %}
             <button class="quantity-btn decrease" data-barcode="{{ item.product.barcode }}">-</button>
-            <input type="number" class="quantity-input" value="{{ item.quantity }}" min="1" readonly>
+            <input type="number" class="item-quantity-value" value="{{ item.quantity }}" min="1" readonly>
             <button class="quantity-btn increase" data-barcode="{{ item.product.barcode }}">+</button>
         {% else %}
-            <span class="item-quantity-value">{{ item.quantity }}</span>
+            <input type="number" class="item-quantity-value" value="{{ item.quantity }}" min="1" readonly>
         {% endif %}
     </div>
     <span class="item-price">R$&nbsp;{{ item.subtotal }}</span>

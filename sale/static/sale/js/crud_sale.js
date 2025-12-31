@@ -47,7 +47,7 @@ const updateSaleList = (sale, item=null, created=false) => {
                 <span class="item-name">${item.name}</span>
                 <div class="item-quantity">
                     <button class="quantity-btn decrease" data-barcode="${item.barcode}">-</button>
-                    <input type="number" class="quantity-input" value="${item.quantity}" min="1" readonly>
+                    <input type="number" class="item-quantity-value" value="${item.quantity}" min="1" readonly>
                     <button class="quantity-btn increase" data-barcode="${item.barcode}">+</button>
                 </div>
                 <span class="item-price">R$&nbsp;${item.subtotal}</span>
@@ -66,7 +66,7 @@ const updateSaleList = (sale, item=null, created=false) => {
 
         } else {
             const itemElement = document.getElementById(item.id);
-            const quantityInput = itemElement.querySelector('.quantity-input');
+            const quantityInput = itemElement.querySelector('.item-quantity-value');
             quantityInput.value = item.quantity;
             const priceInput = itemElement.querySelector('.item-price');
             priceInput.innerText = `R$ ${item.subtotal}`;
@@ -172,21 +172,23 @@ const removeItemFromCart = async (url, item_id) => {
 }
 
 // event listeners
-formAddItem.addEventListener('submit', async (event) => {
-    event.preventDefault();
+if (formAddItem) {
+    formAddItem.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    const barcodeInput = document.getElementById('barcode-input');
-    const url = formAddItem.action; // Pega a URL direto do atributo action do form
-    const quantity = document.getElementById('quantity').value || 1;
+        const barcodeInput = document.getElementById('barcode-input');
+        const url = formAddItem.action; // Pega a URL direto do atributo action do form
+        const quantity = document.getElementById('quantity').value || 1;
 
-    if (barcodeInput) {
-        addItemToCart(url, barcodeInput.value, quantity, barcodeInput);
-        barcodeInput.value = '';
-        barcodeInput.focus();
-    }
+        if (barcodeInput) {
+            addItemToCart(url, barcodeInput.value, quantity, barcodeInput);
+            barcodeInput.value = '';
+            barcodeInput.focus();
+        }
 
-    formAddItem.reset();
-});
+        formAddItem.reset();
+    });
+}
 
 formSummary.addEventListener('submit', async (event) => {
     event.preventDefault();

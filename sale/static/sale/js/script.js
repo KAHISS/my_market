@@ -253,7 +253,7 @@ printBtn.addEventListener('click', () => {
     items.forEach(item => {
         const name = item.querySelector('.item-name').innerText;
         const price = parseFloat(item.querySelector('.item-price').innerText.replace('R$', '').replace(',', '.'));
-        const quantity = item.querySelector('.item-quantity-value').innerText;
+        const quantity = item.querySelector('.item-quantity-value').value;
         cartItems.push({ name, price, quantity });
     });
     const subtotal = parseFloat(document.getElementById('subtotal').innerText.replace('R$', '').replace(',', '.'));
