@@ -3,7 +3,7 @@ from django.http import Http404
 from django.db import transaction
 from sale.models import Cart, Order, OrderItem
 from client.models import Client
-from inventory.models import Product
+from inventory.models import Product, Stock
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -26,11 +26,11 @@ def checkout_cart(request):
 
             # 1. Validação de Estoque e Dedução
             for item in cart_items:
+                product = item.product
                 # CRÍTICO: select_for_update() trava este produto para escrita.
                 # Usamos select_related('stock') se o estoque for uma tabela separada (OneToOne)
                 # get(id=...) garante que estamos indo no banco buscar a versão mais atual
-                product_db = Product.objects.select_for_update(
-                ).select_related('stock').get(id=item.product.id)
+                stock_db = Stock.objects.select_for_update().get(product=product)
 
                 '''# Verifica se a quantidade pedida é maior que o estoque atual do banco
                 if item.quantity > product_db.stock.quantity:
@@ -40,10 +40,10 @@ def checkout_cart(request):
                         f'Não há estoque suficiente para "{product_db.name}".')'''
 
                 # Deduz o estoque
-                product_db.stock.quantity -= item.quantity
-                if product_db.stock.quantity < 0:
-                    product_db.stock.quantity = 0
-                product_db.stock.save()
+                stock_db.quantity -= item.quantity
+                if stock_db.quantity < 0:
+                    stock_db.quantity = 0
+                stock_db.save()
 
             # 2. Definição de Cliente/Vendedor
             client = request.user
