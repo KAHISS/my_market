@@ -1,3 +1,5 @@
+from datetime import timedelta
+from django.utils import timezone
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
@@ -26,6 +28,14 @@ def create_new_sale(request):
         raise Http404("No POST data found.")
 
     sale = Sale.objects.create(seller=request.user)
+
+    # Exemplo de comando de limpeza
+    Sale.objects.filter(
+        sale_items__isnull=True,
+        status='pendente'
+    ).exclude(
+        id=sale.id
+    ).delete()
 
     return redirect('sale:sale_detail', id=sale.id)
 
