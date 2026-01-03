@@ -1,216 +1,108 @@
 :root {
-    /* Paleta de cor com Azul e Verde */
-    --primary-blue: #004B8D;  /* Azul para o header */
-    --primary-green: #198754; /* Verde para botões e ações */
-    --green-hover: #146c43;   /* Verde mais escuro */
+    --primary-blue: #004B8D;
+    --primary-green: #198754;
+    --green-hover: #146c43;
+    --danger: #dc3545;
+    --warning: #ffc107;
     
-    --light-gray: #f4f5f7;
-    --medium-gray: #e1e4e8;
-    --dark-gray: #586069;
-    --text-color: #24292e;
+    --light-gray: #f8f9fa;
+    --medium-gray: #e9ecef;
+    --dark-gray: #6c757d;
+    --text-color: #212529;
     --white: #ffffff;
-    --border-radius: 8px;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    --border-radius: 10px;
+    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
 }
 
-/*
-=========================================
---- 8. ESTILOS PÁGINA DE PEDIDO ---
-=========================================
-*/
-
-/* --- Cabeçalho da Página (Título e ID) --- */
-.page-container {
-    padding: 2rem;
+/* --- Estrutura Geral --- */
+body {
+    background-color: #f0f2f5;
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* --- Cabeçalho da Página --- */
 .order-page-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    margin-bottom: 2rem;
     gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--medium-gray);
-}
-
-.order-header-title {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    flex-wrap: wrap;
 }
 
 .order-header-title h1 {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.75rem;
     margin: 0;
+    color: var(--primary-blue);
 }
 
 .order-header-title span {
-    font-size: 1.75rem;
-    font-weight: 600;
-    color: var(--dark-gray);
+    font-size: 1.25rem;
+    color: var(--primary-blue);
+    font-weight: 400;
 }
 
-/* --- Badge de Status --- */
+/* Status Badge */
 .order-status-badge {
-    display: inline-flex;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    color: var(--white);
-    font-size: 0.9rem;
 }
 
-.order-status-badge .feather {
-    width: 16px;
-    height: 16px;
-}
+.status-pendente { background: #fff3cd; color: #856404; }
+.status-pago { background: #d4edda; color: #155724; }
+.status-cancelado { background: #f8d7da; color: #721c24; }
 
-/* Cores do Badge (Adicione mais conforme precisar) */
-.order-status-badge.status-pago {
-    background-color: var(--primary-green);
-}
-.order-status-badge.status-pendente {
-    background-color: #ffc107; /* Amarelo */
-    color: var(--text-color);
-}
-.order-status-badge.status-cancelado {
-    background-color: #dc3545; /* Vermelho */
-}
-
-
-/* --- Layout Grid Principal --- */
+/* --- Layout em Grid --- */
 .order-layout-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* 2/3 para itens, 1/3 para sidebar */
+    grid-template-columns: 1fr 350px; /* Itens à esquerda, Resumo à direita */
     gap: 2rem;
+    align-items: start;
 }
 
-.order-main-content h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-
-.order-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    align-self: start; /* Faz o sidebar parar no topo */
-}
-
-/* --- Box de Informação (Componente reutilizável para o sidebar) --- */
+/* --- Cards de Informação --- */
 .info-box {
     background: var(--white);
-    border: 1px solid var(--medium-gray);
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
     padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 1.5rem;
 }
 
 .info-box h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.1rem;
     margin-top: 0;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--light-gray);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--medium-gray);
+    color: var(--primary-blue);
 }
 
-/* --- Lista de Resumo (Subtotal, Total) --- */
-.summary-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.summary-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1rem;
-}
-
-.summary-list li span {
-    color: var(--dark-gray);
-}
-
-.summary-list li strong {
-    font-weight: 600;
-    color: var(--text-color);
-}
-
-.summary-list li.total {
-    font-size: 1.25rem;
-    border-top: 1px solid var(--medium-gray);
-    padding-top: 1rem;
-    margin-top: 0.5rem;
-}
-
-.summary-list li.total strong {
-    font-weight: 700;
-    color: var(--primary-green);
-}
-
-.text-discount {
-    color: var(--primary-green) !important;
-    font-weight: 600;
-}
-
-
-/* --- Lista de Detalhes (Cliente, Vendedor) --- */
-.details-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-.details-list li {
-    font-size: 0.95rem;
-    color: var(--dark-gray);
-    line-height: 1.5;
-}
-.details-list li strong {
-    color: var(--text-color);
-    font-weight: 600;
-    margin-right: 0.25rem;
-}
-
-address {
-    font-style: normal;
-    line-height: 1.6;
-    color: var(--dark-gray);
-    font-size: 0.95rem;
-}
-
-
-/* --- Tabela de Itens --- */
+/* --- Estilo da Tabela (Desktop) --- */
 .order-items-table-container {
-    border: 1px solid var(--medium-gray);
-    border-radius: var(--border-radius);
-    overflow-x: auto; /* MODIFICADO DE 'overflow: hidden;' */
     background: var(--white);
+    border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    overflow: hidden;
 }
 
 table {
     width: 100%;
-    min-width: 600px;
     border-collapse: collapse;
-}
-
-table th,
-table td {
-    padding: 1rem 1.25rem;
-    text-align: left;
-    border-bottom: 1px solid var(--medium-gray);
-    vertical-align: middle;
 }
 
 table thead {
@@ -218,18 +110,18 @@ table thead {
 }
 
 table th {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--dark-gray);
+    padding: 1rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
+    color: var(--dark-gray);
     letter-spacing: 0.5px;
 }
 
-table tbody tr:last-child td {
-    border-bottom: none;
+table td {
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid var(--medium-gray);
 }
 
-/* Info do Produto dentro da Tabela */
 .product-item-info {
     display: flex;
     align-items: center;
@@ -237,147 +129,141 @@ table tbody tr:last-child td {
 }
 
 .item-thumbnail {
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid var(--medium-gray);
-    flex-shrink: 0;
-}
-
-.item-thumbnail.placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--light-gray);
-    color: var(--dark-gray);
-}
-.item-thumbnail.placeholder .feather {
-    width: 24px;
-    height: 24px;
 }
 
 .item-title {
     display: block;
     font-weight: 600;
-    color: var(--text-color);
-    font-size: 1rem;
-    margin-bottom: 0.1rem;
+    font-size: 0.95rem;
 }
 
 .item-brand {
-    display: block;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--dark-gray);
 }
 
-/* --- Botões de Ação --- */
+/* --- Listas de Resumo e Detalhes --- */
+.summary-list, .details-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.summary-list li, .details-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.summary-list li.total {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px dashed var(--medium-gray);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-green);
+}
+
+/* --- Botões --- */
 .order-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
 }
 
 .btn {
-    display: inline-flex;
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.85rem 1rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all 0.2s;
+    transition: var(--transition);
     text-decoration: none;
 }
-.btn .feather {
-    width: 18px;
-    height: 18px;
-}
 
-.btn-primary {
-    background: var(--primary-green);
-    color: var(--white);
-    border: 1px solid var(--primary-green);
-}
-.btn-primary:hover {
-    background: var(--green-hover);
-    border-color: var(--green-hover);
-}
+.btn-secondary { background: var(--medium-gray); color: var(--text-color); }
+.btn-danger { background: #fff1f0; color: var(--danger); border: 1px solid #ffa39e; }
+.btn-danger:hover { background: var(--danger); color: white; }
 
-.btn-secondary {
-    background: var(--white);
-    color: var(--dark-gray);
-    border: 1px solid var(--medium-gray);
-}
-.btn-secondary:hover {
-    background: var(--light-gray);
-    border-color: var(--dark-gray);
-    color: var(--text-color);
-}
-
-
-/*
-=========================================
---- 9. RESPONSIVIDADE (PÁGINA PEDIDO) ---
+/* =========================================
+--- RESPONSIVIDADE --- 
 =========================================
 */
 
-/* Para Tablets (ex: até 992px) */
 @media (max-width: 992px) {
     .order-layout-grid {
-        grid-template-columns: 1fr; /* Coluna única */
+        grid-template-columns: 1fr; /* Coluna única no tablet/mobile */
     }
-
+    
     .order-sidebar {
-        /* Move o sidebar para cima no mobile */
-        grid-row-start: 1;
+        order: -1; /* Resumo aparece primeiro no mobile */
     }
 }
 
-/* Para Celulares (ex: até 480px) */
-@media (max-width: 480px) {
-    .order-items-table-container {
-        max-width: 20rem;
-    }
-
+@media (max-width: 768px) {
     .order-page-header {
-        align-items: flex-start;
         flex-direction: column;
-    }
-    
-    .order-header-title {
         align-items: flex-start;
-        flex-direction: column;
-        gap: 0.25rem;
-    }
-    .order-header-title h1 {
-        font-size: 1.75rem;
-    }
-    .order-header-title span {
-        font-size: 1rem;
     }
 
-    .order-actions {
-        grid-template-columns: 1fr; /* Botões empilhados */
+    /* Transformação da Tabela em CARDS */
+    table, thead, tbody, th, td, tr {
+        display: block;
     }
 
-    table th, table td {
-        padding: 0.75rem;
+    table thead {
+        display: none; /* Esconde cabeçalho */
     }
 
-    .product-item-info {
-        gap: 0.75rem;
+    table tbody tr {
+        background: var(--white);
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        margin-bottom: 1rem;
+        padding: 1rem;
+        box-shadow: var(--box-shadow);
     }
-    .item-thumbnail {
-        width: 45px;
-        height: 45px;
+
+    table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--light-gray);
+        text-align: right;
     }
-    .item-title {
-        font-size: 0.9rem;
-    }
-    .item-brand {
+
+    table td:last-child { border-bottom: none; }
+
+    /* Injeta o nome da coluna via data-label */
+    table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--dark-gray);
         font-size: 0.8rem;
+        text-align: left;
     }
+
+    /* Ajuste para a linha do produto no card */
+    table td[data-label="Produto"] {
+        flex-direction: row;
+        justify-content: flex-start;
+        border-bottom: 2px solid var(--medium-gray);
+        margin-bottom: 0.5rem;
+        padding-bottom: 1rem;
+    }
+
+    table td[data-label="Produto"]::before { display: none; }
 }
