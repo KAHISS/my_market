@@ -144,7 +144,7 @@ if (printOrderBtn) {
         const orderId = document.getElementById('id-order').value;
         const client = document.getElementById('client').value;
         const seller = document.getElementById('seller').value;
-        const items = document.querySelectorAll('.cart-item');
+        const items = document.querySelectorAll('.order-item');
         const cartItems = [];
         items.forEach(item => {
             const name = item.querySelector('.item-title').innerText;

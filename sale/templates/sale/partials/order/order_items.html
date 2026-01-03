@@ -8,9 +8,9 @@
             </div>
         </div>
     </td>
-    <td data-label="Quantidade">{{ item.quantity }}</td>
-    <td data-label="Preço de Venda">{{ item.product.stock.sale_price }}</td>
-    <td data-label="Subtotal">{{ item.subtotal }}</td>
-    <td data-label="Desconto">{{ item.discount }}</td>
-    <td data-label="Preço Total"><strong>{{ item.total_price_with_discount }}</strong></td>
+    <td data-label="Quantidade" class="item-quantity">{{ item.quantity }}</td>
+    <td data-label="Preço de Venda" class="item-sale-price">{{ item.product.stock.sale_price }}</td>
+    <td data-label="Subtotal" class="item-subtotal">{{ item.subtotal }}</td>
+    <td data-label="Desconto" class="item-discount">{{ item.discount }}</td>
+    <td data-label="Preço Total" class="item-total-price"><strong>{{ item.total_price_with_discount }}</strong></td>
 </tr>
