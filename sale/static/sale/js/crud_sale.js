@@ -181,12 +181,10 @@ if (formAddItem) {
         const quantity = document.getElementById('quantity').value || 1;
 
         if (barcodeInput) {
-            addItemToCart(url, barcodeInput.value, quantity, barcodeInput);
-            barcodeInput.value = '';
+            await addItemToCart(url, barcodeInput.value, quantity, barcodeInput);
+            barcodeInput.value = ''
             barcodeInput.focus();
         }
-
-        formAddItem.reset();
     });
 }
 
