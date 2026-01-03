@@ -40,7 +40,7 @@
             </select>
             <button type="submit" class="search-order-btn">Buscar</button>
         </form>
-        <form action="{% url 'sale:sale_create' %}" method="POST" class="new-order-form">
+        <form action="{% url 'sale:sale_create' %}" method="POST" class="new-order-form" target="_blank">
             {% csrf_token %}
             <input type="hidden" name="q" value="empty">
             <button type="submit" class="new-order-btn">Nova venda</button>
