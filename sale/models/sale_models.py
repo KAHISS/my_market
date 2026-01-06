@@ -6,18 +6,21 @@ from inventory.models import Product
 
 
 class Sale(models.Model):
-    seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    seller = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, verbose_name="Vendedor")
     client = models.CharField(
-        max_length=255, default='Consumidor Final', blank=True)
-    total_quantity = models.PositiveIntegerField(default=0)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+        "Cliente", max_length=255, default='Consumidor Final', blank=True)
+    total_quantity = models.PositiveIntegerField("Quantidade Total", default=0)
+    subtotal = models.DecimalField(
+        "Subtotal", max_digits=10, decimal_places=2, default=0)
     discount = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0)
-    freight = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+        "Desconto", max_digits=10, decimal_places=2, default=0)
+    freight = models.DecimalField(
+        "Frete", max_digits=10, decimal_places=2, default=0)
     total_price = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0)
+        "Total", max_digits=10, decimal_places=2, default=0)
     status = models.CharField(
-        max_length=50,
+        "Status", max_length=50,
         default='pendente',
         choices=[
             ('pendente', 'Pendente'),
@@ -26,7 +29,7 @@ class Sale(models.Model):
         ]
     )
     payment_method = models.CharField(
-        max_length=255,
+        "Método de Pagamento", max_length=255,
         default='sem pagamento',
         choices=[
             ('sem pagamento', 'Sem Pagamento'),
@@ -36,9 +39,13 @@ class Sale(models.Model):
         ]
     )
     cash_received = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0)
+        "Valor Recebido", max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Venda"
+        verbose_name_plural = "Vendas"
 
     def __str__(self):
         return f'Venda #{self.id} - {self.seller}'
@@ -59,12 +66,18 @@ class Sale(models.Model):
 
 class SaleItem(models.Model):
     sale = models.ForeignKey(
-        Sale, on_delete=models.CASCADE, related_name='sale_items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+        Sale, on_delete=models.CASCADE, related_name='sale_items', verbose_name="Venda")
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, verbose_name="Produto")
+    quantity = models.PositiveIntegerField("Quantidade", default=1)
+    subtotal = models.DecimalField(
+        "Subtotal", max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Item de Venda"
+        verbose_name_plural = "Itens de Venda"
 
     def __str__(self):
         return f'{self.product} - {self.quantity}'

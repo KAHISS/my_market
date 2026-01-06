@@ -32,12 +32,12 @@ def checkout_cart(request):
                 # get(id=...) garante que estamos indo no banco buscar a versão mais atual
                 stock_db = Stock.objects.select_for_update().get(product=product)
 
-                '''# Verifica se a quantidade pedida é maior que o estoque atual do banco
-                if item.quantity > product_db.stock.quantity:
+                # Verifica se a quantidade pedida é maior que o estoque atual do banco
+                if item.quantity > stock_db.quantity:
                     # LEVANTA ERRO: Isso força o cancelamento de TUDO que foi feito nesse bloco atomic
                     # inclusive de produtos anteriores do loop que já tinham sido descontados.
                     raise ValueError(
-                        f'Não há estoque suficiente para "{product_db.name}".')'''
+                        f'Não há estoque suficiente para "{product.name}".')
 
                 # Deduz o estoque
                 stock_db.quantity -= item.quantity

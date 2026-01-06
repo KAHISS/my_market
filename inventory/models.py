@@ -6,7 +6,11 @@ class Category(models.Model):
     """
     Represent a category of products.
     """
-    name = models.CharField(max_length=64)
+    name = models.CharField("Nome da categoria", max_length=64)
+
+    class Meta:
+        verbose_name = "Categoria"
+        verbose_name_plural = "Categorias"
 
     def __str__(self):
         """
@@ -20,14 +24,15 @@ class Product(models.Model):
     Represent a product in the inventory.
     """
     barcode = models.CharField(
-        max_length=13, blank=True, null=True, unique=True)
-    name = models.CharField(max_length=64)
-    brand = models.CharField(max_length=64, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    slug = models.SlugField(unique=True)
+        "Código de barras", max_length=13, blank=True, null=True, unique=True)
+    name = models.CharField("Nome do produto", max_length=64)
+    brand = models.CharField("Marca", max_length=64, blank=True, null=True)
+    description = models.TextField("Descrição", blank=True, null=True)
+    slug = models.SlugField("Slug", unique=True)
     packaging_type = models.CharField(
-        max_length=64, blank=True, null=True, default="Caixa")
+        "Tipo de embalagem", max_length=64, blank=True, null=True, default="Caixa")
     unit_measure = models.CharField(
+        "Unidade de medida",
         max_length=64,
         blank=True,
         null=True,
@@ -41,14 +46,19 @@ class Product(models.Model):
         ],
         default="UN"
     )
-    unit_per_packaging = models.IntegerField(default=1)
+    unit_per_packaging = models.IntegerField(
+        "Unidades por embalagem", default=1)
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True, blank=True, default=None)
-    in_catalog = models.BooleanField(default=False)
+        Category, on_delete=models.SET_NULL, null=True, blank=True, default=None, verbose_name="Categoria")
+    in_catalog = models.BooleanField("Em catálogo", default=False)
     image = models.ImageField(
-        upload_to='inventory/covers/%Y/%m/%d/', blank=True, default="")
+        "Imagem", upload_to='inventory/covers/%Y/%m/%d/', blank=True, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Produto"
+        verbose_name_plural = "Produtos"
 
     def __str__(self):
         """
@@ -59,18 +69,24 @@ class Product(models.Model):
 
 class Stock(models.Model):
     product = models.OneToOneField(
-        Product, on_delete=models.CASCADE, related_name='stock')
-    quantity = models.IntegerField(default=0)
-    minimum_stock = models.IntegerField(default=0)
-    purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
-    sale_price = models.DecimalField(max_digits=10, decimal_places=2)
+        Product, on_delete=models.CASCADE, related_name='stock', verbose_name="Produto")
+    quantity = models.IntegerField("Quantidade", default=0)
+    minimum_stock = models.IntegerField("Estoque mínimo", default=0)
+    purchase_price = models.DecimalField(
+        "Preço de compra", max_digits=10, decimal_places=2)
+    sale_price = models.DecimalField(
+        "Preço de venda", max_digits=10, decimal_places=2)
     wholesale_price = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0)
+        "Preço de venda em lote", max_digits=10, decimal_places=2, default=0)
     discount = models.DecimalField(
-        max_digits=10, decimal_places=2, blank=True, null=True)
-    due_date = models.DateField(blank=True, null=True)
+        "Desconto", max_digits=10, decimal_places=2, blank=True, null=True)
+    due_date = models.DateField("Data de vencimento", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Estoque"
+        verbose_name_plural = "Estoques"
 
     def __str__(self):
         """
