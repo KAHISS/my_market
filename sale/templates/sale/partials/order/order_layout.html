@@ -47,6 +47,10 @@
                     <span>Desconto</span>
                     <strong class="text-discount">- R$ {{ order.total_discount|floatformat:2 }}</strong>
                 </li>
+                <li>
+                    <span>Frete</span>
+                    <strong class="text-discount">5%</strong>
+                </li>
                 <li class="total">
                     <span>Total</span>
                     <strong>R$ {{ order.total_price_with_discount|floatformat:2 }}</strong>

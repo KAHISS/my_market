@@ -115,6 +115,7 @@ const generateSaleOrder = (saleDetails) => {
                     <div class="totals-box">
                         <div class="total-row"><span>VALOR PRODUTOS:</span> <span>${saleDetails.subtotal}</span></div>
                         <div class="total-row"><span>VALOR DESCONTO:</span> <span>${saleDetails.discount}</span></div>
+                        <div class="total-row"><span>FRETE:</span> <span>${saleDetails.freight}%</span></div>
                         <div class="total-row" style="font-size: 14px; border-top: 1px solid #000; padding-top: 5px;">
                             <span>VALOR TOTAL:</span> <span>${saleDetails.total}</span>
                         </div>
@@ -166,6 +167,7 @@ if (printOrderBtn) {
             subtotal: total,
             discount: discount,
             total: currentTotal,
+            freight: 5,
         }; 
 
         generateSaleOrder(saleDetails);
