@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from inventory.models import Product
+from decimal import Decimal, ROUND_HALF_UP
 
 
 class Cart(models.Model):
@@ -26,7 +27,12 @@ class Cart(models.Model):
         return sum(item.discount() for item in self.cart_items.all())
 
     def total_price_with_discount(self):
-        return self.total_price() - self.total_discount()
+        total = self.total_price() - self.total_discount()
+        # Adicionando os 5% de forma simplificada
+        total = total * Decimal('1.05')
+
+        # Arredonda para duas casas decimais
+        return total.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
 
 
 class CartItem(models.Model):
