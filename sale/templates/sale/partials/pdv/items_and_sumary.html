@@ -1,3 +1,4 @@
+{% load l10n %}
 <div class="pos-container">
     
     <div class="cart-container">
@@ -52,17 +53,17 @@
                 <div class="summary-line discount-line">
                     <label for="discount-input">Desconto (R$)</label>
                     {% if sale.status == 'pendente' %}
-                        <input type="number" id="discount-input" value="{{ sale.discount }}" min="0" step="0.01">
+                        <input type="number" id="discount-input" value="{{ sale.discount|unlocalize }}" min="0" step="0.01">
                     {% else %}
-                        <input type="number" id="discount-input" value="{{ sale.discount }}" min="0" step="0.01" readonly>
+                        <input type="number" id="discount-input" value="{{ sale.discount|unlocalize }}" min="0" step="0.01" readonly>
                     {% endif %}
                 </div>
                 <div class="summary-line discount-line">
                     <label for="frete-input">Frete (R$)</label>
                     {% if sale.status == 'pendente' %}
-                        <input type="number" id="frete-input" value="{{ sale.freight }}" min="0" step="0.01">
+                        <input type="number" id="frete-input" value="{{ sale.freight|unlocalize }}" min="0" step="0.01">
                     {% else %}
-                        <input type="number" id="frete-input" value="{{ sale.freight }}" min="0" step="0.01" readonly>
+                        <input type="number" id="frete-input" value="{{ sale.freight|unlocalize }}" min="0" step="0.01" readonly>
                     {% endif %}
                 </div>
                 <button type="submit" style="display: none;">Enviar</button>
