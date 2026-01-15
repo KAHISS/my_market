@@ -60,7 +60,7 @@
         /* --- BADGE "OFERTA" (Reduzido) --- */
         .oferta-badge {
             position: absolute;
-            top: 5px; 
+            top: 50px; 
             left: 50%;
             transform: translateX(-50%);
             background-color: #ff0000;
@@ -94,6 +94,7 @@
         .produto-nome {
             font-size: 16px; /* Reduzido de 24px */
             font-weight: 900;
+            max-width: 150px;
             line-height: 1.1;
             margin-bottom: 2px;
             text-transform: uppercase;
@@ -116,11 +117,11 @@
         }
 
         .valor {
-            font-size: 52px; /* Reduzido de 90px para caber */
+            font-size: 85px; /* Reduzido de 90px para caber */
             font-weight: 900;
             line-height: 1;
             letter-spacing: -2px;
-            color: #d00000; /* Vermelho escuro para contraste no amarelo */
+            color: #000000ff; /* Vermelho escuro para contraste no amarelo */
         }
 
         /* --- IMPRESSÃO --- */
@@ -158,7 +159,6 @@
                 <div class="etiqueta-conteudo">
                     <div class="produto-nome">{{ product.name|truncatechars:22 }}</div>
                     <div class="preco-container">
-                        <span class="moeda">R$</span>
                         <span class="valor">{{ product.stock.sale_price|floatformat:2 }}</span>
                     </div>
                 </div>
