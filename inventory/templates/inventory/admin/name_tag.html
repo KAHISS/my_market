@@ -2,10 +2,11 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Imprimir Ofertas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <title>Imprimir Ofertas - 12 por Página</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap" rel="stylesheet">
     
     <style>
+        /* --- RESET E GERAL --- */
         body {
             margin: 0;
             padding: 20px;
@@ -13,136 +14,160 @@
             background-color: #eee;
         }
 
+        /* --- A FOLHA A4 (AGORA 3x4) --- */
         .folha-a4 {
             background: white;
             width: 210mm;
             height: 297mm;
-            margin: 0 auto;
-            /* Usando CSS Grid para preencher a folha */
+            margin: 0 auto 20px auto;
+            
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
-            grid-template-rows: repeat(4, 1fr);    /* 4 linhas iguais para preencher a altura */
-            gap: 5px; /* Pequeno espaço entre etiquetas */
-            padding: 5mm; /* Margem interna da folha */
+            /* MUDANÇA: 3 Colunas x 4 Linhas = 12 Itens */
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            
+            gap: 4mm; 
+            padding: 8mm 5mm; 
             box-sizing: border-box;
+            
+            page-break-after: always;
+            break-after: page;
         }
 
-        .etiqueta {
-            background-color: #cc0000;
-            border: 4px solid #cc0000;
-            box-sizing: border-box;
+        /* --- O CONTAINER DE CADA ETIQUETA --- */
+        .etiqueta-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
             display: flex;
-            flex-direction: column;
-            /* A altura será definida pelo grid */
-            overflow: hidden; /* Garante que o conteúdo não vaze */
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; 
         }
 
-        .etiqueta-header {
+        /* --- SVG (Fundo Explosão) --- */
+        .explosao-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
+            object-fit: fill; 
+        }
+
+        /* --- BADGE "OFERTA" (Reduzido) --- */
+        .oferta-badge {
+            position: absolute;
+            top: 5px; 
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff0000;
             color: white;
-            text-align: center;
-            font-family: 'Anton', sans-serif;
-            font-size: 28px; /* Fonte um pouco menor para caber melhor */
+            font-weight: 900;
+            /* Fontes reduzidas para caber na etiqueta menor */
+            font-size: 14px; 
             text-transform: uppercase;
-            padding: 5px 0;
-            text-shadow: 2px 2px 0px #000;
-            letter-spacing: 2px;
-            flex-shrink: 0; /* Impede que o cabeçalho encolha */
+            padding: 2px 15px;
+            border-radius: 50px;
+            z-index: 3;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            white-space: nowrap;
         }
 
-        .etiqueta-body {
-            background-color: #ffcc00;
-            flex-grow: 1;
-            margin: 0 8px 8px 8px;
+        /* --- CONTEÚDO (Texto) --- */
+        .etiqueta-conteudo {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #000;
+            width: 85%; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 10px;
+            padding-top: 15px; /* Espaço para não bater na badge OFERTA */
         }
 
         .produto-nome {
-            font-size: 24px; /* Fonte adaptada ao novo tamanho */
+            font-size: 16px; /* Reduzido de 24px */
             font-weight: 900;
-            flex-wrap: nowrap;
-            color: #000;
             line-height: 1.1;
-            margin-bottom: 15px;
-            text-transform: capitalize;
-            max-height: 40px; /* Limita altura do nome */
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            max-height: 40px;
+            overflow: hidden;
+            word-wrap: break-word;
         }
 
         .preco-container {
             display: flex;
             align-items: baseline;
             justify-content: center;
-            margin-top: 2px;
+            margin-top: 0px;
         }
 
         .moeda {
-            font-size: 18px;
-            font-weight: bold;
-            color: #cc0000;
-            margin-right: 5px;
+            font-size: 18px; /* Reduzido de 30px */
+            font-weight: 900;
+            margin-right: 3px;
         }
 
         .valor {
-            font-family: 'Anton', sans-serif;
-            font-size: 70px; /* Fonte adaptada ao novo tamanho */
-            color: #cc0000;
-            line-height: 0.9;
-            -webkit-text-stroke: 2px black; 
-            text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+            font-size: 52px; /* Reduzido de 90px para caber */
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -2px;
+            color: #d00000; /* Vermelho escuro para contraste no amarelo */
         }
 
+        /* --- IMPRESSÃO --- */
         @media print {
-            @page {
-                size: A4;
-                margin: 0mm; /* Margem zero para aproveitar tudo */
-            }
-            body {
-                background: none;
-                padding: 0;
-            }
-            .folha-a4 {
-                margin: 0;
-                border: none;
-                page-break-after: always; /* Garante que cada bloco de etiquetas fique em uma folha */
-            }
-            .no-print {
-                display: none !important;
-            }
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                color-adjust: exact !important;
-            }
+            @page { size: A4; margin: 0mm; }
+            body { background: none; padding: 0; margin: 0; }
+            .folha-a4 { margin: 0; border: none; box-shadow: none; }
+            .no-print { display: none !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="no-print" style="text-align: center; padding: 20px;">
-        <button onclick="window.print()" style="padding: 15px 30px; font-size: 20px; cursor: pointer; background: #cc0000; color: white; border: none; border-radius: 5px;">
-            🖨️ IMPRIMIR ETIQUETAS
+    <div class="no-print" style="text-align: center; padding: 20px; background: #333; color: white;">
+        <button onclick="window.print()" style="padding: 15px 30px; font-size: 20px; cursor: pointer; background: #ffcc00; color: black; font-weight: bold; border: none; border-radius: 5px;">
+            🖨️ IMPRIMIR 12 POR FOLHA
         </button>
-        <p><em>*Lembre-se de ativar "Gráficos de plano de fundo" na janela de impressão.</em></p>
     </div>
+    
+    {% for product in products %}
+        
+        {% if forloop.counter0|divisibleby:12 %}
+        <div class="folha-a4">
+        {% endif %}
 
-    {% for grupo_produtos in products|slice:":10" %} <div class="folha-a4">
-        {% for product in products %}
-        <div class="etiqueta">
-            <div class="etiqueta-header">OFERTA</div>
-            <div class="etiqueta-body">
-                <div class="produto-nome">{{ product.name|truncatechars:18 }}</div>
-                <div class="preco-container">
-                    <span class="moeda">R$</span>
-                    <span class="valor">{{ product.stock.sale_price|floatformat:2 }}</span>
+            <div class="etiqueta-container">
+                <svg class="explosao-bg" viewBox="0 0 400 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                     <path fill="#ffff00" stroke="#ff0000" stroke-width="6" 
+                      d="M200,10 L250,40 L360,25 L340,70 L390,85 L340,120 L380,160 L280,155 L290,175 L200,165 L110,175 L120,155 L20,160 L60,120 L10,85 L60,70 L40,25 L150,40 Z"/>
+                </svg>
+
+                <div class="oferta-badge">OFERTA</div>
+
+                <div class="etiqueta-conteudo">
+                    <div class="produto-nome">{{ product.name|truncatechars:22 }}</div>
+                    <div class="preco-container">
+                        <span class="moeda">R$</span>
+                        <span class="valor">{{ product.stock.sale_price|floatformat:2 }}</span>
+                    </div>
                 </div>
             </div>
+
+        {% if forloop.counter|divisibleby:12 or forloop.last %}
         </div>
-        {% endfor %}
-    </div>
+        {% endif %}
+
     {% endfor %}
 
 </body>
