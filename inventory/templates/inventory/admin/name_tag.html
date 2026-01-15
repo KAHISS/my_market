@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Imprimir Ofertas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Roboto', sans-serif;
+            background-color: #eee;
+        }
+
+        .folha-a4 {
+            background: white;
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            /* Usando CSS Grid para preencher a folha */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+            grid-template-rows: repeat(4, 1fr);    /* 4 linhas iguais para preencher a altura */
+            gap: 5px; /* Pequeno espaço entre etiquetas */
+            padding: 5mm; /* Margem interna da folha */
+            box-sizing: border-box;
+        }
+
+        .etiqueta {
+            background-color: #cc0000;
+            border: 4px solid #cc0000;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            /* A altura será definida pelo grid */
+            overflow: hidden; /* Garante que o conteúdo não vaze */
+        }
+
+        .etiqueta-header {
+            color: white;
+            text-align: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 28px; /* Fonte um pouco menor para caber melhor */
+            text-transform: uppercase;
+            padding: 5px 0;
+            text-shadow: 2px 2px 0px #000;
+            letter-spacing: 2px;
+            flex-shrink: 0; /* Impede que o cabeçalho encolha */
+        }
+
+        .etiqueta-body {
+            background-color: #ffcc00;
+            flex-grow: 1;
+            margin: 0 8px 8px 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .produto-nome {
+            font-size: 24px; /* Fonte adaptada ao novo tamanho */
+            font-weight: 900;
+            color: #000;
+            line-height: 1.1;
+            margin-bottom: 5px;
+            text-transform: capitalize;
+            max-height: 40px; /* Limita altura do nome */
+            overflow: hidden;
+        }
+
+        .preco-container {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .moeda {
+            font-size: 18px;
+            font-weight: bold;
+            color: #cc0000;
+            margin-right: 5px;
+        }
+
+        .valor {
+            font-family: 'Anton', sans-serif;
+            font-size: 70px; /* Fonte adaptada ao novo tamanho */
+            color: #cc0000;
+            line-height: 0.9;
+            -webkit-text-stroke: 2px black; 
+            text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+        }
+
+        @media print {
+            @page {
+                size: A4;
+                margin: 0mm; /* Margem zero para aproveitar tudo */
+            }
+            body {
+                background: none;
+                padding: 0;
+            }
+            .folha-a4 {
+                margin: 0;
+                border: none;
+                page-break-after: always; /* Garante que cada bloco de etiquetas fique em uma folha */
+            }
+            .no-print {
+                display: none !important;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print" style="text-align: center; padding: 20px;">
+        <button onclick="window.print()" style="padding: 15px 30px; font-size: 20px; cursor: pointer; background: #cc0000; color: white; border: none; border-radius: 5px;">
+            🖨️ IMPRIMIR ETIQUETAS
+        </button>
+        <p><em>*Lembre-se de ativar "Gráficos de plano de fundo" na janela de impressão.</em></p>
+    </div>
+
+    {% for grupo_produtos in products|slice:":10" %} <div class="folha-a4">
+        {% for product in products %}
+        <div class="etiqueta">
+            <div class="etiqueta-header">OFERTA</div>
+            <div class="etiqueta-body">
+                <div class="produto-nome">{{ product.name|truncatechars:18 }}</div>
+                <div class="preco-container">
+                    <span class="moeda">R$</span>
+                    <span class="valor">{{ product.stock.sale_price|floatformat:2 }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+</body>
+</html>

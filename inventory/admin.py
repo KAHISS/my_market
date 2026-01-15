@@ -1,5 +1,12 @@
 from django.contrib import admin
+from django.shortcuts import render
 from .models import Product, Category, Stock
+
+
+@admin.action(description='Imprimir Etiquetas Selecionadas')
+def imprimir_etiquetas(modeladmin, request, queryset):
+    # 'queryset' contém todos os produtos que você selecionou ou filtrou
+    return render(request, 'inventory/admin/name_tag.html', {'products': queryset})
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -21,6 +28,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['in_catalog']
     ordering = '-id',
     prepopulated_fields = {'slug': ('name',)}
+    actions = [imprimir_etiquetas]
 
 
 class StockAdmin(admin.ModelAdmin):
