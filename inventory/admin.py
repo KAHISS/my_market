@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.shortcuts import render
-from .models import Product, Category, Stock
+from .models import Product, Category, Stock, ProductPrintTag
 
 
 @admin.action(description='Imprimir Etiquetas Selecionadas')
@@ -28,7 +28,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['in_catalog']
     ordering = '-id',
     prepopulated_fields = {'slug': ('name',)}
-    actions = [imprimir_etiquetas]
 
 
 class StockAdmin(admin.ModelAdmin):
@@ -43,7 +42,17 @@ class StockAdmin(admin.ModelAdmin):
     ordering = '-created_at',
 
 
+class ProductPrintTagAdmin(admin.ModelAdmin):
+    list_display = ['product', 'resume_name', 'use_resume_name']
+    search_fields = 'product__name', 'product__barcode', 'product__category__name'
+    list_filter = 'product__category', 'use_resume_name'
+    list_editable = ['use_resume_name']
+    list_per_page = 10
+    actions = [imprimir_etiquetas]
+
+
 # Register models with their respective admin classes
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Stock, StockAdmin)
+admin.site.register(ProductPrintTag, ProductPrintTagAdmin)

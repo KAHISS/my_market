@@ -157,9 +157,13 @@
                 <div class="oferta-badge">OFERTA</div>
 
                 <div class="etiqueta-conteudo">
-                    <div class="produto-nome">{{ product.name|truncatechars:22 }}</div>
+                    {% if product.use_resume_name %}
+                    <div class="produto-nome">{{ product.resume_name|truncatechars:22 }}</div>
+                    {% else %}
+                    <div class="produto-nome">{{ product.product.name|truncatechars:22 }}</div>
+                    {% endif %}
                     <div class="preco-container">
-                        <span class="valor">{{ product.stock.sale_price|floatformat:2 }}</span>
+                        <span class="valor">{{ product.product.stock.sale_price|floatformat:2 }}</span>
                     </div>
                 </div>
             </div>

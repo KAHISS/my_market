@@ -139,3 +139,16 @@ class Stock(models.Model):
             self.product.unit_per_packaging if unit_type == "packaging" else quantity
         self.quantity = max(0, self.quantity - total_units)
         self.save()
+
+
+class ProductPrintTag(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    resume_name = models.CharField(max_length=100, blank=True, null=True)
+    use_resume_name = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.product.name
+
+    class Meta:
+        verbose_name = "Etiqueta de produto"
+        verbose_name_plural = "Etiquetas de produto"
