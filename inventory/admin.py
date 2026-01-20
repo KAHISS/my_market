@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Product, Category, Stock, ProductPrintTag
 
 
@@ -7,6 +7,15 @@ from .models import Product, Category, Stock, ProductPrintTag
 def imprimir_etiquetas(modeladmin, request, queryset):
     # 'queryset' contém todos os produtos que você selecionou ou filtrou
     return render(request, 'inventory/admin/name_tag.html', {'products': queryset})
+
+
+@admin.action(description='Adicionar Produtos à Impressão')
+def add_product_to_print(modeladmin, request, queryset):
+
+    for product in queryset:
+        ProductPrintTag.objects.get_or_create(product=product)
+
+    return redirect(request.path)
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -28,6 +37,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['in_catalog']
     ordering = '-id',
     prepopulated_fields = {'slug': ('name',)}
+    actions = [add_product_to_print]
 
 
 class StockAdmin(admin.ModelAdmin):
