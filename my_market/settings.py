@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'inventory',
     'dashboard',
     'client',
-    'provider',
     'employee',
     'users',
     'catalog',
