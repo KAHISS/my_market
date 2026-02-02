@@ -26,6 +26,7 @@ class Sale(models.Model):
             ('pendente', 'Pendente'),
             ('pago', 'Pago'),
             ('cancelado', 'Cancelado'),
+            ('saida', 'Saída')
         ]
     )
     payment_method = models.CharField(

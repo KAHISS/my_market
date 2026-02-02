@@ -1,0 +1,43 @@
+<tr class="hover:bg-slate-50 transition group border-b border-slate-50">
+    <td class="px-6 py-4">
+        <div class="font-medium text-slate-900">{{ exp.kind }}</div>
+        <div class="text-xs text-slate-500 truncate max-w-[200px]">{{ exp.observation }}</div>
+    </td>
+    <td class="px-6 py-4 text-slate-600">{{ exp.get_modality_display }}</td>
+    <td class="px-6 py-4 text-slate-600">
+        <div class="flex flex-col">
+            <span>{{ exp.pay_by|date:"d/m/Y" }}</span>
+            {% if exp.payday is not None %}
+                <span class="text-xs text-emerald-600">Pago: {{ exp.payday|date:"d/m/Y" }}</span>
+            {% endif %}
+        </div>
+    </td>
+    <td class="px-6 py-4">
+        {% if exp.status == "P" %}
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium border bg-amber-100 text-amber-800 border-amber-200">{{ exp.get_status_display }}</span>
+        {% elif exp.status == "D" %}
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium border bg-emerald-100 text-emerald-800 border-emerald-200">{{ exp.get_status_display }}</span>
+        {% elif exp.status == "C" %}
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium border bg-red-100 text-red-800 border-red-200">{{ exp.get_status_display }}</span>
+        {% endif %}
+    </td>
+    <td class="px-6 py-4 text-right font-medium text-slate-900">R$ {{ exp.amount }}</td>
+    <td class="px-6 py-4">
+        <div class="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <a href="{% url "finances:edit_expense" exp.id %}" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition" title="Editar">
+                <i data-lucide="edit-2" class="w-4 h-4"></i>
+            </a>
+            <form action="{% url "finances:delete_expense" exp.id %}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta despesa?');">
+                {% csrf_token %}
+                <button data-delete class="p-1.5 text-red-600 hover:bg-red-50 rounded-md transition" title="Excluir">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            </form>
+            {% if exp.proof.url is not None %}
+                <a href="{{ exp.proof.url }}" target="_blank" class="p-1.5 text-green-600 hover:bg-green-50 rounded-md transition" title="Ver Comprovante">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                </a>
+            {% endif %}
+        </div>
+    </td>
+</tr>

@@ -29,6 +29,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('sale/', include('sale.urls')),
+    path('finances/', include('finances.urls')),
 ]
 
 if settings.DEBUG:

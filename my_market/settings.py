@@ -52,8 +52,15 @@ INSTALLED_APPS = [
     'employee',
     'users',
     'catalog',
-    'sale'
+    'sale',
+    'finances',
+    'crispy_forms',
+    'crispy_tailwind',
+    'django_filters',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 JAZZMIN_SETTINGS = {
     "site_title": "Atacadinho Cristão",

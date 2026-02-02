@@ -2,7 +2,10 @@ asgiref==3.9.1
 certifi==2025.8.3
 charset-normalizer==3.4.3
 coverage==7.11.0
+crispy-tailwind==1.0.3
 Django==5.2.5
+django-crispy-forms==2.5
+django-filter==25.2
 django-jazzmin==3.0.1
 djangorestframework==3.16.1
 flake8==7.3.0

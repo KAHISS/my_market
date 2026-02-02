@@ -13,6 +13,7 @@
         <div class="header-actions">
             {% if request.user.is_authenticated %}
                 {% if request.user.is_staff %}
+                    <a href="{% url "finances:expense_list" %}" class="action-icon"><i data-feather="dollar-sign"></i> <span class="reference-icon-action">Despesas</span></a>
                     <a href="{% url 'sale:sale_list' %}" class="action-icon"><i data-feather="clipboard"></i> <span class="reference-icon-action">PDV</span></a>
                 {% endif %}
                 <a href="{% url 'sale:order_list' %}" class="action-icon"><i data-feather="clipboard"></i> <span class="reference-icon-action">Pedidos</span></a>

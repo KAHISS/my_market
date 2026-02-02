@@ -1,0 +1,23 @@
+{% load crispy_forms_tags %}
+
+<div class="bg-white p-6 rounded-lg shadow-md mb-8">
+    <h2 class="text-xl font-bold mb-4 text-gray-800">Filtros de Despesas</h2>
+    
+    <form method="get" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {# Renderiza todos os campos do filtro usando o layout do Tailwind #}
+        {% for field in filter.form %}
+            <div class="flex flex-col">
+                {{ field|as_crispy_field }}
+            </div>
+        {% endfor %}
+
+        <div class="md:col-span-3 lg:col-span-4 flex justify-end gap-2 mt-2">
+            <a href="{% url 'finances:expense_list' %}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
+                Limpar
+            </a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                Filtrar Despesas
+            </button>
+        </div>
+    </form>
+</div>

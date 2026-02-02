@@ -8,7 +8,6 @@ from sale.models import Sale, SaleItem
 from inventory.models import Product
 from django.db import transaction
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, JsonResponse
 from my_market.settings import STATIC_URL
