@@ -298,6 +298,17 @@ input[type="number"]:focus {
     font-size: 16px;
 }
 
+#sale-modality-select {
+    width: 8rem;
+    padding: 4px;
+    background-color: #fff;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    border-color: #333;
+    font-size: 16px;
+}
+
 /* --- Modal --- */
 .modal {
     display: none; /* Escondido por padrão */
@@ -516,6 +527,26 @@ input[type="number"]:focus {
     background-color: rgb(255, 187, 187);
     border-radius: 10px;
     border: 2px solid #cb0404;
+}
+
+.modality-retail {
+    padding: 2px 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(3, 128, 186);
+    background-color: rgb(187, 222, 255);
+    border-radius: 10px;
+    border: 2px solid #0380ba;
+}
+
+.modality-wholesale {
+    padding: 2px 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(0, 153, 51);
+    background-color: rgb(187, 255, 187);
+    border-radius: 10px;
+    border: 2px solid #009933;
 }
 
 #search-button-sale {

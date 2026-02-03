@@ -3,7 +3,9 @@
     
     <div class="cart-container">
         <input type="hidden" id="status" value="{{ sale.status }}">
-        <h2>Itens da Venda #{{ sale.id }} <span class="status-{{ sale.status }}">{{ sale.status }}</span></h2>
+        <h2>Itens da Venda #{{ sale.id }} 
+            <span class="status-{{ sale.status }}">{{ sale.status }}</span>
+        </h2>
         <div class="cart-header">
             <span class="header-product">Produto</span>
             <span class="header-quantity">Qtd.</span>
@@ -38,6 +40,13 @@
         <div class="summary-details">
             <form action="{% url 'sale:sale_update' %}" id="summary-form" method="post">
                 {% csrf_token %}
+                <div class="summary-line discount-line">
+                    <label for="client-input">Modalidade da venda</label>
+                    <select name="modality" id="sale-modality-select" {% if sale.status != 'pendente' %} disabled {% endif %}>
+                        <option value="retail" {% if sale.modality == 'retail' %} selected {% endif %}>Varejo</option>
+                        <option value="wholesale" {% if sale.modality == 'wholesale' %} selected {% endif %}>Atacado</option>
+                    </select>
+                </div>
                 <div class="summary-line discount-line">
                     <label for="client-input">Cliente</label>
                     {% if sale.status == 'pendente' %}

@@ -299,6 +299,7 @@ def update_sale_summary(request):
         return JsonResponse({'success': False, 'message': 'Erro no formato dos dados enviados.'})
 
     sale_id = data.get('sale_id')
+    modality = data.get('modality')
     client = data.get('client')
     discount = data.get('discount')
     freight = data.get('freight')
@@ -316,6 +317,7 @@ def update_sale_summary(request):
     sale.discount = discount
     sale.freight = freight
     sale.client = client
+    sale.modality = modality
     sale.save()
     sale.get_total_price()
     return JsonResponse({

@@ -6,6 +6,15 @@ from inventory.models import Product
 
 
 class Sale(models.Model):
+    class Modality(models.TextChoices):
+        RETAIL = 'retail', 'Varejo'
+        WHOLESALE = 'wholesale', 'Atacado'
+
+    modality = models.CharField(
+        "Modalidade", max_length=50,
+        choices=Modality.choices,
+        default=Modality.RETAIL
+    )
     seller = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, verbose_name="Vendedor")
     client = models.CharField(
@@ -86,5 +95,8 @@ class SaleItem(models.Model):
     def get_subtotal(self):
         stock = getattr(self.product, 'stock', None)
         if stock:
-            self.subtotal = stock.sale_price * self.quantity
+            if self.sale.modality == Sale.Modality.WHOLESALE:
+                self.subtotal = stock.wholesale_price * self.quantity
+            else:
+                self.subtotal = stock.sale_price * self.quantity
             self.save()

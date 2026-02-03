@@ -117,7 +117,7 @@ const addItemToCart = async (url, barcode, quantity, actionElement = null) => {
     }
 }
 
-const updateSaleSummary = async (url, client, discount, freight) => {
+const updateSaleSummary = async (url, client, discount, freight, modality = null) => {
 
     try {
         const response = await fetch(url, {
@@ -126,7 +126,7 @@ const updateSaleSummary = async (url, client, discount, freight) => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrf_token
             },
-            body: JSON.stringify({ client: client, discount: discount, freight: freight, sale_id: idSale })
+            body: JSON.stringify({ client: client, discount: discount, freight: freight, sale_id: idSale, modality: modality })
         });
 
         const data = await response.json();
@@ -195,11 +195,28 @@ formSummary.addEventListener('submit', async (event) => {
     const discount = document.getElementById('discount-input').value || 0;
     const url = formSummary.action;
     const freight = document.getElementById('frete-input').value || 0;
+    const modalitySelect = document.getElementById('sale-modality-select');
 
     if (status == 'pendente') {
-        const data = await updateSaleSummary(url, client, discount, freight, status);
+        const data = await updateSaleSummary(url, client, discount, freight, status, modalitySelect.value);
         document.getElementById('discount-input').value = `${parseFloat(data.sale.discount)}`;
         document.getElementById('frete-input').value = `${parseFloat(data.sale.freight)}`;
+    } else if (status == 'pago') {
+        showPopup('A venda já está paga.', 'info');
+    } else if (status == 'cancelado') {
+        showPopup('A venda já foi cancelada.', 'info');
+    }
+});
+
+document.getElementById('sale-modality-select').addEventListener('change', async (event) => {
+    const modality = event.target.value;
+    const client = document.getElementById('client-input').value || 'consumidor';
+    const discount = document.getElementById('discount-input').value || 0;
+    const url = formSummary.action;
+    const freight = document.getElementById('frete-input').value || 0;
+
+    if (status == 'pendente') {
+        const data = await updateSaleSummary(url, client, discount, freight, modality);
     } else if (status == 'pago') {
         showPopup('A venda já está paga.', 'info');
     } else if (status == 'cancelado') {

@@ -4,6 +4,7 @@
         <div class="order-card-header">
             <h2>Venda #{{ sale.id }}</h2>
             <span class="order-status status-{{ sale.status }}">{{ sale.status }}</span>
+            <span class="order-status">{{ sale.get_modality_display }}</span>
         </div>
         <div class="order-card-body">
             <p><strong>Vendedor:</strong> {{ sale.seller }}</p>
