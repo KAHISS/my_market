@@ -69,7 +69,8 @@ def sale_detail(request, id):
         'products': page_obj,
         'search_term': search_term,
         'pagination_range': pagination_range,
-        'js_context': js_context
+        'js_context': js_context,
+        'additional_url_query': f'&q={search_term}'
     })
 
 
