@@ -35,4 +35,4 @@ class Client(models.Model):
         verbose_name_plural = "Clientes"
 
     def __str__(self):
-        return self.user.first_name + ' ' + self.user.last_name
+        return self.first_name + ' ' + self.last_name
