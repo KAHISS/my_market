@@ -8,9 +8,9 @@ class Client(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.SET_NULL, default=None, verbose_name="Usuário", null=True, blank=True)
     first_name = models.CharField(
-        "Nome", max_length=255, blank=True, null=True)
+        "Nome", max_length=255, default="", blank=True, null=True)
     last_name = models.CharField(
-        "Sobrenome", max_length=255, blank=True, null=True)
+        "Sobrenome", max_length=255, default="", blank=True, null=True)
     type = models.CharField("Tipo", choices=[(
         'PF', 'Pessoa Física'), ('PJ', 'Pessoa Jurídica')], default='PF', blank=True, null=True)
     document = models.CharField(
@@ -35,4 +35,4 @@ class Client(models.Model):
         verbose_name_plural = "Clientes"
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return f"{self.first_name} {self.last_name}"
