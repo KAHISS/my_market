@@ -7,8 +7,8 @@ class ClientAdmin(admin.ModelAdmin):
     """
         Admin for Client model.
     """
-    list_display = ('user', 'type', 'document', 'phone',
-                    'address_neighborhood', 'address_city', 'created_at', 'updated_at')
+    list_display = ('first_name', 'last_name', 'type', 'document', 'phone',
+                    'address_neighborhood', 'address_city')
 
 
 admin.site.register(Client, ClientAdmin)

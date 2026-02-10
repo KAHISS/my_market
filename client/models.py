@@ -6,7 +6,11 @@ from django.contrib.auth.models import User
 
 class Client(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, default=None, verbose_name="Usuário")
+        User, on_delete=models.SET_NULL, default=None, verbose_name="Usuário", null=True, blank=True)
+    first_name = models.CharField(
+        "Nome", max_length=255, blank=True, null=True)
+    last_name = models.CharField(
+        "Sobrenome", max_length=255, blank=True, null=True)
     type = models.CharField("Tipo", choices=[(
         'PF', 'Pessoa Física'), ('PJ', 'Pessoa Jurídica')], default='PF', blank=True, null=True)
     document = models.CharField(
