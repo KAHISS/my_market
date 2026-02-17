@@ -14,7 +14,9 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 12))
 
 def catalog(request):
     products = Product.objects.filter(
-        in_catalog=True
+        in_catalog=True,
+        stock__quantity__gt=0,
+        stock__isnull=False
     ).order_by("category__name")
 
     categories = Category.objects.all().order_by("name")
@@ -45,9 +47,14 @@ def search(request):
         raise Http404("Não encontrado")
 
     products = Product.objects.filter(
-        Q(Q(name__icontains=search_term) | Q(brand__icontains=search_term) | Q(barcode__icontains=search_term)) &
-        Q(in_catalog=True)
-    ).order_by("category__name")
+        in_catalog=True,
+        stock__quantity__gt=0,
+        stock__isnull=False
+    ) .filter(
+        Q(name__icontains=search_term) |
+        Q(brand__icontains=search_term) |
+        Q(barcode=search_term)
+    ).distinct().order_by("category__name")
 
     categories = Category.objects.all().order_by("name")
 

@@ -10,6 +10,18 @@ class Sale(models.Model):
         RETAIL = 'retail', 'Varejo'
         WHOLESALE = 'wholesale', 'Atacado'
 
+    class Status(models.TextChoices):
+        PENDING = 'pendente', 'Pendente'
+        PAID = 'pago', 'Pago'
+        CANCELED = 'cancelado', 'Cancelado'
+        EXIT = 'saida', 'Saída'
+
+    class PaymentMethod(models.TextChoices):
+        NO_PAYMENT = 'sem pagamento', 'Sem Pagamento'
+        CASH = 'dinheiro', 'Dinheiro'
+        CARD = 'cartão', 'Cartão'
+        PIX = 'pix', 'Pix'
+
     modality = models.CharField(
         "Modalidade", max_length=50,
         choices=Modality.choices,
@@ -31,22 +43,12 @@ class Sale(models.Model):
     status = models.CharField(
         "Status", max_length=50,
         default='pendente',
-        choices=[
-            ('pendente', 'Pendente'),
-            ('pago', 'Pago'),
-            ('cancelado', 'Cancelado'),
-            ('saida', 'Saída')
-        ]
+        choices=Status.choices
     )
     payment_method = models.CharField(
         "Método de Pagamento", max_length=255,
         default='sem pagamento',
-        choices=[
-            ('sem pagamento', 'Sem Pagamento'),
-            ('dinheiro', 'Dinheiro'),
-            ('cartão', 'Cartão'),
-            ('pix', 'Pix'),
-        ]
+        choices=PaymentMethod.choices
     )
     cash_received = models.DecimalField(
         "Valor Recebido", max_digits=10, decimal_places=2, default=0)

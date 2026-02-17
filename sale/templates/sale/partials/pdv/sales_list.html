@@ -1,10 +1,12 @@
+{% load crispy_forms_tags %}
+
 <div class="container">
     <header>
         <h1>Dashboard de Vendas</h1>
     </header>
 
     <section class="stats-container">
-        {% if request.user.is_staff %}
+        {% if request.user.is_superuser %}
             <div class="stat-card total">
                 <h3>Total de Vendas</h3>
                 <p>Quantidade: <span id="total-qty">{{ stats.total_orders }}</span></p>
@@ -29,22 +31,32 @@
     </section>
 
     <div class="controls">
-        <form action="{% url 'sale:sale_search_list' %}" method="get" class="search-form">
-            <input type="search" id="search-bar" placeholder="Buscar por nº, cliente ou vendedor..." name="q">
-            <input type="date" name="date" id="date">
-            <select id="filter-status" name="status">
-                <option value="">Todos</option>
-                <option value="pago">Pagas</option>
-                <option value="pendente">Pendentes</option>
-                <option value="cancelado">Canceladas</option>
-            </select>
-            <button type="submit" class="search-order-btn">Buscar</button>
-        </form>
         <form action="{% url 'sale:sale_create' %}" method="POST" class="new-order-form" target="_blank">
             {% csrf_token %}
             <input type="hidden" name="q" value="empty">
             <button type="submit" class="new-order-btn">Nova venda</button>
-        </form>
+        </form>        
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Filtros de vendas</h2>
+            
+            <form method="get" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {# Renderiza todos os campos do filtro usando o layout do Tailwind #}
+                {% for field in filter.form %}
+                    <div class="flex flex-col">
+                        {{ field|as_crispy_field }}
+                    </div>
+                {% endfor %}
+
+                <div class="md:col-span-3 lg:col-span-4 flex justify-end gap-2 mt-2">
+                    <a href="{% url 'finances:expense_list' %}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
+                        Limpar
+                    </a>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                        Filtrar Despesas
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <main id="order-list">

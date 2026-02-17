@@ -36,7 +36,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 10
     list_editable = ['in_catalog']
     ordering = '-id',
-    prepopulated_fields = {'slug': ('name',)}
     actions = [add_product_to_print]
 
 

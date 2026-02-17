@@ -28,7 +28,6 @@ class Product(models.Model):
     name = models.CharField("Nome do produto", max_length=64)
     brand = models.CharField("Marca", max_length=64, blank=True, null=True)
     description = models.TextField("Descrição", blank=True, null=True)
-    slug = models.SlugField("Slug", unique=True)
     packaging_type = models.CharField(
         "Tipo de embalagem", max_length=64, blank=True, null=True, default="Caixa")
     unit_measure = models.CharField(

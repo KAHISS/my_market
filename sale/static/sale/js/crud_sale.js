@@ -198,7 +198,7 @@ formSummary.addEventListener('submit', async (event) => {
     const modalitySelect = document.getElementById('sale-modality-select');
 
     if (status == 'pendente') {
-        const data = await updateSaleSummary(url, client, discount, freight, status, modalitySelect.value);
+        const data = await updateSaleSummary(url, client, discount, freight, modalitySelect.value);
         document.getElementById('discount-input').value = `${parseFloat(data.sale.discount)}`;
         document.getElementById('frete-input').value = `${parseFloat(data.sale.freight)}`;
     } else if (status == 'pago') {

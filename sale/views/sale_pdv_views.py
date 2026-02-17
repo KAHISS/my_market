@@ -1,6 +1,6 @@
 from datetime import timedelta
 from django.utils import timezone
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -9,12 +9,12 @@ from inventory.models import Product
 from django.db import transaction
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, JsonResponse
 from my_market.settings import STATIC_URL
 from django.middleware.csrf import get_token
 from utils.pagination import make_pagination
 from django.db.models import Q, Sum
 from decimal import Decimal
+from sale.filters import SaleFilter
 import json
 import os
 
@@ -90,93 +90,118 @@ def sale_search(request, id):
 
 @login_required(login_url='users:login', redirect_field_name='next')
 def sale_list(request):
-    if request.user.is_staff or request.user.is_superuser:
-        sales = Sale.objects.all().order_by('-created_at')
-    else:
+    # 1. Verifica permissão
+    if not (request.user.is_staff or request.user.is_superuser):
         return redirect('catalog:home')
 
-    stats = {
-        'total_orders': sales.count(),
-        'total_sales': sales.aggregate(Sum('total_price'))['total_price__sum'] or 0,
-        'total_orders_pending': sales.filter(status='pendente').count(),
-        'total_sales_pending': sales.filter(status='pendente').aggregate(Sum('total_price'))['total_price__sum'] or 0,
-        'total_orders_completed': sales.filter(status='pago').count(),
-        'total_sales_completed': sales.filter(status='pago').aggregate(Sum('total_price'))['total_price__sum'] or 0,
-        'total_orders_cancelled': sales.filter(status='cancelado').count(),
-        'total_sales_cancelled': sales.filter(status='cancelado').aggregate(Sum('total_price'))['total_price__sum'] or 0,
-    }
+    # 2. Pega todas as vendas base
+    sales_qs = Sale.objects.all().order_by('-created_at')
 
-    page_obj, pagination_range = make_pagination(request, sales, PER_PAGE)
+    # 3. Aplica o Filtro (Isso é o mais importante)
+    sale_filter = SaleFilter(request.GET, queryset=sales_qs)
 
-    return render(request, 'sale/pages/pdv.html', {
+    # Daqui para baixo, usamos 'sale_filter.qs' (que são os dados filtrados)
+    # e não mais 'sales_qs' (que são todos os dados)
+    filtered_qs = sale_filter.qs
+
+    # 4. Estatísticas (Agora baseadas no filtro)
+    stats = {}
+    if request.user.is_superuser:
+        # Se você filtrar por data, o total_orders vai mostrar apenas a qtd daquela data
+        stats = {
+            'total_orders': filtered_qs.count(),
+            'total_sales': filtered_qs.aggregate(Sum('total_price'))['total_price__sum'] or 0,
+
+            # Aqui mantivemos a lógica de status, mas dentro do universo filtrado
+            'total_orders_pending': filtered_qs.filter(status='pendente').count(),
+            'total_sales_pending': filtered_qs.filter(status='pendente').aggregate(Sum('total_price'))['total_price__sum'] or 0,
+
+            'total_orders_completed': filtered_qs.filter(status='pago').count(),
+            'total_sales_completed': filtered_qs.filter(status='pago').aggregate(Sum('total_price'))['total_price__sum'] or 0,
+
+            'total_orders_cancelled': filtered_qs.filter(status='cancelado').count(),
+            'total_sales_cancelled': filtered_qs.filter(status='cancelado').aggregate(Sum('total_price'))['total_price__sum'] or 0,
+        }
+
+    # 5. Paginação
+    page_obj, pagination_range = make_pagination(
+        request, filtered_qs, PER_PAGE)
+
+    # 6. Preservar filtros na paginação
+    # Copia os parâmetros GET da URL (ex: ?seller=joao&status=pago)
+    get_copy = request.GET.copy()
+    # Remove o parâmetro 'page' atual para não duplicar (ex: page=1&page=2)
+    if 'page' in get_copy:
+        del get_copy['page']
+    # Transforma em string para usar no template (ex: "&seller=joao&status=pago")
+    additional_url_query = '&' + get_copy.urlencode() if get_copy else ''
+
+    return render(request, 'sale/pages/pdv.html', context={
+        'page_title': 'Busca Avançada',
         'sales': page_obj,
-        'stats': stats,
         'pagination_range': pagination_range,
+        'additional_url_query': additional_url_query,
+        'stats': stats,
+        'filter': sale_filter,  # AQUI está a correção do erro original
     })
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
 def search_sales(request):
-    search_term = request.GET.get('q', '').strip()
-    status = request.GET.get('status', '')
-    search_date = request.GET.get('date', '')
 
-    if request.user.is_staff or request.user.is_superuser:
-        sales = Sale.objects.all()
-    else:
-        sales = Sale.objects.filter(user=request.user)
+    # 1. Verifica permissão
+    if not (request.user.is_staff or request.user.is_superuser):
+        return redirect('catalog:home')
 
-    if search_term:
-        text_query = Q(
-            Q(client__icontains=search_term) |
-            Q(seller__username__icontains=search_term) |
-            Q(seller__first_name__icontains=search_term) |
-            Q(seller__last_name__icontains=search_term)
-        )
+    # 2. Pega todas as vendas base
+    sales_qs = Sale.objects.all().order_by('-created_at')
 
-        if search_term.isdigit():
-            text_query |= Q(id=int(search_term))
+    # 3. Aplica o Filtro (Isso é o mais importante)
+    sale_filter = SaleFilter(request.GET, queryset=sales_qs)
 
-        sales = sales.filter(text_query)
+    # Daqui para baixo, usamos 'sale_filter.qs' (que são os dados filtrados)
+    # e não mais 'sales_qs' (que são todos os dados)
+    filtered_qs = sale_filter.qs
 
-    # 5. Lógica de Filtro por Data (Separado para evitar erros de formato)
-    if search_date:
-        # O lookup __date compara ignorando as horas
-        sales = sales.filter(created_at__date=search_date)
+    # 4. Estatísticas (Agora baseadas no filtro)
+    stats = {}
+    if request.user.is_superuser:
+        # Se você filtrar por data, o total_orders vai mostrar apenas a qtd daquela data
+        stats = {
+            'total_orders': filtered_qs.count(),
+            'total_sales': filtered_qs.aggregate(Sum('total_price'))['total_price__sum'] or 0,
 
-    # 6. Lógica de Filtro por Status
-    if status:
-        sales = sales.filter(status=status)
+            # Aqui mantivemos a lógica de status, mas dentro do universo filtrado
+            'total_orders_pending': filtered_qs.filter(status='pendente').count(),
+            'total_sales_pending': filtered_qs.filter(status='pendente').aggregate(Sum('total_price'))['total_price__sum'] or 0,
 
-    # Ordenação final
-    # Geralmente decrescente é melhor para ver os novos
-    sales = sales.order_by("-created_at")
+            'total_orders_completed': filtered_qs.filter(status='pago').count(),
+            'total_sales_completed': filtered_qs.filter(status='pago').aggregate(Sum('total_price'))['total_price__sum'] or 0,
 
-    # Estatísticas (Mantive sua lógica, apenas indentada)
-    stats = {
-        'total_orders': sales.count(),
-        'total_sales': sales.aggregate(Sum('total_price'))['total_price__sum'] or 0,
-        'total_orders_pending': sales.filter(status='pendente').count(),
-        'total_sales_pending': sales.filter(status='pendente').aggregate(Sum('total_price'))['total_price__sum'] or 0,
-        'total_orders_completed': sales.filter(status='pago').count(),
-        'total_sales_completed': sales.filter(status='pago').aggregate(Sum('total_price'))['total_price__sum'] or 0,
-        'total_orders_cancelled': sales.filter(status='cancelado').count(),
-        'total_sales_cancelled': sales.filter(status='cancelado').aggregate(Sum('total_price'))['total_price__sum'] or 0,
-    }
+            'total_orders_cancelled': filtered_qs.filter(status='cancelado').count(),
+            'total_sales_cancelled': filtered_qs.filter(status='cancelado').aggregate(Sum('total_price'))['total_price__sum'] or 0,
+        }
 
-    page_obj, pagination_range = make_pagination(request, sales, PER_PAGE)
+    # 5. Paginação
+    page_obj, pagination_range = make_pagination(
+        request, filtered_qs, PER_PAGE)
 
-    # Monta a string de query adicional para a paginação não perder os filtros
-    additional_url_query = f'&q={search_term}&status={status}&date={search_date}'
+    # 6. Preservar filtros na paginação
+    # Copia os parâmetros GET da URL (ex: ?seller=joao&status=pago)
+    get_copy = request.GET.copy()
+    # Remove o parâmetro 'page' atual para não duplicar (ex: page=1&page=2)
+    if 'page' in get_copy:
+        del get_copy['page']
+    # Transforma em string para usar no template (ex: "&seller=joao&status=pago")
+    additional_url_query = '&' + get_copy.urlencode() if get_copy else ''
 
     return render(request, 'sale/pages/pdv.html', context={
-        'page_title': f'Busca Avançada',  # Mudei o título pois pode não ter search_term
-        'search_term': search_term,
-        'search_date': search_date,  # Passar para o template para manter o input preenchido
+        'page_title': 'Busca Avançada',
         'sales': page_obj,
         'pagination_range': pagination_range,
         'additional_url_query': additional_url_query,
         'stats': stats,
+        'filter': sale_filter,  # AQUI está a correção do erro original
     })
 
 
