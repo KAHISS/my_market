@@ -33,7 +33,7 @@ class OrderItemAdmin(admin.ModelAdmin):
 class SaleAdmin(admin.ModelAdmin):
     list_display = ('seller', 'total_price', 'discount',
                     'total_quantity', 'created_at', 'updated_at')
-    search_fields = ('seller', 'status')
+    search_fields = ['client', 'seller__first_name', 'seller__last_name', 'id']
     list_filter = ('created_at', 'updated_at', 'status', 'seller')
 
 

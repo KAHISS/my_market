@@ -111,7 +111,13 @@ def search_order(request):
 @login_required(login_url='users:login', redirect_field_name='next')
 def order_detail(request, id):
     order = Order.objects.get(id=id)
-    client = Client.objects.get(user=order.user)
+
+    try:
+        client = Client.objects.get(user=order.user)
+    except Client.DoesNotExist:
+        messages.error(
+            request, 'Seu usuário não está associado a um cliente. Por favor, entre em contato com o suporte.')
+        return redirect('sale:order_list')
 
     if order.user != request.user and not request.user.is_staff and not request.user.is_superuser:
         raise Http404("Order not found.")

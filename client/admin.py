@@ -7,7 +7,7 @@ class ClientAdmin(admin.ModelAdmin):
     """
         Admin for Client model.
     """
-    list_display = ('first_name', 'last_name', 'type', 'document', 'phone',
+    list_display = ('user', 'type', 'document', 'phone',
                     'address_neighborhood', 'address_city')
 
 
