@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.shortcuts import render, redirect
-from .models import Product, Category, Stock, ProductPrintTag
+from .models import Product, Category, Stock, ProductPrintTag, ProductGroup
 
 
 @admin.action(description='Imprimir Etiquetas Selecionadas')
@@ -39,6 +39,18 @@ class ProductAdmin(admin.ModelAdmin):
     actions = [add_product_to_print]
 
 
+class ProductGroupAdmin(admin.ModelAdmin):
+    """
+    Admin for ProductGroup model.
+    """
+    list_display = ['name', 'product_main']
+    list_display_links = 'name', 'product_main'
+    search_fields = 'name', 'product_main__name', 'product_main__brand', 'product_main__batcode', 'product_main__category__name'
+    list_filter = 'product_main__category',
+    list_per_page = 10
+    ordering = '-id',
+
+
 class StockAdmin(admin.ModelAdmin):
     """
     Admin for Stock model.
@@ -62,6 +74,7 @@ class ProductPrintTagAdmin(admin.ModelAdmin):
 
 # Register models with their respective admin classes
 admin.site.register(Product, ProductAdmin)
+admin.site.register(ProductGroup, ProductGroupAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Stock, StockAdmin)
 admin.site.register(ProductPrintTag, ProductPrintTagAdmin)

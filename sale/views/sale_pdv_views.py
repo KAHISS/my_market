@@ -186,13 +186,11 @@ def search_sales(request):
     page_obj, pagination_range = make_pagination(
         request, filtered_qs, PER_PAGE)
 
-    # 6. Preservar filtros na paginação
-    # Copia os parâmetros GET da URL (ex: ?seller=joao&status=pago)
     get_copy = request.GET.copy()
-    # Remove o parâmetro 'page' atual para não duplicar (ex: page=1&page=2)
+
     if 'page' in get_copy:
         del get_copy['page']
-    # Transforma em string para usar no template (ex: "&seller=joao&status=pago")
+
     additional_url_query = '&' + get_copy.urlencode() if get_copy else ''
 
     return render(request, 'sale/pages/pdv.html', context={
@@ -236,25 +234,39 @@ def add_item_to_sale(request):
         if getattr(product, 'stock', None) is None:
             return JsonResponse({'success': False, 'message': 'Erro de cadastro: produto sem estoque vinculado.'})
 
+        group = product.stock.group if product.stock.group else None
+
         sale_item, created = SaleItem.objects.get_or_create(
             sale=sale,
-            product=product,
+            product=group.product_main if group else product,
             defaults={'quantity': 0}
         )
 
         if created and sale_item.quantity != 0:
             sale_item.quantity = 0
 
-        if product.stock.quantity - quantity < 0:
-            msg = f'Estoque insuficiente. Só restam {product.stock.quantity} no estoque.'
-            if created:
-                sale_item.delete()
-            return JsonResponse({'success': False, 'message': msg})
+        if group:
+            if group.product_main.stock.quantity - quantity < 0:
+                msg = f'Estoque insuficiente. Só restam {product.stock.quantity} no estoque.'
+                if created:
+                    sale_item.delete()
+                return JsonResponse({'success': False, 'message': msg})
 
-        product.stock.quantity -= quantity
-        if product.stock.quantity <= 0:
-            product.stock.quantity = 0
-        product.stock.save()
+            group.product_main.stock.quantity -= quantity
+            if group.product_main.stock.quantity <= 0:
+                group.product_main.stock.quantity = 0
+            group.product_main.stock.save()
+        else:
+            if product.stock.quantity - quantity < 0:
+                msg = f'Estoque insuficiente. Só restam {product.stock.quantity} no estoque.'
+                if created:
+                    sale_item.delete()
+                return JsonResponse({'success': False, 'message': msg})
+
+            product.stock.quantity -= quantity
+            if product.stock.quantity <= 0:
+                product.stock.quantity = 0
+            product.stock.save()
 
         sale_item.quantity += quantity
 
@@ -378,9 +390,14 @@ def remove_item_from_sale(request):
         return JsonResponse({'success': False, 'message': 'Dados inválidos.'})
     sale = Sale.objects.get(id=sale_id)
     item = SaleItem.objects.get(id=item_id)
+    group = item.product.stock.group if item.product.stock.group else None
 
-    item.product.stock.quantity += item.quantity
-    item.product.stock.save()
+    if group:
+        group.product_main.stock.quantity += item.quantity
+        group.product_main.stock.save()
+    else:
+        item.product.stock.quantity += item.quantity
+        item.product .stock.save()
 
     item.delete()
     sale.get_total_quantity()

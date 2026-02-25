@@ -66,19 +66,38 @@ class Product(models.Model):
         return self.name
 
 
+class ProductGroup(models.Model):
+    """
+    Represent a group of products.
+    """
+    product_main = models.ForeignKey(
+        Product, on_delete=models.CASCADE, verbose_name="Produto relacionado")
+    name = models.CharField("Nome do grupo", max_length=64)
+
+    class Meta:
+        verbose_name = "Grupo de produtos"
+        verbose_name_plural = "Grupos de produtos"
+
+    def __str__(self):
+        """
+        Return the name of the product group.
+        """
+        return self.name
+
+
 class Stock(models.Model):
     product = models.OneToOneField(
         Product, on_delete=models.CASCADE, related_name='stock', verbose_name="Produto")
+    group = models.ForeignKey(
+        ProductGroup, on_delete=models.SET_NULL, null=True, blank=True, default=None, related_name='groups', verbose_name="Grupo de produtos")
     quantity = models.IntegerField("Quantidade", default=0)
     minimum_stock = models.IntegerField("Estoque mínimo", default=0)
     purchase_price = models.DecimalField(
-        "Preço de compra", max_digits=10, decimal_places=2)
+        "Preço de compra", max_digits=10, default=0, decimal_places=2, blank=True, null=True)
     sale_price = models.DecimalField(
-        "Preço de venda", max_digits=10, decimal_places=2)
+        "Preço de venda", max_digits=10, default=0, decimal_places=2, blank=True, null=True)
     wholesale_price = models.DecimalField(
-        "Preço de venda em lote", max_digits=10, decimal_places=2, default=0)
-    discount = models.DecimalField(
-        "Desconto", max_digits=10, decimal_places=2, blank=True, null=True)
+        "Preço de venda em lote", max_digits=10, decimal_places=2, default=0, blank=True, null=True)
     due_date = models.DateField("Data de vencimento", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

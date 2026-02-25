@@ -111,34 +111,6 @@ def category(request, category_id):
     })
 
 
-def offer(request):
-    products = Product.objects.filter(
-        discount__gt=0,
-        in_catalog=True
-    ).order_by("category__name")
-
-    categories = Category.objects.all().order_by("name")
-
-    page_obj, pagination_range = make_pagination(request, products, PER_PAGE)
-
-    js_context = {
-        "csrf_token": get_token(request),
-        "urls": {
-            "catalog": reverse('catalog:home'),
-            "add_to_cart": reverse('sale:cart_add'),
-            "script_message": STATIC_URL + "global/js/show_message.js"
-        }
-    }
-
-    return render(request, 'catalog/pages/offer.html', context={
-        'products': page_obj,
-        'categories': categories,
-        'pagination_range': pagination_range,
-        'page': 'Ofertas em destaque',
-        'js_context': js_context,
-    })
-
-
 def product(request, product_id):
     item = get_list_or_404(
         Product.objects.filter(

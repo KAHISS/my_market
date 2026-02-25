@@ -11,6 +11,8 @@ class Client(models.Model):
         'PF', 'Pessoa Física'), ('PJ', 'Pessoa Jurídica')], default='PF', blank=True, null=True)
     document = models.CharField(
         "CPF/CNPJ", max_length=14, unique=True, blank=True, null=True)
+    credit = models.DecimalField(
+        "Crédito", max_digits=10, decimal_places=2, default=0.00)
     phone = models.CharField("Telefone", max_length=15, blank=True, null=True)
     address = models.CharField(
         "Endereço", max_length=255, blank=True, null=True)

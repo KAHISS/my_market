@@ -277,6 +277,21 @@ input[type="number"]:focus {
     padding: 5px;
     text-align: right;
     font-size: 16px;
+    border-radius: 10px;
+}
+
+#client-input {
+    background-color: rgb(224, 245, 255);
+}
+
+#discount-input {
+    background-color: rgb(255, 219, 219);
+    color: red;
+}
+
+#frete-input {
+    background-color: rgb(219, 255, 219);
+    color : green;
 }
 
 .summary-line.total {
@@ -306,6 +321,13 @@ input[type="number"]:focus {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     border-color: #333;
+    font-size: 16px;
+}
+
+#search-bar {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
     font-size: 16px;
 }
 

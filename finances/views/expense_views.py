@@ -26,6 +26,13 @@ def expense_list(request):
     page_obj, pagination_range = make_pagination(
         request, expense_filter.qs, PER_PAGE)
 
+    get_copy = request.GET.copy()
+
+    if 'page' in get_copy:
+        del get_copy['page']
+
+    additional_url_query = '&' + get_copy.urlencode() if get_copy else ''
+
     status = {
         'total': expense_filter.qs.count(),
         'paid': expense_filter.qs.filter(status='D').count(),
@@ -41,6 +48,7 @@ def expense_list(request):
         'expenses': page_obj,
         'filter': expense_filter,
         'pagination_range': pagination_range,
+        'additional_url_query': additional_url_query,
     })
 
 
