@@ -19,22 +19,18 @@
             {% if product.stock.discount > 0 or product.stock.discount is not None%}
                 <span class="price-original"> R$ {{ product.stock.sale_price }}</span>
             {% endif %}
-            <span class="price-primary"> 
-                
-                R$ {{ product.stock.get_discounted_price }}
-                {% if product.stock.discount > 0 or product.stock.discount is not None%}
-                    <span class="product-discount-badge">{{ product.stock.discount }}% OFF</span>
-                {% endif %}
-            </span>
-            <span class="price-secondary">
+            <span class="price-wholesale">
                 {% if product.stock.wholesale_price > 0 %}
                     R$ {{ product.stock.wholesale_price }} - {{ product.packaging_type }} com {{ product.unit_per_packaging }} {{ product.unit_measure }}
                 {% endif %}
             </span>
+            <span class="price-retail"> 
+                R$ {{ product.stock.sale_price|floatformat:2 }}
+            </span>
         </div>
 
         <div class="product-stock">
-            Estoque disponível: <strong>{{ product.stock.quantity }}</strong>
+            Estoque disponível: <strong>{{ product.stock.quantity }}</strong> {{ product.unit_measure }}
         </div>
         
         <form class="cart-form" method="post">
