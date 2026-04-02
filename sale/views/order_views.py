@@ -150,15 +150,15 @@ def order_cancel(request, id):
 
             # 1. Validação de Estoque e Dedução
             for item in order_items:
-                # CRÍTICO: select_for_update() trava este produto para escrita.
-                # Usamos select_related('stock') se o estoque for uma tabela separada (OneToOne)
-                # get(id=...) garante que estamos indo no banco buscar a versão mais atual
                 product_db = Product.objects.select_for_update(
-                ).select_related('stock').get(id=item.product.id)
+                    of=('self',)).get(id=item.product.id)
 
-                # Deduz o estoque
-                product_db.stock.quantity += item.quantity
-                product_db.stock.save()
+                if hasattr(product_db, 'stock') and product_db.stock:
+                    product_db.stock.quantity += item.quantity
+                    product_db.stock.save()
+                else:
+                    raise ValueError(
+                        f"Produto {product_db.nome} não possui registro de estoque.")
 
         order.status = 'cancelado'
         order.save()
