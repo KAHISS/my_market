@@ -98,10 +98,10 @@ confirmPaymentForm.addEventListener('submit', (event) => {
 
 
 // ==========================================
-// 2. FUNÇÃO AUXILIAR: IMPRESSÃO DIRETA VIA CSS (Foca no Mobile)
+// 2. FUNÇÃO AUXILIAR: IMPRESSÃO DIRETA (À prova de bugs no Mobile)
 // ==========================================
 const printHtmlContent = (htmlContent) => {
-    // 1. Cria ou encontra um container exclusivo para a impressão
+    // 1. Encontra ou cria a div invisível para a impressão
     let printContainer = document.getElementById('print-container');
     if (!printContainer) {
         printContainer = document.createElement('div');
@@ -109,43 +109,47 @@ const printHtmlContent = (htmlContent) => {
         document.body.appendChild(printContainer);
     }
 
-    // 2. Joga o conteúdo do seu cupom/PDF dentro desse container
+    // 2. Atualiza o conteúdo (Pode ser o Cupom Térmico ou o PDF A4)
     printContainer.innerHTML = htmlContent;
 
-    // 3. Aplica o CSS (Esconde no PC/Tela, mostra só na Impressora)
+    // 3. Aplica um CSS global permanente que gerencia as telas
     let printStyle = document.getElementById('print-style-temp');
     if (!printStyle) {
         printStyle = document.createElement('style');
         printStyle.id = 'print-style-temp';
+        printStyle.innerHTML = `
+            /* Quando estiver na TELA NORMAL do caixa: esconde o cupom */
+            @media screen {
+                #print-container { 
+                    display: none !important; 
+                }
+            }
+            
+            /* Quando abrir a TELA DE IMPRESSÃO: esconde o PDV e mostra só o cupom */
+            @media print {
+                /* Esconde tudo que está no body, exceto o nosso container */
+                body > *:not(#print-container) { 
+                    display: none !important; 
+                }
+                #print-container { 
+                    display: block !important; 
+                }
+                body { 
+                    background: white !important; 
+                    margin: 0 !important; 
+                    padding: 0 !important; 
+                }
+            }
+        `;
         document.head.appendChild(printStyle);
     }
-    printStyle.innerHTML = `
-        @media print {
-            /* Esconde absolutamente tudo do seu PDV na hora de imprimir */
-            body > *:not(#print-container) { display: none !important; }
-            /* Mostra apenas o container do cupom */
-            #print-container { display: block !important; }
-            @page { margin: 0; }
-            body { background: white; margin: 0; padding: 0; }
-        }
-        @media screen {
-            /* Garante que o cupom fique escondido enquanto usa o PDV normal */
-            #print-container { display: none !important; }
-        }
-    `;
 
-    // 4. Função inteligente que limpa a tela APENAS quando a impressão termina ou é cancelada
-    const cleanUp = () => {
-        printContainer.innerHTML = ''; 
-        window.removeEventListener('afterprint', cleanUp);
-    };
-
-    // Fica escutando o momento exato em que o celular fecha a tela de impressão
-    window.addEventListener('afterprint', cleanUp);
-
-    // 5. Dá um "respiro" de 300 milissegundos para o celular renderizar o HTML antes de chamar a impressão
+    // 4. Dá 300ms de "respiro" para o celular renderizar as fontes e imagens e chama a impressão
     setTimeout(() => {
         window.print();
+        // REMOVIDO: Não fazemos mais "cleanUp" (limpeza). 
+        // O @media screen garante que o cupom fique invisível no sistema, 
+        // evitando os bugs de tela branca nos celulares!
     }, 300);
 };
 
