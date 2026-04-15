@@ -23,7 +23,7 @@ const formatCurrency = (value) => {
 };
 
 // ==========================================
-// 1. LÓGICA DO MODAL DE PAGAMENTO
+// 1. LÓGICA DO MODAL DE PAGAMENTO (Mantida intacta)
 // ==========================================
 
 if (paymentBtn) {
@@ -98,51 +98,24 @@ confirmPaymentForm.addEventListener('submit', (event) => {
 
 
 // ==========================================
-// 2. FUNÇÃO AUXILIAR: IMPRESSÃO DIRETA VIA CSS (Foca no Mobile)
+// 2. FUNÇÃO AUXILIAR: IMPRESSÃO INVISÍVEL (Anti-bloqueio de popup)
 // ==========================================
 const printHtmlContent = (htmlContent) => {
-    // 1. Cria ou encontra um container exclusivo para a impressão
-    let printContainer = document.getElementById('print-container');
-    if (!printContainer) {
-        printContainer = document.createElement('div');
-        printContainer.id = 'print-container';
-        printContainer.style.display = 'none'; 
-        document.body.appendChild(printContainer);
-    }
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
 
-    // 2. Joga o conteúdo do seu cupom/PDF dentro desse container
-    printContainer.innerHTML = htmlContent;
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(htmlContent);
+    iframe.contentDocument.close();
 
-    // 3. Cria uma regra CSS temporária que inverte a tela na hora de imprimir
-    const printStyle = document.createElement('style');
-    printStyle.id = 'print-style-temp';
-    printStyle.innerHTML = `
-        @media print {
-            /* Esconde absolutamente tudo do seu PDV */
-            body > *:not(#print-container) { 
-                display: none !important; 
-            }
-            /* Mostra apenas o container do cupom */
-            #print-container { 
-                display: block !important; 
-            }
-            /* Remove margens e cores de fundo padrão do navegador */
-            @page { margin: 0; }
-            body { background: white; margin: 0; padding: 0; }
-        }
-    `;
-    document.head.appendChild(printStyle);
-
-    // 4. Chama a tela de impressão nativa
-    window.print();
-
-    // 5. Limpa a tela e devolve o PDV ao normal
-    setTimeout(() => {
-        const styleEl = document.getElementById('print-style-temp');
-        if (styleEl) document.head.removeChild(styleEl);
-        printContainer.innerHTML = ''; 
-        printContainer.style.display = 'none';
-    }, 2000);
+    iframe.onload = function() {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+        }, 2000);
+    };
 };
 
 // ==========================================
@@ -160,7 +133,7 @@ const getSaleDetailsFromDOM = () => {
         const name = item.querySelector('.item-name').innerText;
         const price = parseFloat(item.querySelector('.item-price').innerText.replace('R$', '').replace(',', '.')) || 0;
         const quantity = parseFloat(item.querySelector('.item-quantity-value').value) || 1;
-        
+        // Calculando o subtotal real do item caso não tenha na tela
         const totalItem = price * quantity; 
         
         cartItems.push({ name, price, quantity, totalItem });
@@ -219,6 +192,7 @@ const generateSaleOrderPDF = (saleDetails) => {
                 .totals-box { width: 250px; }
                 .total-row { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 3px; }
                 .signature { margin-top: 20px; text-align: right; }
+                @media print { @page { margin: 0; } body { margin: 0.5cm; } .no-print { display: none; } }
             </style>
         </head>
         <body>
@@ -280,7 +254,7 @@ const generateSaleOrderPDF = (saleDetails) => {
         </html>
     `;
 
-    // Usa a nova função de impressão via CSS
+    // Usa a nova função de impressão invisível
     printHtmlContent(saleOrderHtml);
 };
 
@@ -304,6 +278,7 @@ const generateSaleOrderCupom = (saleDetails) => {
         <head>
             <meta charset="UTF-8">
             <style>
+                @page { margin: 0; }
                 body { font-family: 'Courier New', Courier, monospace; width: 80mm; margin: 0 auto; padding: 4mm; color: #000; font-size: 12px; line-height: 1.3; }
                 .text-center { text-align: center; }
                 .text-right { text-align: right; }
@@ -363,7 +338,7 @@ const generateSaleOrderCupom = (saleDetails) => {
         </html>
     `;
 
-    // Usa a nova função de impressão via CSS
+    // Usa a nova função de impressão invisível
     printHtmlContent(saleOrderHtml);
 };
 
