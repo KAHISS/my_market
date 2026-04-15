@@ -293,7 +293,7 @@ const generateSaleOrderPDF = (saleDetails) => {
 };
 
 // ==========================================
-// 5. GERADOR DE CUPOM (Bobina 80mm)
+// 5. GERADOR DE CUPOM (Bobina 80mm) - FONTE MAIOR
 // ==========================================
 const generateSaleOrderCupom = (saleDetails) => {
     const itemsHtml = saleDetails.cart.map(item => `
@@ -312,23 +312,39 @@ const generateSaleOrderCupom = (saleDetails) => {
         <head>
             <meta charset="UTF-8">
             <style>
-                body { font-family: 'Courier New', Courier, monospace; width: 80mm; margin: 0 auto; padding: 4mm; color: #000; font-size: 12px; line-height: 1.3; }
+                @page { margin: 0; }
+                /* AUMENTADO: font-size base de 12px para 15px */
+                body { font-family: 'Courier New', Courier, monospace; width: 80mm; margin: 0 auto; padding: 4mm; color: #000; font-size: 15px; line-height: 1.4; }
+                
                 .text-center { text-align: center; }
                 .text-right { text-align: right; }
                 .bold { font-weight: bold; }
-                .dashed-line { border-bottom: 1px dashed #000; margin: 6px 0; }
-                .logo { max-width: 45px; margin-bottom: 4px; }
-                .company-name { font-size: 15px; font-weight: bold; }
-                .header-info { font-size: 11px; }
-                table.items-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 11px; }
-                table.items-table th { border-bottom: 1px dashed #000; padding-bottom: 3px; text-align: left; }
-                table.items-table td { padding: 3px 0; vertical-align: top; }
-                .col-desc { width: 55%; }
-                .col-qtd { width: 15%; text-align: center; }
+                .dashed-line { border-bottom: 1px dashed #000; margin: 8px 0; }
+                .logo { max-width: 55px; margin-bottom: 4px; } /* Aumentei um pouco a logo também */
+                
+                /* AUMENTADO: Nome da empresa de 15px para 20px */
+                .company-name { font-size: 20px; font-weight: bold; }
+                
+                /* AUMENTADO: Informações gerais de 11px para 14px */
+                .header-info { font-size: 14px; }
+                
+                /* AUMENTADO: Tabela de itens de 11px para 14px */
+                table.items-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 14px; }
+                table.items-table th { border-bottom: 1px dashed #000; padding-bottom: 5px; text-align: left; }
+                table.items-table td { padding: 4px 0; vertical-align: top; }
+                
+                /* Ajuste nas larguras das colunas para os textos maiores caberem melhor */
+                .col-desc { width: 50%; }
+                .col-qtd { width: 20%; text-align: center; }
                 .col-total { width: 30%; text-align: right; }
-                .totals-container { margin-top: 5px; }
-                .total-row { display: flex; justify-content: space-between; margin-bottom: 3px; font-size: 11px; }
-                .total-row.destaque { font-size: 14px; font-weight: bold; border-top: 1px dashed #000; padding-top: 4px; margin-top: 2px;}
+                
+                .totals-container { margin-top: 8px; }
+                
+                /* AUMENTADO: Linhas de total de 11px para 14px */
+                .total-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 14px; }
+                
+                /* AUMENTADO: Destaque do TOTAL de 14px para 18px */
+                .total-row.destaque { font-size: 18px; font-weight: bold; border-top: 1px dashed #000; padding-top: 6px; margin-top: 4px;}
             </style>
         </head>
         <body>
@@ -341,7 +357,7 @@ const generateSaleOrderCupom = (saleDetails) => {
             <div class="dashed-line"></div>
             
             <div>
-                <span class="bold">VENDA #${saleDetails.id}</span><br>
+                <span class="bold" style="font-size: 16px;">VENDA #${saleDetails.id}</span><br>
                 <span class="header-info">Data: ${now.toLocaleDateString()} Hora: ${now.toLocaleTimeString()}</span><br>
                 <span class="header-info">Vendedor: ${saleDetails.seller}</span>
             </div>
@@ -364,14 +380,14 @@ const generateSaleOrderCupom = (saleDetails) => {
             
             <div class="dashed-line"></div>
             
-            <div class="text-center header-info" style="margin-top: 10px;">
+            <div class="text-center header-info" style="margin-top: 15px;">
                 Situação: Entrega direta para o cliente<br><br>GRATO PELA PREFERÊNCIA
             </div>
         </body>
         </html>
     `;
 
-    // Usa a nova função de impressão via CSS
+    // Usa a função de impressão via CSS
     printHtmlContent(saleOrderHtml);
 };
 
