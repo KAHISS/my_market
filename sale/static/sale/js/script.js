@@ -23,7 +23,7 @@ const formatCurrency = (value) => {
 };
 
 // ==========================================
-// 1. LÓGICA DO MODAL DE PAGAMENTO (Mantida intacta)
+// 1. LÓGICA DO MODAL DE PAGAMENTO
 // ==========================================
 
 if (paymentBtn) {
@@ -98,24 +98,55 @@ confirmPaymentForm.addEventListener('submit', (event) => {
 
 
 // ==========================================
-// 2. FUNÇÃO AUXILIAR: IMPRESSÃO INVISÍVEL (Anti-bloqueio de popup)
+// 2. FUNÇÃO AUXILIAR: IMPRESSÃO DIRETA VIA CSS (Foca no Mobile)
 // ==========================================
 const printHtmlContent = (htmlContent) => {
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
+    // 1. Cria ou encontra um container exclusivo para a impressão
+    let printContainer = document.getElementById('print-container');
+    if (!printContainer) {
+        printContainer = document.createElement('div');
+        printContainer.id = 'print-container';
+        document.body.appendChild(printContainer);
+    }
 
-    iframe.contentDocument.open();
-    iframe.contentDocument.write(htmlContent);
-    iframe.contentDocument.close();
+    // 2. Joga o conteúdo do seu cupom/PDF dentro desse container
+    printContainer.innerHTML = htmlContent;
 
-    iframe.onload = function() {
-        iframe.contentWindow.focus();
-        iframe.contentWindow.print();
-        setTimeout(() => {
-            document.body.removeChild(iframe);
-        }, 2000);
+    // 3. Aplica o CSS (Esconde no PC/Tela, mostra só na Impressora)
+    let printStyle = document.getElementById('print-style-temp');
+    if (!printStyle) {
+        printStyle = document.createElement('style');
+        printStyle.id = 'print-style-temp';
+        document.head.appendChild(printStyle);
+    }
+    printStyle.innerHTML = `
+        @media print {
+            /* Esconde absolutamente tudo do seu PDV na hora de imprimir */
+            body > *:not(#print-container) { display: none !important; }
+            /* Mostra apenas o container do cupom */
+            #print-container { display: block !important; }
+            @page { margin: 0; }
+            body { background: white; margin: 0; padding: 0; }
+        }
+        @media screen {
+            /* Garante que o cupom fique escondido enquanto usa o PDV normal */
+            #print-container { display: none !important; }
+        }
+    `;
+
+    // 4. Função inteligente que limpa a tela APENAS quando a impressão termina ou é cancelada
+    const cleanUp = () => {
+        printContainer.innerHTML = ''; 
+        window.removeEventListener('afterprint', cleanUp);
     };
+
+    // Fica escutando o momento exato em que o celular fecha a tela de impressão
+    window.addEventListener('afterprint', cleanUp);
+
+    // 5. Dá um "respiro" de 300 milissegundos para o celular renderizar o HTML antes de chamar a impressão
+    setTimeout(() => {
+        window.print();
+    }, 300);
 };
 
 // ==========================================
@@ -133,7 +164,7 @@ const getSaleDetailsFromDOM = () => {
         const name = item.querySelector('.item-name').innerText;
         const price = parseFloat(item.querySelector('.item-price').innerText.replace('R$', '').replace(',', '.')) || 0;
         const quantity = parseFloat(item.querySelector('.item-quantity-value').value) || 1;
-        // Calculando o subtotal real do item caso não tenha na tela
+        
         const totalItem = price * quantity; 
         
         cartItems.push({ name, price, quantity, totalItem });
@@ -192,7 +223,6 @@ const generateSaleOrderPDF = (saleDetails) => {
                 .totals-box { width: 250px; }
                 .total-row { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 3px; }
                 .signature { margin-top: 20px; text-align: right; }
-                @media print { @page { margin: 0; } body { margin: 0.5cm; } .no-print { display: none; } }
             </style>
         </head>
         <body>
@@ -254,7 +284,7 @@ const generateSaleOrderPDF = (saleDetails) => {
         </html>
     `;
 
-    // Usa a nova função de impressão invisível
+    // Usa a nova função de impressão via CSS
     printHtmlContent(saleOrderHtml);
 };
 
@@ -278,7 +308,6 @@ const generateSaleOrderCupom = (saleDetails) => {
         <head>
             <meta charset="UTF-8">
             <style>
-                @page { margin: 0; }
                 body { font-family: 'Courier New', Courier, monospace; width: 80mm; margin: 0 auto; padding: 4mm; color: #000; font-size: 12px; line-height: 1.3; }
                 .text-center { text-align: center; }
                 .text-right { text-align: right; }
@@ -338,7 +367,7 @@ const generateSaleOrderCupom = (saleDetails) => {
         </html>
     `;
 
-    // Usa a nova função de impressão invisível
+    // Usa a nova função de impressão via CSS
     printHtmlContent(saleOrderHtml);
 };
 
