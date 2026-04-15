@@ -83,7 +83,9 @@
             </form>
         </div>
 
-        <button id="print-btn" class="btn btn-secondary">Imprimir</button>
+        <button id="print-btn" class="btn btn-secondary">Imprimir PDF</button>
+        <button id="print-btn-cupom" class="btn btn-secondary">Imprimir Cupom</button>
+
         {% if sale.status == 'pendente' %}
             <button id="payment-btn" class="btn btn-primary">Finalizar Pagamento</button>
             <form action="{% url 'sale:sale_cancel' sale.id %}" method="post" id="cancel-form">
