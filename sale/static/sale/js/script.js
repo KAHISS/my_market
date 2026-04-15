@@ -314,7 +314,7 @@ const generateSaleOrderCupom = (saleDetails) => {
             <style>
                 @page { margin: 0; }
                 /* AUMENTADO: font-size base de 12px para 15px */
-                body { font-family: 'Courier New', Courier, monospace; width: 80mm; margin: 0 auto; padding: 4mm; color: #000; font-size: 15px; line-height: 1.4; }
+                body { font-family: 'Courier New', Courier, monospace; width: 80mm; margin: 0 auto; padding: 4mm; color: #000; font-size: 40px; line-height: 1.4; }
                 
                 .text-center { text-align: center; }
                 .text-right { text-align: right; }
