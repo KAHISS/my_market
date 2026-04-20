@@ -166,7 +166,7 @@ const getSaleDetailsFromDOM = () => {
     
     items.forEach(item => {
         const name = item.querySelector('.item-name').innerText;
-        const price = parseFloat(item.querySelector('.item-price').innerText.replace('R$', '').replace(',', '.')) || 0;
+        const price = parseFloat(item.querySelector('.item_price_unit').value.replace('R$', '').replace(',', '.')) || 0;
         const quantity = parseFloat(item.querySelector('.item-quantity-value').value) || 1;
         
         const totalItem = price * quantity; 
