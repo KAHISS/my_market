@@ -326,7 +326,7 @@ const generateSaleOrderCupom = (saleDetails) => {
                 .company-name { font-size: 20px; font-weight: bold; }
                 
                 /* AUMENTADO: Informações gerais de 11px para 14px */
-                .header-info { font-size: 14px; }
+                .header-info { font-size: 1rem; font-weight: bold; }
                 
                 /* AUMENTADO: Tabela de itens de 11px para 14px */
                 table.items-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 14px; }
@@ -334,14 +334,14 @@ const generateSaleOrderCupom = (saleDetails) => {
                 table.items-table td { padding: 4px 0; vertical-align: top; }
                 
                 /* Ajuste nas larguras das colunas para os textos maiores caberem melhor */
-                .col-desc { width: 50%; }
-                .col-qtd { width: 20%; text-align: center; }
-                .col-total { width: 30%; text-align: right; }
+                .col-desc { width: 50%; font-size: 1.3rem; font-weight: bold; }
+                .col-qtd { width: 20%; text-align: center; font-size: 1.3rem; font-weight: bold; }
+                .col-total { width: 30%; text-align: right; font-size: 1.3rem; font-weight: bold; }
                 
                 .totals-container { margin-top: 8px; }
                 
                 /* AUMENTADO: Linhas de total de 11px para 14px */
-                .total-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 14px; }
+                .total-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 1rem; font-weight: bold; }
                 
                 /* AUMENTADO: Destaque do TOTAL de 14px para 18px */
                 .total-row.destaque { font-size: 18px; font-weight: bold; border-top: 1px dashed #000; padding-top: 6px; margin-top: 4px;}
@@ -351,13 +351,13 @@ const generateSaleOrderCupom = (saleDetails) => {
             <div class="text-center">
                 <img src="/static/global/images/logo.ico" alt="Logo" class="logo"><br>
                 <span class="company-name">ATACADINHO CRISTÃO</span><br>
-                <span class="header-info">(77) 98856-1490<br>CNPJ: 51.603.548/0001-67</span>
+                <span class="header-info">(77) 98856-1490<br>(77) 99951-2270<br>CNPJ: 51.603.548/0001-67</span>
             </div>
             
             <div class="dashed-line"></div>
             
             <div>
-                <span class="bold" style="font-size: 16px;">VENDA #${saleDetails.id}</span><br>
+                <span class="bold" style="font-size: 1rem; font-weight: bold">VENDA #${saleDetails.id}</span><br>
                 <span class="header-info">Data: ${now.toLocaleDateString()} Hora: ${now.toLocaleTimeString()}</span><br>
                 <span class="header-info">Vendedor: ${saleDetails.seller}</span>
             </div>
