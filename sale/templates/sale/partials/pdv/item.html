@@ -1,9 +1,4 @@
 <li class="cart-item" id="{{ item.id }}">
-    {% if sale.modality == "retail" %}
-        <input type="hidden" name="item_price_unit" class="item_price_unit" value="{{ item.product.stock.sale_price }}">
-    {% else %}
-        <input type="hidden" name="item_price_unit" class="item_price_unit" value="{{ item.product.stock.wholesale_price }}">
-    {% endif %}
     <span class="item-name">{{ item.product.name }}</span>
     <div class="item-quantity">
         {% if sale.status == 'pendente' %}
