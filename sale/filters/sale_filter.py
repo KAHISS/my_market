@@ -65,7 +65,8 @@ class SaleFilter(django_filters.FilterSet):
     )
 
     payment_method = django_filters.ChoiceFilter(
-        choices=Sale.PaymentMethod.choices,
+        choices=Sale.PaymentMethod.choices +
+        [('Credito', 'Crédito'), ('Debito', 'Débito')],
         label='Método de Pagamento',
         widget=forms.Select(attrs={
             'class': tailwind_css_classes()
