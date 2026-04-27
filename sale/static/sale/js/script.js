@@ -201,7 +201,7 @@ const generateSaleOrderPDF = (saleDetails) => {
             <td>${item.name}</td>
             <td style="text-align: center;">UN</td>
             <td style="text-align: center;">${item.quantity}</td>
-            <td style="text-align: right;">${formatCurrency(item.totalItem)}</td>
+            <td style="text-align: right;">${formatCurrency(item.price)}</td>
         </tr>
     `).join('');
 
