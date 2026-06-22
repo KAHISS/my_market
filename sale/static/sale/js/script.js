@@ -213,20 +213,40 @@ const generateSaleOrderPDF = (saleDetails) => {
         <head>
             <meta charset="UTF-8">
             <style>
-                body { font-family: Arial, sans-serif; margin: 20px; color: #000; font-size: 11px; }
-                .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 5px; }
+                /* O @page controla a margem da folha A4 física */
+                @page {
+                    size: A4;
+                    margin: 10mm; 
+                }
+
+                body { 
+                    font-family: Arial, sans-serif; 
+                    margin: 0; 
+                    padding: 0; 
+                    color: #000; 
+                    font-size: 11px; 
+                    box-sizing: border-box;
+                }
+
+                .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 5px; border-collapse: collapse; }
                 .company-name { font-size: 18px; font-weight: bold; }
                 .info-section { width: 100%; border-bottom: 1px solid #000; margin-bottom: 10px; padding: 5px 0; }
-                .info-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+                
+                /* Evitar flexbox em impressão se puder, mas se usar, garanta width 100% */
+                .info-row { display: table; width: 100%; margin-bottom: 4px; }
+                .info-row span { display: table-cell; }
+
                 .title-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #000; padding: 5px 0; font-weight: bold; font-size: 14px; }
-                table.items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                
+                table.items-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
                 table.items-table th { border-bottom: 1px solid #000; text-align: left; padding: 5px; }
-                table.items-table td { padding: 5px; }
-                .footer { margin-top: 30px; border-top: 1px solid #000; padding-top: 10px; }
+                table.items-table td { padding: 5px; border-bottom: 0.5px solid #eee; }
+                
+                .footer { margin-top: 30px; border-top: 1px solid #000; padding-top: 10px; page-break-inside: avoid; }
                 .footer-container { display: flex; justify-content: space-between; }
-                .totals-box { width: 250px; }
+                .totals-box { width: 30%; } /* Ajustado para não ficar muito largo */
                 .total-row { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 3px; }
-                .signature { margin-top: 20px; text-align: right; }
+                .signature { margin-top: 40px; text-align: right; }
             </style>
         </head>
         <body>
