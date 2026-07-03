@@ -84,6 +84,8 @@ def search(request):
 def category(request, category_id):
     products = Product.objects.filter(
         in_catalog=True,
+        stock__quantity__gt=0,
+        stock__isnull=False,
         category_id=category_id
     ).order_by("category__name")
 
