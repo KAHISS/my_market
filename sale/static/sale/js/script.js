@@ -410,7 +410,8 @@ const generateSaleOrderCupom = (saleDetails) => {
             <div>
                 <span class="bold" style="font-size: 18px;">VENDA #${saleDetails.id}</span><br>
                 <span class="header-info">Data: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}</span><br>
-                <span class="header-info">Vendedor: ${saleDetails.seller}</span>
+                <span class="header-info">Cliente: ${saleDetails.client}</span>
+                <span class="header-info">Vendedor: ${saleDetails.seller}</span><br>
             </div>
             
             <div class="dashed-line"></div>
